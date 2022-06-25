@@ -1,0 +1,14 @@
+version: "3.4"
+
+services:
+  vue-ui:
+    build:
+      context: ./
+      target: 'develop-stage'
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    container_name: vue-ui
+    volumes:
+      - ./:/usr/src/app/Swapit-Vue
+      - /usr/src/app/Swapit-Vue/node_modules
