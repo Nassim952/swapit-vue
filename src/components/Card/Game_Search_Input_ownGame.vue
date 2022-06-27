@@ -104,7 +104,7 @@
       },
       provide() {
         return {
-        my_games: this.$data.my_games ?? [],
+        my_games: this.$data.my_games,
         add: this.add,
         supp: this.supp,
         added: this.added,

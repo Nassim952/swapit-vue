@@ -47,6 +47,7 @@
 <script>
 // import GameLayerDetails from './GameLayerDetails.vue';
 import DetailsButton from '../Buttons/Button_Details.vue';
+import {Igdb} from "../../lib/Services/Igdb";
 
 export default {
   name: "GameLayer",
@@ -57,6 +58,8 @@ export default {
   data: () => ({
     filters: {},
     showDetails: false,
+    genres: [],
+    platforms: [],
   }),
   props: {
     game: {
@@ -67,6 +70,13 @@ export default {
       type: Boolean,
       default: true,
     },
+  },
+  created() {
+    if (this.$props.game) {
+      var provider = new Igdb()
+      provider.getGenres(this.$props.game.genres).then(response => { this.$data.genres = response})
+      provider.getPlatforms(this.$props.game.platforms).then(response => { this.$data.platforms = response})
+    }
   },
   computed: {
     coverPreUrl: function () {
