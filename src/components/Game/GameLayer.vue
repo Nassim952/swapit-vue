@@ -3,33 +3,22 @@
     <div class="card" :class="[{ full: full, small: !full }]">
       <div class="content">
         <div class="card-img">
-          <img v-bind:src="coverPreUrl">
+          <img v-bind:src="coverPreUrl" width="80" height="80">
         </div>
         <div class="card-title">
           <div class="card-title-text">
             <h3>{{ game.name }}</h3>
+            <span class="rating">{{Math.round(game.aggregated_rating)/10}}</span>
           </div>
           <div class="card-platforms-tags">
-            <span>PS4</span>
-            <span>PS5</span>
-            <span>XBOX ONE</span>
-            <span>PC</span>
+            <span v-for="(plateform,key) in game.platforms" id="platforms" :key="key">{{ plateform }}</span>
           </div>
         </div>
       </div>
       <div class="card-details">
         <div class="card-body">
           <div class="tags">
-            <span class="tag tag-teal">FPS</span>
-            <span class="tag tag-teal">Action</span>
-            <span class="tag tag-teal">Aventure</span>
-            <span class="tag tag-teal">Plateforme</span>
-            <span class="tag tag-teal">Stratégie</span>
-          </div>
-          <div class="Synopsis">
-            <h4>
-              {{ game.name }}
-            </h4>
+            <span v-for="(mode,key) in game.modes" id="modes" :key="key" class="tag tag-teal">{{ mode }}</span>
           </div>
 
           <p>
@@ -129,18 +118,13 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
   transition: 0.5s ease-in-out;
-  /* max-width: 15vw; */
-  /* max-height: 15vw; */
 }
 
 .container .card .content .card-img {
   top: 2em;
-  width: 14.375rem;
-  height: 19.4rem;
-  max-width: 30vw;
-  max-height: 30vw;
+  width: 16.375rem;
+  height: 22.375rem;
   position: relative;
   overflow: hidden;
   transition: 0.5s ease-in-out;
@@ -148,10 +132,9 @@ export default {
 
 .container .card .content .card-img img {
   position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
+  border-radius: 15px;
+  height: auto;
   object-fit: cover;
 }
 
@@ -165,8 +148,6 @@ export default {
   /* top: 2em; */
   width: 9.375rem;
   height: 9.375rem;
-  max-width: 30vw;
-  max-height: 30vw;
 }
 
 
@@ -176,9 +157,8 @@ export default {
   letter-spacing: 0.125rem;
   font-weight: 500;
   font-size: 1.125rem;
-  text-align: center;
   line-height: 1.1em;
-  width: -webkit-fill-available;
+  width: 750px;
 }
 
 .container .card .content .card-title .card-platforms-tags {
@@ -195,9 +175,10 @@ export default {
 
 .container .card .card-details {
   position: absolute;
-  bottom: 2em;
+  bottom: 1em;
   left: 2vw;
   display: flex;
+  margin-left: 287px;
 }
 
 .container .card .card-details .card-body {
@@ -293,15 +274,14 @@ export default {
 
 .container .card.full:hover .content .card-img {
   top: 5rem;
-  width: 9.375rem;
-  height: 9.375rem;
-  max-width: 15vw;
-  max-height: 15vw;
-  transform: translateX(-25vw);
+  width: 16.375rem;
+  height: 22.375rem;
+  transform: translate(-7vw, 3vw);
+  transform: height
 }
 
 .container .card.full:hover .content .card-title {
-  transform: translate(15vw, -10vh);
+  transform: translate(-8vw, 0vh);
 
 }
 
