@@ -74,8 +74,10 @@ export default {
   created() {
     if (this.$props.game) {
       var provider = new Igdb()
-      provider.getGenres(this.$props.game.genres).then(response => { this.$data.genres = response})
-      provider.getPlatforms(this.$props.game.platforms).then(response => { this.$data.platforms = response})
+      var genres = this.$props.game.genres.map((genre, key) => genre.replace(/\/api\/genres\//g, ''))
+      var platforms = this.$props.game.platforms.map((platform, key) => platform.replace(/\/api\/platforms\//g, ''))
+      provider.getGenres(genres).then(response => { this.$data.genres = response})
+      provider.getPlatforms(platforms).then(response => { this.$data.platforms = response})
     }
   },
   computed: {
