@@ -60,6 +60,13 @@ class Igdb extends Publisher {
   }
 
   async getPopulars(ids = null, properties = null, filters = null) {
+    // console.log(filters)
+    // var filterTemp = [];
+    // if('name' in filters) {
+    //   filterTemp.name = filters.name
+    // }
+    // console.log(filterTemp)
+    // filterTemp.default = 'popular';
     if(filters) {
       if(!('default' in filters)) {
         filters.default = 'popular';

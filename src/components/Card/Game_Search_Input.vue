@@ -66,7 +66,7 @@
       methods:{
         async refreshRessource() {
           const provider = new User()
-          provider.getUser(1).then(response => { console.log(response); this.$data.my_games = response.ownGames ?? []})
+          provider.getUser(1).then(response => {this.$data.my_games = response.ownGames ?? []})
         },
         add: function(game) {
           if (!this.added(game)) {

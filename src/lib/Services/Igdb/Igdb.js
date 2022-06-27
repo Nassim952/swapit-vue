@@ -1,26 +1,20 @@
 import Publisher from '../Connexion/Publisher'
 class Igdb extends Publisher {
   constructor() {
-    super('https://api.igdb.com/v4/', {
+    super('https://localhost/api', {
       'Accept': 'application/json'
     });
     this.apiKey = 'b0f9b9c9d3e0e9f7f7f0b8c8c7d';
-    this.baseUrl = 'https://api.igdb.com/v4/';
+    this.baseUrl = 'https://localhost/api';
     this.headers = {
       'Accept': 'application/json',
-      'user-key': this.apiKey,
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Content-Type',
+      'user-key': this.apiKey
     };
   }
 
   async getGame(id, properties = null) {
     const data = await this.get(this.formatEndPoint('games',id, properties));
-    return data;
-  }
-
-  async getGameCovers(id, properties = null) {
-    const data = await this.get(this.formatEndPoint('covers',id, properties));
     return data;
   }
 
@@ -60,6 +54,13 @@ class Igdb extends Publisher {
   }
 
   async getPopulars(ids = null, properties = null, filters = null) {
+    // console.log(filters)
+    // var filterTemp = [];
+    // if('name' in filters) {
+    //   filterTemp.name = filters.name
+    // }
+    // console.log(filterTemp)
+    // filterTemp.default = 'popular';
     if(filters) {
       if(!('default' in filters)) {
         filters.default = 'popular';
