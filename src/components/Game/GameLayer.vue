@@ -11,14 +11,14 @@
             <span class="rating">{{Math.round(game.aggregated_rating)/10}}</span>
           </div>
           <div class="card-platforms-tags">
-            <span v-for="(plateform,key) in game.platforms" id="platforms" :key="key">{{ plateform }}</span>
+            <span v-for="(plateform,key) in platforms" id="platforms" :key="key">{{ platform }}</span>
           </div>
         </div>
       </div>
       <div class="card-details">
         <div class="card-body">
           <div class="tags">
-            <span v-for="(mode,key) in game.modes" id="modes" :key="key" class="tag tag-teal">{{ mode }}</span>
+            <span v-for="(genre,key) in genres" id="genres" :key="key" class="tag tag-teal">{{ genre }}</span>
           </div>
 
           <p>
@@ -63,10 +63,13 @@ export default {
   created() {
     if (this.$props.game) {
       var provider = new Igdb()
-      var genres = this.$props.game.genres.map(genre => genre.replace(/\/api\/genres\//g, ''))
-      var platforms = this.$props.game.platforms.map(platform => platform.replace(/\/api\/platforms\//g, ''))
+      var genres = this.$props.game.genres.map(genre => genre.replace(/\/api\/genres\//g, '')) ?? null
+      var platforms = this.$props.game.platforms.map(platform => platform.replace(/\/api\/platforms\//g, '')) ?? null
       provider.getGenres(genres).then(response => { this.$data.genres = response})
       provider.getPlatforms(platforms).then(response => { this.$data.platforms = response})
+      console.log("avant: " , this.$props.game.genres);
+      console.log("genre: " , genres);
+      console.log(platforms);
     }
   },
   computed: {
@@ -233,9 +236,19 @@ export default {
   background-color: rgba(255, 93, 25, 1);
 }
 
+.card-title-text{
+  display: flex;
+  justify-content: space-between;
+}
 
-
-
+.rating{
+  align-self: center;
+  font-size: xx-large;
+  background-color: rgba(255, 93, 25, 1);
+  padding: 14px;
+  border-radius: 10px;
+  color: white;
+}
 
 .container .card.full:hover .content {
   transform: translateY(-30%);
