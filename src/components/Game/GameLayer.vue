@@ -16,14 +16,14 @@
               <span class="rating">{{Math.round(game.aggregated_rating)/10}}</span>
             </div>
             <div class="card-platforms-tags">
-              <span v-for="(plateform,key) in platforms" id="platforms" :key="key">{{ platform }}</span>
+              <span v-for="(platform,key) in platforms" id="platforms" :key="key">{{ platform.name }}</span>
             </div>
           </div>
         </div>
         <div class="card-details">
           <div class="card-body">
             <div class="tags">
-              <span v-for="(genre,key) in genres" id="genres" :key="key" class="tag tag-teal">{{ genre }}</span>
+              <span v-for="(genre,key) in genres" id="genres" :key="key" class="tag tag-teal">{{ genre.name }}</span>
             </div>
 
             <p>

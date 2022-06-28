@@ -51,7 +51,7 @@ export default {
             console.error(err);
           });
       } else {
-        fetch(`https://localhost/api/games.json?popular`)
+        fetch(`https://localhost/api/games.json?page=1&popular`)
           .then((response) => response.json())
           .then((data) => {
             console.info(data);
