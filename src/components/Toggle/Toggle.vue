@@ -6,7 +6,7 @@
       </div>
     </transition>
    
-    <div class="icon-wrapper">
+    <div class="icon-wrapper icon-center">
       <a v-if="showSection" @click="toggle" title="arrow icons" class="my-icon">
         <img class="icon"
         src="../../assets/icones/arrow-up.png"
@@ -65,6 +65,10 @@ transition: all .3s linear 0s;
 .fade-toggle-enter, .fade-toggle-leave-to {
   transform: translateY(10px);
   opacity: 0;
+}
+
+.icon-center{
+  text-align: center;
 }
 
 </style>

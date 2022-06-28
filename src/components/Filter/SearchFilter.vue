@@ -19,6 +19,6 @@
 
 <style scoped>
   #SearchFilter{
-    background: rgba(41, 100, 124, 0.37);
+    background: rgb(255, 255, 255);
   }
 </style>

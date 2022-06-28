@@ -64,7 +64,7 @@
 /* body */
 /* title */
 h1{
-  color: #aa8e8d;
+  color: #fb5d19;
   text-align: center;
   font-size: 32px;
   font-weight: 400;

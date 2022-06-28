@@ -35,8 +35,8 @@
     .result-card{
         color:rgba(41, 100, 124);
         display: flex;
-        width: 400px;
-        height: 140px;
+        width: 450px;
+        height: 170px;
         background-color: white;
         border-radius: 10px 10px 10px 0;
         box-shadow: grey 0px 0px 10px;
@@ -67,7 +67,6 @@
     }
     .btn-swap{
         background-color: rgba(255, 93, 25, 0.8);
-        color: white;
         width: fit-content;
         height: auto;
         padding: 10px;
@@ -76,5 +75,9 @@
     .btn-swap:hover{
         background-color: rgba(255, 93, 25, 1);
         transition: background-color 0.1s ease-in;
+    }
+    .btn-swap a{
+        text-decoration: none;
+        color: white;
     }
 </style>

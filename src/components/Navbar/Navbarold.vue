@@ -9,7 +9,7 @@
                     </div>
                 </router-link>
                 <div class="img-game">
-                    <router-link to="/games"><img class="picto-nav" src="../../assets/images/game-console.png" width="35" height="35"></router-link>
+                    <router-link to="/games"><img class="picto-nav picto-search" src="../../assets/icones/search.svg" width="30" height="30"></router-link>
                 </div>
             </div>
            
@@ -168,6 +168,11 @@
     margin-left: 10px;
 }
 
+.picto-nav:hover{
+    transform: translateY(-20%);
+    transition: ease-out 0.3s;
+}
+
 .search-input{
     background-color: rgba(41, 100, 124, 0.2);
     color: rgba(41, 100, 124);
@@ -210,6 +215,21 @@
 .link-nav:hover{
     color: #FB5D19;
     transition: color 0.2s;
+}
+
+.picto-search{
+    border: 2px solid #FB5D19;
+    padding: 5px;
+    border-radius: 7px;
+    box-shadow: inset 0 0 0 0 #FB5D19;
+    transition: ease-out 0.7s;
+}
+
+.picto-search:hover{
+    background-color: #fb5d197d;
+    box-shadow: inset 0 0 0 40px #FB5D19;
+    color: white;
+    border-radius: 7px;
 }
 
 </style>

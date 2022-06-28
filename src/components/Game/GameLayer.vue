@@ -1,31 +1,37 @@
 <template>
   <div class="container">
-    <div class="card" :class="[{ full: full, small: !full }]">
-      <div class="content">
-        <div class="card-img">
-          <img v-bind:src="coverPreUrl" width="80" height="80">
+    <div v-bind:style="backgroundCover" class="card cover-bg" :class="[{ full: full, small: !full }]">
+      <div class="bg-opacity">
+        <div class="btn-list">
+          <div><img class="picto-nav" src="../../assets/images/check.svg" width="45" height="40"></div>
+          <div><img class="picto-nav" src="../../assets/images/heart.svg" width="45" height="40"></div>
         </div>
-        <div class="card-title">
-          <div class="card-title-text">
-            <h3>{{ game.name }}</h3>
-            <span class="rating">{{Math.round(game.aggregated_rating)/10}}</span>
+        <div class="content">
+          <div class="card-img">
+            <img v-bind:src="coverPreUrl" width="80" height="80">
           </div>
-          <div class="card-platforms-tags">
-            <span v-for="(plateform,key) in platforms" id="platforms" :key="key">{{ platform }}</span>
+          <div class="card-title">
+            <div class="card-title-text">
+              <h3>{{ game.name }}</h3>
+              <span class="rating">{{Math.round(game.aggregated_rating)/10}}</span>
+            </div>
+            <div class="card-platforms-tags">
+              <span v-for="(plateform,key) in platforms" id="platforms" :key="key">{{ platform }}</span>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="card-details">
-        <div class="card-body">
-          <div class="tags">
-            <span v-for="(genre,key) in genres" id="genres" :key="key" class="tag tag-teal">{{ genre }}</span>
-          </div>
+        <div class="card-details">
+          <div class="card-body">
+            <div class="tags">
+              <span v-for="(genre,key) in genres" id="genres" :key="key" class="tag tag-teal">{{ genre }}</span>
+            </div>
 
-          <p>
-            {{ game.summary.slice(0, 500) }}
-          </p>
-          <div class="btn-wrapper">
-            <DetailsButton @click="showDetails = !showDetails" title="Plus d'info" />
+            <p>
+              {{ game.summary.slice(0, 500) }}
+            </p>
+            <div class="btn-wrapper">
+              <DetailsButton @click="showDetails = !showDetails" title="Swaper" />
+            </div>
           </div>
         </div>
       </div>
@@ -76,6 +82,9 @@ export default {
     coverPreUrl: function () {
       return "//images.igdb.com/igdb/image/upload/t_1080p/" + this.game.cover + ".png";
     },
+    backgroundCover: function () {
+      return "background: url(https://images.igdb.com/igdb/image/upload/t_1080p/" + this.game.cover + ".png);background-repeat: no-repeat;background-size: cover;background-position: 50% 50%;";
+    },
   },
 };
 
@@ -96,6 +105,7 @@ export default {
   align-items: center;
   flex-wrap: wrap;
   margin: auto;
+  max-width: 1200px;
 }
 
 .container .card {
@@ -105,7 +115,7 @@ export default {
   height: 30rem;
   background: rgba(255, 255, 255, 0.05);
   margin: 1rem;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
   border-radius: 1em;
   display: flex;
   justify-content: center;
@@ -141,7 +151,7 @@ export default {
   width: 16.375rem;
   height: 22.375rem;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   transition: 0.5s ease-in-out;
 }
 
@@ -151,6 +161,11 @@ export default {
   border-radius: 15px;
   height: auto;
   object-fit: cover;
+}
+
+.container .card.full:hover .content .card-img img {
+  box-shadow: -10px 10px 15px rgb(0 0 0 / 50%);
+  transition: all 0.3s ease-out;
 }
 
 .container .card .content .card-title {
@@ -193,7 +208,7 @@ export default {
   bottom: 1em;
   left: 2vw;
   display: flex;
-  margin-left: 287px;
+  margin-left: 200px;
 }
 
 .container .card .card-details .card-body {
@@ -301,8 +316,7 @@ export default {
   top: 5rem;
   width: 16.375rem;
   height: 22.375rem;
-  transform: translate(-7vw, 3vw);
-  transform: height
+  transform: translate(-7vw, 5vw);
 }
 
 .container .card.full:hover .content .card-title {
@@ -314,6 +328,27 @@ export default {
   width: webkit-fill-available;
 }
 
+.btn-list{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: -30px;
+  top: 25px;
+  height: 140px;
+  border-radius: 15px;
+  justify-content: space-between;
+  background-color: white;
+  padding: 15px 10px 15px 0px;
+  box-shadow: 0 15px 35px rgb(0 0 0 / 25%);
+  border: 3px rgb(28 93 102) solid;
+}
+
+.bg-opacity{
+  background-color: rgba(255, 255, 255, 0.9);
+  height: 100%;
+  width: 100%;
+  border-radius: 15px;
+}
 /* .container .card.full:not(:hover) .content .card-img {
   top: 2em;
   width: 9.375rem;
