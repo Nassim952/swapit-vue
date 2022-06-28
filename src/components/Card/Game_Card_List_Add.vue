@@ -1,5 +1,5 @@
 <template>
-  <div class="game_card_list" v-if="games">
+  <div class="game_card_list scrollbar" id="style-1" v-if="games">
     <div class="game_card_container" v-for="(game,key) in games" id="OwnList" :key="key">
       <GameCard :game="game" />
       <a v-if="!added(game.id)" @click="add(game)" title="arrow icons" class="my-icon">
@@ -46,11 +46,38 @@ export default {
   margin: auto;
   width: 55%;
   height: 350px;
-  overflow-y: scroll;
   box-shadow: lightgrey 0px 15px 10px 1px;
   border-radius: 2rem;
   padding: 2rem;
 }
+
+.scrollbar
+{
+	background: #F5F5F5;
+	overflow-y: scroll;
+	margin-bottom: 25px;
+}
+
+#style-1::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+#style-1::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+#style-1::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(255, 93, 25, 1);
+	background-color: rgba(255, 93, 25, 1);
+}
+
 .icon-wrapper {
   margin: auto;
   width: 100px; 

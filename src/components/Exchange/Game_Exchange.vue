@@ -132,7 +132,7 @@
   flex-direction: column;
   width: 100%;
   padding: 2rem;
-  background-color: lightgray;
+  background-color: #fafafa;
 }
 .gameExchange {
   display: flex;
@@ -153,7 +153,6 @@
   border-radius: 2rem;
 }
 .btn-swap{
-  background-color: orangered;
   padding: 1rem;
   margin: 1rem;
   border: none;

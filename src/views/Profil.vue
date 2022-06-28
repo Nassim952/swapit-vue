@@ -35,7 +35,7 @@
     .profile-container{
         display: flex;
         padding: 20px;
-        background-color: rgb(240, 240, 240);
+        background-color: #fafafa;
         justify-content: space-between;
         height: 800px;
     }
