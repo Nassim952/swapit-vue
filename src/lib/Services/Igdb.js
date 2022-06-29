@@ -4,13 +4,6 @@ class Igdb extends Publisher {
     super('https://localhost/api', {
       'Accept': 'application/json'
     });
-    this.apiKey = 'b0f9b9c9d3e0e9f7f7f0b8c8c7d';
-    this.baseUrl = 'https://localhost/api';
-    this.headers = {
-      'Accept': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'user-key': this.apiKey
-    };
   }
 
   async getGame(id, properties = null) {

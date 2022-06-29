@@ -8,7 +8,7 @@
         class="effect-16"
         placeholder="Rechercher un jeu"
         v-model="searchQuery"
-        @input="resultQuery"
+        @input="refreshRessource"
       />
       <span class="focus-border"></span>
     </div>
@@ -21,6 +21,8 @@
 <script>
 import Game from "../components/Game/GameLayer.vue";
 import Sidebar from "../components/Filter/SideBar.vue";
+import {Igdb} from "../lib/Services/Igdb";
+
 
 export default {
   components: {
@@ -35,33 +37,81 @@ export default {
   data: () => ({
     searchQuery: null,
     resources: [],
+    selectedFilters: {},
     filter: false,
   }),
-  methods: {
-    resultQuery() {
-      console.info(this.$data.searchQuery);
-      if (this.searchQuery) {
-        fetch(`https://localhost/api/games.json?page=1&name=${this.searchQuery}`)
-          .then((response) => response.json())
-          .then((data) => {
-            console.info(data);
-            this.$data.resources = data;
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      } else {
-        fetch(`https://localhost/api/games.json?popular`)
-          .then((response) => response.json())
-          .then((data) => {
-            console.info(data);
-            this.$data.resources = data;
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      }
+  created() {
+        if(this.$props.home){
+            this.refreshRessource()
+        }
     },
+  methods: {
+    // resultQuery() {
+    //   console.info(this.$data.searchQuery);
+    //   if (this.searchQuery) {
+    //     fetch(`https://localhost/api/games.json/?page=1&name=${this.searchQuery}`)
+    //       .then((response) => response.json())
+    //       .then((data) => {
+    //         console.info(data);
+    //         this.$data.resources = data;
+    //       })
+    //       .catch((err) => {
+    //         console.error(err);
+    //       });
+    //   } else {
+    //     fetch(`https://localhost/api/games.json/?popular`)
+    //       .then((response) => response.json())
+    //       .then((data) => {
+    //         console.info(data);
+    //         this.$data.resources = data;
+    //       })
+    //       .catch((err) => {
+    //         console.error(err);
+    //       });
+    //   }
+    // },
+    async refreshRessource() {
+            var provider = new Igdb()
+            var filters = this.$data.selectedFilters
+            if (this.$data.searchQuery) {
+                // filters.page = "1"
+                filters.name = this.$data.searchQuery
+                provider.getPopulars(null, null, filters).then(response => { this.$data.resources = response})
+            } else {
+                // filters.page = "1"
+                filters.name = ""
+                provider.getGames(null, null, filters).then(response => { this.$data.resources = response})
+            }
+            filters.name = this.$data.searchQuery ?? ""
+            
+        } ,
+      updateFilters(filters, categorie) {
+            this.$data.selectedFilters[categorie] = filters;
+            if (this.checkEmptySelectedFilter(categorie)) {
+                delete  this.$data.selectedFilters[categorie]
+            }
+            this.refreshRessource()
+            console.log(this.$data.selectedFilters)
+        },
+        checkEmptySelectedFilter(categorie = null) {
+
+            if (categorie) {
+                console.log(this.$data.selectedFilters?.[categorie])
+                console.log(this.$data.selectedFilters?.[categorie]?.length)
+                // if(this.$data.selectedFilters?.[categorie]){
+                    return this.$data.selectedFilters?.[categorie]?.length === 0 
+                // }
+              
+            } else if (!this.$data.selectedFilters) {
+                return true
+            }
+            
+        },
+  },
+     provide() {
+        return {
+            updateFilters: this.updateFilters,
+        }
   },
 };
 </script>
