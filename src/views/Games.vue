@@ -1,15 +1,10 @@
 <template>
   <b-container>
     <div class="sidebar">
-      <Sidebar/>
+      <Sidebar />
     </div>
     <div class="col-3 input-effect input-styling">
-      <input
-        class="effect-16"
-        placeholder="Rechercher un jeu"
-        v-model="searchQuery"
-        @input="resultQuery"
-      />
+      <input class="effect-16" placeholder="Rechercher un jeu" v-model="searchQuery" @input="refreshRessource" />
       <span class="focus-border"></span>
     </div>
     <div v-if="resources">
@@ -21,6 +16,8 @@
 <script>
 import Game from "../components/Game/GameLayer.vue";
 import Sidebar from "../components/Filter/SideBar.vue";
+import { Igdb } from "../lib/Services/Igdb";
+
 
 export default {
   components: {
@@ -35,41 +32,62 @@ export default {
   data: () => ({
     searchQuery: null,
     resources: [],
+    selectedFilters: {},
     filter: false,
   }),
+  created() {
+    if (this.$props.home) {
+      this.refreshRessource()
+    }
+  },
   methods: {
-    resultQuery() {
-      console.info(this.$data.searchQuery);
-      if (this.searchQuery) {
-        fetch(`https://localhost/api/games.json?page=1&name=${this.searchQuery}`)
-          .then((response) => response.json())
-          .then((data) => {
-            console.info(data);
-            this.$data.resources = data;
-          })
-          .catch((err) => {
-            console.error(err);
-          });
+    async refreshRessource() {
+      var provider = new Igdb()
+      var filters = this.$data.selectedFilters
+      filters.page = "1"
+      if (this.$data.searchQuery) {
+        filters.name = this.$data.searchQuery
+        provider.getPopulars(null, null, filters).then(response => { this.$data.resources = response })
       } else {
-        fetch(`https://localhost/api/games.json?page=1&popular`)
-          .then((response) => response.json())
-          .then((data) => {
-            console.info(data);
-            this.$data.resources = data;
-          })
-          .catch((err) => {
-            console.error(err);
-          });
+        filters.name = ""
+        provider.getGames(null, null, filters).then(response => { this.$data.resources = response })
       }
     },
+    updateFilters(filters, categorie) {
+      this.$data.selectedFilters[categorie] = filters;
+      if (this.checkEmptySelectedFilter(categorie)) {
+        delete this.$data.selectedFilters[categorie]
+      }
+      this.refreshRessource()
+      console.log(this.$data.selectedFilters)
+    },
+    checkEmptySelectedFilter(categorie = null) {
+
+      if (categorie) {
+        console.log(this.$data.selectedFilters?.[categorie])
+        console.log(this.$data.selectedFilters?.[categorie]?.length)
+        if (this.$data.selectedFilters?.[categorie]) {
+          return this.$data.selectedFilters?.[categorie]?.length === 0
+        }
+        return true
+
+      } else if (!this.$data.selectedFilters) {
+        return true
+      }
+
+    },
+  },
+  provide() {
+    return {
+      updateFilters: this.updateFilters,
+    }
   },
 };
 </script>
 
 <style scoped>
-
 .input-styling {
-  width: -webkit-fill-available!important;
+  width: -webkit-fill-available !important;
   display: flex;
   justify-content: center;
 }
@@ -81,7 +99,7 @@ export default {
   background-color: transparent;
 }
 
-.effect-16 ~ .focus-border {
+.effect-16~.focus-border {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -90,12 +108,14 @@ export default {
   background-color: #FB5D19;
   transition: 0.4s;
 }
-.effect-16:focus ~ .focus-border,
-.has-content.effect-16 ~ .focus-border {
+
+.effect-16:focus~.focus-border,
+.has-content.effect-16~.focus-border {
   width: 100%;
   transition: 0.4s;
 }
-.effect-16 ~ label {
+
+.effect-16~label {
   position: absolute;
   left: 0;
   width: 100%;
@@ -105,8 +125,9 @@ export default {
   z-index: -1;
   letter-spacing: 0.5px;
 }
-.effect-16:focus ~ label,
-.has-content.effect-16 ~ label {
+
+.effect-16:focus~label,
+.has-content.effect-16~label {
   top: -16px;
   font-size: 12px;
   color: #FB5D19;
@@ -114,10 +135,12 @@ export default {
 }
 
 @import url("https://fonts.googleapis.com/css?family=Damion|Muli:400,600");
+
 body {
   font-family: "Muli", sans-serif;
   background: url("https://www.toptal.com/designers/subtlepatterns/patterns/geometry2.png");
 }
+
 h2 {
   font-family: "Damion", cursive;
   font-weight: 400;
@@ -126,6 +149,7 @@ h2 {
   text-align: center;
   position: relative;
 }
+
 h2:before {
   position: absolute;
   content: "";
@@ -135,12 +159,14 @@ h2:before {
   background: #FB5D19;
   height: 1px;
 }
+
 h2 i {
   font-style: normal;
   background: #fff;
   position: relative;
   padding: 10px;
 }
+
 :focus {
   outline: none;
 }
@@ -163,7 +189,9 @@ input[type="text"] {
   width: 27.33%;
   margin: 40px 3%;
   position: relative;
-} /* necessary to give position: relative to parent. */
+}
+
+/* necessary to give position: relative to parent. */
 input[type="text"] {
   font: 15px/24px "Lato", Arial, sans-serif;
   color: #333;
@@ -181,7 +209,7 @@ input[type="text"] {
   background-color: transparent;
 }
 
-.effect-16 ~ .focus-border {
+.effect-16~.focus-border {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -190,12 +218,14 @@ input[type="text"] {
   background-color: #FB5D19;
   transition: 0.4s;
 }
-.effect-16:focus ~ .focus-border,
-.has-content.effect-16 ~ .focus-border {
+
+.effect-16:focus~.focus-border,
+.has-content.effect-16~.focus-border {
   width: 100%;
   transition: 0.4s;
 }
-.effect-16 ~ label {
+
+.effect-16~label {
   position: absolute;
   left: 0;
   width: 100%;
@@ -205,8 +235,9 @@ input[type="text"] {
   z-index: -1;
   letter-spacing: 0.5px;
 }
-.effect-16:focus ~ label,
-.has-content.effect-16 ~ label {
+
+.effect-16:focus~label,
+.has-content.effect-16~label {
   top: -16px;
   font-size: 12px;
   color: #FB5D19;

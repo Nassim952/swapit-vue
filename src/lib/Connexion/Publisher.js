@@ -40,7 +40,7 @@ class Publisher {
             Array.isArray(ids) ? endpoint.push(this.formatUrlIds(ids)): null;
         }
 
-        return `/${entity}${Array.isArray(ids) ? '.json':'' }${ids && !Array.isArray(ids) ? '/' + ids : '/'}${ids && Array.isArray(ids)||properties||filters?'?':''}${endpoint? endpoint.join('&'):''}`
+        return `/${entity}${Array.isArray(ids) ? '.json':'' }${ids && !Array.isArray(ids) ? '/' + ids : ''}${ids && Array.isArray(ids)||properties||filters?'/?':''}${endpoint? endpoint.join('&'):''}`
     }
 
     formatUrlIds(ids) {
@@ -48,15 +48,20 @@ class Publisher {
     }
 
     formatProperties(properties) {
-        return Array.isArray(properties) ? `${properties ? 'propertie[]='+ properties.map(prop => {console.log(prop); return prop}).join('&properties[]='):''}`: ''; 
+        return Array.isArray(properties) ? `${properties ? 'properties[]='+ properties.map(prop => {console.log(prop); return prop}).join('&properties[]='):''}`: ''; 
     }
 
     formatFilters(filters) {
         var filters_temp = []
 
         for (const [key, filter] of Object.entries(filters)) {
-            if(filter){
-                filters_temp.push (key !== 'default' ? key == "name" ? `${key}=${filter}`: `${key}[]=${filter}` : filter)
+            if(filter) {
+                if(!Array.isArray(filter)) {
+                    filters_temp.push (key !== 'default' ? `${key}=${filter}` : filter)
+                } else {
+                    for (const value of Object.values(filter))
+                    filters_temp.push ( `${key}[]=${value}`)
+                }
             }
         }
         return filters_temp ? filters_temp.join('&'):''

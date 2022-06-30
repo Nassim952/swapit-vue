@@ -31,18 +31,9 @@
       async generateCategories() {
         var provider = new Igdb();
         var properties = ['id','name']
-        // provider.getGenres(null,properties).then(response => { console.info(response); this.$data.filters.genres= response }).catch(error => { console.log(error) })
-        // provider.getPlatforms(null,properties).then(response => { console.info(response); this.$data.filters.platforms = response}).catch(error => { console.log(error) })
-        // provider.getModes(null,properties).then(response => { this.$data.filters.modes = response}).catch(error => { console.log(error) })
         provider.getGenres(null,properties).then(response => { this.$data.filters.genres = response})
         provider.getPlatforms(null,properties).then(response => { this.$data.filters.platforms = response})
         provider.getModes(null,properties).then(response => { this.$data.filters.modes= response})
-
-        // this.$data.filters.genres 
-        // console.log(data)
-        // this.$data.filters.platforms =  provider.getPlatforms(null,properties)
-        // this.$data.filters.modes =  provider.getPlatforms(null,properties); 
-        // console.info(provider.getGenres(null,properties))
       },
     }
   };
