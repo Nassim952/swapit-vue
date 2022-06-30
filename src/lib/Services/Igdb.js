@@ -12,8 +12,8 @@ class Igdb extends Publisher {
     return data;
   }
 
-  async getGames(ids = null, properties = null) {
-    const data = await this.get(this.formatEndPoint('games',ids, properties));
+  async getGames(ids = null, properties = null,  filters = null) {
+    const data = await this.get(this.formatEndPoint('games',ids, properties, filters));
     return data;
   }
 
@@ -59,6 +59,7 @@ class Igdb extends Publisher {
       if(!('default' in filters)) {
         filters.default = 'popular';
       }
+      console.log(filters)
     }
     
     console.log(filters)

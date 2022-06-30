@@ -46,44 +46,17 @@ export default {
         }
     },
   methods: {
-    // resultQuery() {
-    //   console.info(this.$data.searchQuery);
-    //   if (this.searchQuery) {
-    //     fetch(`https://localhost/api/games.json/?page=1&name=${this.searchQuery}`)
-    //       .then((response) => response.json())
-    //       .then((data) => {
-    //         console.info(data);
-    //         this.$data.resources = data;
-    //       })
-    //       .catch((err) => {
-    //         console.error(err);
-    //       });
-    //   } else {
-    //     fetch(`https://localhost/api/games.json/?popular`)
-    //       .then((response) => response.json())
-    //       .then((data) => {
-    //         console.info(data);
-    //         this.$data.resources = data;
-    //       })
-    //       .catch((err) => {
-    //         console.error(err);
-    //       });
-    //   }
-    // },
     async refreshRessource() {
             var provider = new Igdb()
             var filters = this.$data.selectedFilters
+            filters.page = "1"
             if (this.$data.searchQuery) {
-                // filters.page = "1"
                 filters.name = this.$data.searchQuery
                 provider.getPopulars(null, null, filters).then(response => { this.$data.resources = response})
             } else {
-                // filters.page = "1"
                 filters.name = ""
                 provider.getGames(null, null, filters).then(response => { this.$data.resources = response})
-            }
-            filters.name = this.$data.searchQuery ?? ""
-            
+            }      
         } ,
       updateFilters(filters, categorie) {
             this.$data.selectedFilters[categorie] = filters;
@@ -98,9 +71,10 @@ export default {
             if (categorie) {
                 console.log(this.$data.selectedFilters?.[categorie])
                 console.log(this.$data.selectedFilters?.[categorie]?.length)
-                // if(this.$data.selectedFilters?.[categorie]){
+                if(this.$data.selectedFilters?.[categorie]){
                     return this.$data.selectedFilters?.[categorie]?.length === 0 
-                // }
+                }
+                return true
               
             } else if (!this.$data.selectedFilters) {
                 return true

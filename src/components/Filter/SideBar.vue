@@ -2,7 +2,7 @@
     <div class="sidebar">
         <div class=""><button class="btn-style button_slide slide_left" v-b-toggle.sidebar-1>Recherche avancée</button>  </div>
            
-            <b-sidebar id="sidebar-1" title="Sidebar" shadow>
+            <b-sidebar id="sidebar-1" title="Sidebar" class='toto' shadow>
                 <SearchFilter/>
             </b-sidebar>
     </div>

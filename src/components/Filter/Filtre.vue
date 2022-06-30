@@ -17,7 +17,7 @@
       </div> -->
       <li v-for="(value,key) in resource" :key="key" active-class="active" tag="button" exact class="side-btn" :ref="`${title}-${key}`">
         <div class="link-container" @change="updateFilter">
-          <input type="checkbox" :id="key" name="scales" :value="value.id" v-model="checkedFilters">
+          <input type="checkbox" :value="value.id" v-model="selectedFilters">
           <h2>
                 {{value.name}}
           </h2> 
@@ -45,14 +45,14 @@
     data: () => ({
       searchQuery: null,
       mobile: false,
-      checkedFilters: [],
+      selectedFilters: [],
     }),
     methods: {
       updateFilter: function() {
-        this.updateFilters(this.$data.checkedFilters, this.$props.title);
+        this.updateFilters(this.$data.selectedFilters, this.$props.title);
       },
       checked(option) {
-        return this.checkedFilters.includes(option);
+        return this.selectedFilters.includes(option);
       }
 
     },
