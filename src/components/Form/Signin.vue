@@ -63,6 +63,7 @@
             else{
               // this.$data.connexion_failed = true
             }
+            console.log(provider.getToken());
           }     
       })
 

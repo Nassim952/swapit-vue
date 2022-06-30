@@ -9,18 +9,19 @@ class Auth extends Publisher {
     this.token = null;
   }
   async login(data) {
-    const response = await this.post('login_check', {auth: data});
-    this.token = response.token;
+    const response = await this.post('login_check', data);
+    response?.token ? localStorage.setItem('token', response.token) : this.token = null;
     return response;
   }
 
   async refresh(data) {
-    const response = await this.post('login', {auth: data});
+    const response = await this.post('login', data);
     return response;
   }
 
   disconnect() {
     this.token = null;
+    localStorage.clear();
   }
 
   getToken() {
