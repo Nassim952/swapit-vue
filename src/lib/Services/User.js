@@ -4,6 +4,7 @@ class User extends Publisher {
   constructor() {
     super('http://localhost:81/', {
       'Accept': 'application/json',
+      'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + Auth.getToken ?? 'null'
     });
   }

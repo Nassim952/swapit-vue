@@ -2,7 +2,8 @@ import Publisher from '../Connexion/Publisher'
 class Igdb extends Publisher {
   constructor() {
     super('https://localhost/api', {
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
     });
   }
 

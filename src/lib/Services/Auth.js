@@ -1,7 +1,7 @@
 import Publisher from '../Connexion/Publisher'
 class Auth extends Publisher {
   constructor() {
-    super('https://localhost:81/', {
+    super('http://localhost:81/', {
       'Accept': 'application/json'
     });
     this.token = null;
