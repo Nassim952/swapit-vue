@@ -1,11 +1,11 @@
 import Publisher from '../Connexion/Publisher'
 class User extends Publisher {
   constructor() {
-    super('http://localhost:81/', {
+    super('http://swapit-api-core.herokuapp.com/', {
       'Accept': 'application/json'
     });
     this.apiKey = 'b0f9b9c9d3e0e9f7f7f0b8c8c7d';
-    this.baseUrl = 'https://localhost:81/';
+    this.baseUrl = 'https://swapit-api-core.herokuapp.com/';
     this.headers = {
       'Accept': 'application/json',
       'Access-Control-Allow-Origin': '*',

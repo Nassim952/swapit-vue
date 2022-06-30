@@ -23,7 +23,7 @@
   import {Igdb} from "../../lib/Services/Igdb";
 
   // const instance = axios.create({
-  //   baseURL: 'http://localhost:81/',
+  //   baseURL: 'http://swapit-api-core.herokuapp.com/',
   //   timeout: 1000,
   //   headers: {
   //     'accept': 'application/ld+json',
