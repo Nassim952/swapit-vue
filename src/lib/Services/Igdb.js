@@ -1,11 +1,11 @@
 import Publisher from '../Connexion/Publisher'
 class Igdb extends Publisher {
   constructor() {
-    super('https://localhost/api', {
+    super('https://swapit-api-game.herokuapp.com/api', {
       'Accept': 'application/json'
     });
     this.apiKey = 'b0f9b9c9d3e0e9f7f7f0b8c8c7d';
-    this.baseUrl = 'https://localhost/api';
+    this.baseUrl = 'https://swapit-api-game.herokuapp.com/api';
     this.headers = {
       'Accept': 'application/json',
       'Access-Control-Allow-Origin': '*',

@@ -71,7 +71,7 @@
 
 
 
-        // axios.get('http://localhost:81/users')
+        // axios.get('http://swapit-api-core.herokuapp.com/users')
         // .then(function (response) {
         //   console.log(data.email);
         //   for (var i=0; i<=response.data['hydra:member'].length ; i++) {

@@ -123,7 +123,7 @@
             console.log(filters)
             if (this.$data.searchQuery) {
 
-            fetch(`https://localhost/api/games.json?page=1${filters}&name=${this.searchQuery}`).then(response => response.json()).then(data => {
+            fetch(`https://swapit-api-game.herokuapp.com/api/games.json?page=1${filters}&name=${this.searchQuery}`).then(response => response.json()).then(data => {
             this.$data.resources = data;
             
             }).catch(err => {
@@ -131,7 +131,7 @@
             })
         } else {
             console.log('toto1')
-            fetch(`https://localhost/api/games.json?popular${filters}`).then(response => response.json()).then(data => {
+            fetch(`https://swapit-api-game.herokuapp.com/api/games.json?popular${filters}`).then(response => response.json()).then(data => {
             this.$data.resources = data;
         
             }).catch(err => {
@@ -140,7 +140,7 @@
         }
       },
       generateCategories() {
-          fetch("https://localhost/api/genres.json?properties%5B%5D=name&properties%5B%5D=id").then(response => response.json()).then(data => {
+          fetch("https://swapit-api-game.herokuapp.com/api/genres.json?properties%5B%5D=name&properties%5B%5D=id").then(response => response.json()).then(data => {
             // console.info(data.members)
          this.$data.filters.genres = data;
 
@@ -148,7 +148,7 @@
         }).catch(err => {
           console.error(err)
         })
-        fetch("https://localhost/api/platforms.json?properties%5B%5D=name&properties%5B%5D=id").then(response => response.json()).then(data => {
+        fetch("https://swapit-api-game.herokuapp.com/api/platforms.json?properties%5B%5D=name&properties%5B%5D=id").then(response => response.json()).then(data => {
             console.info(data)
             
           this.$data.filters.platforms= data;
@@ -156,7 +156,7 @@
         }).catch(err => {
           console.error(err)
         })
-          fetch("https://localhost/api/modes.json?properties%5B%5D=name&properties%5B%5D=id").then(response => response.json()).then(data => {
+          fetch("https://swapit-api-game.herokuapp.com/api/modes.json?properties%5B%5D=name&properties%5B%5D=id").then(response => response.json()).then(data => {
             console.info(data)
             this.$data.filters.modes = data;
     

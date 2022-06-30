@@ -50,7 +50,7 @@ export default {
             // provider.getPopulars(null, this.$data.selectedFilters).
             // provider.getPopulars()
             // if (this.$data.searchQuery) {
-            //     fetch(`https://localhost/api/games.json?page=1&name=${this.searchQuery}&${this.formatedFilters()}`)
+            //     fetch(`https://swapit-api-game.herokuapp.com/api/games.json?page=1&name=${this.searchQuery}&${this.formatedFilters()}`)
             //     .then(response => response.json())
             //     .then(data => {
             //         this.$data.resources = data;
@@ -60,7 +60,7 @@ export default {
             //     })
             // } else {
             //     console.log('toto1')
-            //     fetch(`https://localhost/api/games.json?popular${this.formatedFilters()}`)
+            //     fetch(`https://swapit-api-game.herokuapp.com/api/games.json?popular${this.formatedFilters()}`)
             //     .then(response => response.json())
             //     .then(data => {
             //         this.$data.resources = data;
