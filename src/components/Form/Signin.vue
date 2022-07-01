@@ -32,7 +32,7 @@
   import Formik from "../../lib/Formik.vue";
   import Field from "../../lib/Field.vue";
   import Error from "../Errors/Error.vue";
-  import {User} from "../../lib/Services/User";
+  import {Auth} from "../../lib/Services/Auth";
   export default {
     components: {
       Formik,
@@ -45,10 +45,9 @@
     },
     methods: {
       onSubmit: async (data) => {
-      var provider = new User()
-        provider.postUser(null,
+      var provider = new Auth()
+      provider.login(
         {
-          username: data.login,
           email: data.email,
           password: data.password
         }
@@ -64,6 +63,7 @@
             else{
               // this.$data.connexion_failed = true
             }
+            console.log(provider.getToken());
           }     
       })
 
