@@ -5,7 +5,7 @@
       <GameCardListAdd v-show="searchQuery" :games="resources"/>
     </div>
     <div class="game-list-added">
-      <GameCardListOwn v-show="my_games" :games="my_games"/>
+      <GameCardList v-show="aGames" :games="aGames"/>
       <div class="button-container">
         <!-- <Button class="valider" title="Valider" :onClick="HandleSubmit" /> -->
         <Button class="valider" title="Valider" :onClick="HandleSubmit" />
@@ -17,7 +17,7 @@
 
 <script>
   import GameCardListAdd from './Game_Card_List_Add.vue';
-  import GameCardListOwn from './Game_Card_List.vue';
+  import GameCardList from './Game_Card_List.vue';
   import Button from '../Buttons/Button.vue';
   import {User} from "../../lib/Services/User";
   import {Igdb} from "../../lib/Services/Igdb";
@@ -35,7 +35,7 @@
       name: "Game_Search_Input",
       components: {
       GameCardListAdd,
-      GameCardListOwn,
+      GameCardList,
       Button,
       },
       props: {
@@ -54,7 +54,8 @@
       data: () => ({
         searchQuery: null,
         resources: [],
-        my_games: [],
+        aGames: [],
+        aGamesTmp: [],
         filter: false,
       }),
        created() {
@@ -66,29 +67,38 @@
       methods:{
         async refreshRessource() {
           const provider = new User()
-          provider.getUser(1).then(response => {this.$data.my_games = response.ownGames ?? []})
+          if (this.$props.route == "own") {
+            provider.getUser(1).then(response => {this.$data.aGamesTmp = response?.ownGames ?? []})
+            this.updateOwnGames()
+          } else {
+                      console.log('wishGames');
+          provider.getUser(1).then(response => {this.$data.aGamesTmp = response?.wishGames ?? []})
+          this.updateWishGames()
+          }
         },
         add: function(game) {
           if (!this.added(game)) {
-            // console.log( this.$data.my_games);
-            this.$data.my_games.push(game.id)
-            console.log( this.$data.my_games);
+            // console.log( this.$data.aGames);
+            this.$data.aGamesTmp.push(game.id)
+            console.log( this.$data.aGamesTmp);
             this.HandleSubmit()
           }
         },
         supp: function(game) {
           if (this.added(game.id)) {
-            this.$data.my_games = this.$data.my_games.filter(e => e.id !== game.id)
+            this.$data.aGamesTmp = this.$data.aGamesTmp.filter(e => e.id !== game.id)
+            this.HandleSubmit()
+
           }
         },
         added: function(game_id) {
-          return (this.$data.my_games.map(game => {
+          return (this.$data.aGamesTmp.map(game => {
             return game.id
           })).includes(game_id)
         },
         clearList: function() {
-          this.$data.my_games = []
-          console.info(this.$data.my_games)
+          this.$data.aGamesTmp = []
+          console.info(this.$data.aGamesTmp)
       },
         HandleSubmit: function() {
             console.log( 'HandleSubmit');
@@ -104,12 +114,34 @@
         async updateOwnGames() {
           console.log( 'ownGames');
           var provider = new User()
-          provider.patchUser(1,  {'ownGames': this.$data.gamesOwn}).then(response => { this.$data.gamesOwn = response?.ownGames ?? []})
+          var providerIgdb = new Igdb()
+           console.log( this.$data.aGamesTmp);
+          provider.patchUser(1,  {'ownGames': this.$data.aGamesTmp})
+          .then(response => { 
+            console.log(response); 
+            if (response?.ownGames) {
+              providerIgdb.getGames(response?.ownGames)
+              .then(response => {
+              this.$data.aGames = response ?? []
+            });
+            } else this.clearList()
+          })
+          // console.log(this.$data.aGames);
         },
         async updateWishGames() {
           console.log('wishGames');
-          var provider = new User()
-          provider.patchUser(1, {'wishGames': this.$data.my_games}).then(response => { this.$data.my_games = response?.wishGames ?? [] })
+           var provider = new User()
+          var providerIgdb = new Igdb()
+          provider.patchUser(1,  {'wishGames': this.$data.aGamesTmp})
+          .then(response => { 
+            console.log(response); 
+            if (response?.wishGames) {
+              providerIgdb.getGames(response?.wishGames)
+              .then(response => {
+                this.$data.aGames = response ?? []
+              });
+            } else this.clearList()
+          })
         },
         resultQuery() {
           var provider = new Igdb()
@@ -120,7 +152,7 @@
       },
       provide() {
         return {
-        my_games: this.$data.my_games ?? [],
+        aGames: this.$data.aGames ?? [],
         add: this.add,
         supp: this.supp,
         added: this.added,

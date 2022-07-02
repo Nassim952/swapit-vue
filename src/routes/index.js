@@ -37,6 +37,14 @@ const routes = [
         path: "/popularGames",
         component: () => import("../views/popularGames.vue")
     },
+    {
+        path: "/showGame/:id",
+        component: () => import("../components/Game/GameLayerDetails.vue"),
+    },
+    { 
+        path: '*',
+        component: () => import("../views/404.vue")
+    }
 ];
 
 export default new VueRouter({

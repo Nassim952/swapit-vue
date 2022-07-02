@@ -1,7 +1,7 @@
 <template>
     <div>
         <p class="page-name">Liste de jeux souhaités</p>
-        <GameSearchInput/>
+        <GameSearchInput route="wish"/>
         <UserCard/>
     </div>
 </template>
