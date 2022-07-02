@@ -6,13 +6,14 @@
         <GamesToExchange :games="gamesToExchange" />
       </div>
       <div class="wish_exchange user_game_container">
-        <div>Jeux Souhaitées de {{user.username}}</div>
+        <div>Jeux Souhaitées de {{ user.username }}</div>
         <GamesWishExchange :games="gamesWish" />
       </div>
     </div>
     <div class="recap_exchange">
       <div>L'échange</div>
-      <GameCardExchange v-if="gameWishSelected || gameToExchangeSelected" :gameToExchange="gameToExchangeSelected" :gameWish="gameWishSelected" />
+      <GameCardExchange v-if="gameWishSelected || gameToExchangeSelected" :gameToExchange="gameToExchangeSelected"
+        :gameWish="gameWishSelected" />
     </div>
     <Button title="Swaper" :onClick="HandleSubmit" />
     <div>
@@ -28,7 +29,7 @@ import GamesToExchange from './Game_To_Exchange.vue';
 import GameCardExchange from './Game_Card_Exchange.vue';
 import Button from '../Buttons/Button.vue';
 import jwt_decode from "jwt-decode";
-import { User } from '../../lib/Services/Core/User';
+import { User } from '../../lib/Services/User';
 import { Igdb } from '../../lib/Services/Igdb';
 import { Exchange } from '../../lib/Services/Core/Exchange';
 
@@ -80,26 +81,36 @@ export default {
     getGamesToExchange: async function () {
       var providerUser = new User();
       var providerGame = new Igdb();
-      providerUser.getOwnGames(this.$route.params.userid).then(response => {
-        for(var i = 0; i <= response.length; i++) {
-          providerGame.getGame(response[0][i]).then(response => {
+      providerUser.getUser(this.$route.params.userid).then(response => {
+        var result = response?.ownGames ?? [];
+        for (var i = 0; i <= result.length; i++) {
+          providerGame.getGame(result[0][i]).then(response => {
             this.$data.gamesToExchange.push(response);
           })
         }
-        var result = response.slice(1);
+        result = response.slice(1);
         this.$data.gamesToExchange = result;
       });
+
+      // var provider = new User()
+      // var providerGame = new Igdb();
+      // provider.getUser(this.$route.params.userid).then(response => {
+      //   this.$data.gamesToExchange = response?.ownGames ?? [];
+      //   var result = this.$data.gamesToExchange.shift();
+      //   this.$data.gamesToExchange = result;
+      // })
     },
     getGamesWish: async function () {
       var providerUser = new User();
       var providerGame = new Igdb();
-      providerUser.getWishGames(this.$route.params.userid).then(response => {
-        for(var i = 0; i <= response.length; i++) {
-          providerGame.getGame(response[0][i]).then(response => {
+      providerUser.getUser(this.$route.params.userid).then(response => {
+        var result = response?.wishGames ?? [];
+        for (var i = 0; i <= result.length; i++) {
+          providerGame.getGame(result[0][i]).then(response => {
             this.$data.gamesWish.push(response);
           })
         }
-        var result = response.slice(1);
+        result = response.slice(1);
         this.$data.gamesWish = result;
       });
     },
@@ -131,18 +142,16 @@ export default {
       var token = localStorage.getItem('token');
       var decoded = jwt_decode(token);
 
-      providerUser.getUsers(null, null, { "email"  : decoded.email }).then(response => {
-        console.log(response);
+      providerUser.getUsers(null, null, { "email": decoded.email }).then(response => {
+        if (response) {
+          provider.postExchange({
+            owner: "users/" + this.$data.user.id,
+            proposer: "users/" + response[0].id,
+            proposerGame: this.$data.gameToExchangeSelected.id,
+            senderGame: this.$data.gameWishSelected.id
+          }).then(response => { console.log(response); })
+        }
       })
-      provider.postExchange({
-            owner: this.$data.user.id,
-            proposer: this.$data.user.id,
-            proposerGame: this.$data.user.id,
-            senderGame: this.$data.user.id,
-          }).then(response => {
-        console.log(response);
-      });
-      // this.$emit('submit', this.my_games)
       // console.info(this.$data.gameToExchangeSelected);
       // console.info(this.$data.gameWishSelected);
     },
