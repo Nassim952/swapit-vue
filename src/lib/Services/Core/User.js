@@ -1,4 +1,4 @@
-import Publisher from '../Connexion/Publisher'
+import Publisher from '../../Connexion/Publisher'
 class User extends Publisher {
   constructor() {
     super('http://localhost:81/', {

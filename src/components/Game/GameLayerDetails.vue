@@ -14,7 +14,7 @@
         </p>
       </div>
     </div>
-    <UserCard v-for="(user, key) in users" :key="user.id + key" :user="user" />
+    <UserCard v-for="(user, key) in users" :key="user.id + key" :user="user" :game="game" />
   </div>
 </template>
 

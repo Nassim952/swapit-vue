@@ -23,8 +23,8 @@ const routes = [
         path: "/subscription",
         component: () => import("../views/Subscription.vue")
     }, { 
-        path: "/exchange",
-        component: () => import("../views/Exchange.vue")
+        path: "/exchange/:userid/:gameid",
+        component: () => import("../components/Exchange/Game_Exchange.vue")
     }, { 
         path: "/profile",
         component: () => import("../views/Profil.vue")

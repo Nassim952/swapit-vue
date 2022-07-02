@@ -1,5 +1,5 @@
-import Publisher from '../Connexion/Publisher'
-class User extends Publisher {
+import Publisher from '../../Connexion/Publisher'
+class Exchange extends Publisher {
   constructor() {
     super('http://localhost:81/', {
       'Accept': 'application/json'
@@ -35,35 +35,10 @@ class User extends Publisher {
     return response;
   }
 
-  async getexchanges(ids = null, properties = null) {
-    const response = await this.get(this.formatEndPoint('exchanges',ids, properties));
-    return response;
-  }
-
-  async getExchange(id, properties = null) {
-    const response = await this.get(this.formatEndPoint('exchanges',id, properties));
-    return response;
-  }
-
-  async addExchange(id, data) {
-    const response = await this.post(this.formatEndPoint('exchanges',id),data);
-    return response;
-  }
-
-  async patchExchange(id, data) {
-    const response = await this.patch(this.formatEndPoint('exchanges',id),data);
-    return response;
-  }
-
-  async delExchange(id) {
-    const response = await this.delete(this.formatEndPoint('exchanges',id));
-    return response;
-  }
-
   async getExchanges(ids = null, properties = null) {
     const response = await this.get(this.formatEndPoint('exchanges',ids, properties));
     return response;
   }
 }
 
-export { User };
+export { Exchange };
