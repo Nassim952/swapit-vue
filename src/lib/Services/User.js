@@ -9,7 +9,7 @@ class User extends Publisher {
     });
   }
 
-  async getUser(id, properties = null) {
+  async getUser(id, properties = null)  {
     const response = await this.get(this.formatEndPoint('users',id, properties));
     return response;
   }
@@ -29,8 +29,8 @@ class User extends Publisher {
     return response;
   }
 
-  async getUsers(ids = null, properties = null) {
-    const response = await this.get(this.formatEndPoint('users',ids, properties));
+  async getUsers(ids = null, properties = null, filters = null) {
+    const response = await this.get(this.formatEndPoint('users',ids, properties, filters));
     return response;
   }
 }

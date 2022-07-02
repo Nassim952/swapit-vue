@@ -14,24 +14,25 @@
         </p>
       </div>
     </div>
-    <!-- <UserCard/> -->
+    <UserCard v-for="(user, key) in users" :key="user.id + key" :user="user" />
   </div>
 </template>
 
 <script>
 import {Igdb} from "../../lib/Services/Igdb";
-// import {User} from "../../lib/Services/User";
-// import UserCard from "../components/Game/UserCard.vue";
+import {User} from "../../lib/Services/User";
+import UserCard from "./UserCard.vue";
 
 export default {
   name: "GameLayerDetails",
+  components: {
+    UserCard,
+  },
   data: () => ({
     filters: {},
     game: {},
+    users: [],
   }),
-  components: {
-    // UserCard,
-  },
   computed: {
     coverPreUrl: function () {
       return "//images.igdb.com/igdb/image/upload/t_1080p/" + this.game.cover + ".png";
@@ -44,9 +45,16 @@ export default {
         this.$data.game = response
       })
     },
+    getUsers: async function () {
+      var provider = new User()
+      provider.getUsers(null, null, { "owned_games"  : this.$route.params.id }).then(response => {
+        this.$data.users = response
+      })
+    },
   },
   created() {
     this.getGame();
+    this.getUsers();
   },
 };
 </script>
