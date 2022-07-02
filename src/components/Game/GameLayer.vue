@@ -13,24 +13,26 @@
           <div class="card-title">
             <div class="card-title-text">
               <h3>{{ game.name }}</h3>
-              <span class="rating">{{Math.round(game.aggregated_rating)/10}}</span>
+              <span class="rating">{{ Math.round(game.aggregated_rating) / 10 }}</span>
             </div>
             <div class="card-platforms-tags">
-              <span v-for="(platform,key) in platforms" id="platforms" :key="key">{{ platform.name }}</span>
+              <span v-for="(platform, key) in platforms" id="platforms" :key="key">{{ platform.name }}</span>
             </div>
           </div>
         </div>
         <div class="card-details">
           <div class="card-body">
             <div class="tags">
-              <span v-for="(genre,key) in genres" id="genres" :key="key" class="tag tag-teal">{{ genre.name }}</span>
+              <span v-for="(genre, key) in genres" id="genres" :key="key" class="tag tag-teal">{{ genre.name }}</span>
             </div>
 
             <p>
               {{ game.summary.slice(0, 500) }}
             </p>
             <div class="btn-wrapper">
-              <DetailsButton @click="showDetails = !showDetails" title="Swaper" />
+              <router-link v-bind:to="showGameUrl">
+                <span class="btn button_slide slide_left">Swaper</span>
+              </router-link>
             </div>
           </div>
         </div>
@@ -41,14 +43,11 @@
 
 <script>
 // import GameLayerDetails from './GameLayerDetails.vue';
-import DetailsButton from '../Buttons/Button_Details.vue';
-import {Igdb} from "../../lib/Services/Igdb";
+import { Igdb } from "../../lib/Services/Igdb";
 
 export default {
   name: "GameLayer",
   components: {
-    DetailsButton,
-    // GameLayerDetails,
   },
   data: () => ({
     filters: {},
@@ -71,16 +70,19 @@ export default {
       var provider = new Igdb()
       var genres = this.$props.game.genres.map(genre => genre.replace(/\/api\/genres\//g, '')) ?? null
       var platforms = this.$props.game.platforms.map(platform => platform.replace(/\/api\/platforms\//g, '')) ?? null
-      provider.getGenres(genres).then(response => { this.$data.genres = response})
-      provider.getPlatforms(platforms).then(response => { this.$data.platforms = response})
-      console.log("avant: " , this.$props.game.genres);
-      console.log("genre: " , genres);
+      provider.getGenres(genres).then(response => { this.$data.genres = response })
+      provider.getPlatforms(platforms).then(response => { this.$data.platforms = response })
+      console.log("avant: ", this.$props.game.genres);
+      console.log("genre: ", genres);
       console.log(platforms);
     }
   },
   computed: {
     coverPreUrl: function () {
       return "//images.igdb.com/igdb/image/upload/t_1080p/" + this.game.cover + ".png";
+    },
+    showGameUrl: function () {
+      return "/showGame/" + this.game.id;
     },
     backgroundCover: function () {
       return "background: url(https://images.igdb.com/igdb/image/upload/t_1080p/" + this.game.cover + ".png);background-repeat: no-repeat;background-size: cover;background-position: 50% 50%;";
@@ -91,12 +93,48 @@ export default {
 </script>
 
 <style scoped>
-
-.btn-wrapper{
+.btn-wrapper {
   display: flex;
   justify-content: end;
   margin-right: 15px;
 }
+
+.btn {
+  /* line-height: 50px; */
+  /* height: 50px; */
+  text-align: center;
+  /* width: 250px; */
+  cursor: pointer;
+  color: #FF5D19;
+  transition: background-color 0.3s ease-in-out;
+  position: relative;
+}
+
+.btn:hover {
+  background-color: #FF5D19;
+  color: #fff;
+}
+
+.button_slide {
+  border: 2px solid #FB5D19;
+  padding: 10px 10px;
+  border-radius: 7px;
+  display: inline-block;
+  font-size: 16px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 0 #FB5D19;
+  -webkit-transition: ease-out 0.4s;
+  -moz-transition: ease-out 0.4s;
+  transition: ease-out 0.4s;
+}
+
+.slide_left:hover {
+  box-shadow: inset 0 0 0 40px #FB5D19;
+  color: white;
+  border-radius: 7px;
+}
+
 .container {
   position: relative;
   z-index: 1;
@@ -251,12 +289,12 @@ export default {
   background-color: rgba(255, 93, 25, 1);
 }
 
-.card-title-text{
+.card-title-text {
   display: flex;
   justify-content: space-between;
 }
 
-.rating{
+.rating {
   align-self: center;
   font-size: xx-large;
   background-color: rgba(255, 93, 25, 1);
@@ -328,7 +366,7 @@ export default {
   width: webkit-fill-available;
 }
 
-.btn-list{
+.btn-list {
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -343,12 +381,13 @@ export default {
   border: 3px rgb(28 93 102) solid;
 }
 
-.bg-opacity{
+.bg-opacity {
   background-color: rgba(255, 255, 255, 0.9);
   height: 100%;
   width: 100%;
   border-radius: 15px;
 }
+
 /* .container .card.full:not(:hover) .content .card-img {
   top: 2em;
   width: 9.375rem;
