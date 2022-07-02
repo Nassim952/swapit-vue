@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div class="card">
       <div class="card-header">
         <img v-bind:src="coverPreUrl">
@@ -14,25 +14,39 @@
         </p>
       </div>
     </div>
+    <!-- <UserCard/> -->
   </div>
 </template>
 
 <script>
+import {Igdb} from "../../lib/Services/Igdb";
+// import {User} from "../../lib/Services/User";
+// import UserCard from "../components/Game/UserCard.vue";
+
 export default {
   name: "GameLayerDetails",
   data: () => ({
-    filters: {}
+    filters: {},
+    game: {},
   }),
-  props: {
-    game: {
-      type: Object,
-      required: true,
-    },
+  components: {
+    // UserCard,
   },
   computed: {
     coverPreUrl: function () {
       return "//images.igdb.com/igdb/image/upload/t_1080p/" + this.game.cover + ".png";
     },
+  },
+  methods: {
+    getGame: async function () {
+      var provider = new Igdb()
+      provider.getGame(this.$route.params.id).then(response => {
+        this.$data.game = response
+      })
+    },
+  },
+  created() {
+    this.getGame();
   },
 };
 </script>
