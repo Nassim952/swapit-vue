@@ -81,11 +81,19 @@ export default {
 .icon-wrapper {
   margin: auto;
   width: 100px; 
+  display:flex;
+}
+
+.icon-wrapper:hover {
+  background-color: aqua;
 }
 .icon {
     width: 2rem;
     height: 2rem;
+    margin: auto;
 }
+
+
 .game_card_container {
   display: flex;
   margin-bottom: 1rem;

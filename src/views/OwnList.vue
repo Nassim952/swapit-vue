@@ -1,13 +1,13 @@
 <template>
     <div>
         <p class="page-name">Liste de jeux possedés</p>
-        <GameSearchInput/>
+        <GameSearchInput route="own"/>
     </div>
 </template>
 
 <script>
 
-import GameSearchInput from "../components/Card/Game_Search_Input_ownGame.vue"
+import GameSearchInput from "../components/Card/Game_Search_Input.vue"
 
 export default {
     components: {

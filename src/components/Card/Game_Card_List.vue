@@ -29,7 +29,7 @@ export default {
       required: true,
     },
   },
-  inject: ['supp', 'my_games', 'added'],
+  inject: ['supp','added'],
   data() {
     return {
       sortBy: 'title',
