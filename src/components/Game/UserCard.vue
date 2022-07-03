@@ -5,7 +5,7 @@
                 <div class="user-img">
                     <img src="../../assets/images/user.svg" width="80" height="80">
                 </div>
-                <div class="pseudo">{{user.username}}</div>
+                <div class="pseudo">{{ user.username }}</div>
             </div>
             <div class="info-user">
                 <div class="header-card">Echanges</div>
@@ -23,7 +23,11 @@
                 <div><img src="../../assets/images/heart.svg" width="30" height="30"></div>
             </div>
         </div>
-        <div class="btn-swap"><a href="#">Swapper</a></div>
+        <div class="btn-swap">
+            <router-link v-bind:to="exchangeUrl">
+                <span class="btn button_slide slide_left">Swaper</span>
+            </router-link>
+        </div>
     </div>
 </template>
 
@@ -35,6 +39,15 @@ export default {
             type: Object,
             required: true
         },
+        game: {
+            type: Object,
+            required: true
+        },
+    },
+    computed: {
+        exchangeUrl() {
+            return "/exchange/" + this.user.id + "/" + this.game.id;
+        }
     },
     // data: () => ({
     //     searchQuery: null,
