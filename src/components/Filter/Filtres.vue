@@ -1,5 +1,5 @@
 <template>
-  <div id="Filtres" class="menu-items">
+  <div id="Filtres" class="filter-items-container">
     <div v-for="(filter,title) in filters" :key="title">
       <Filtre :title="title" :resource="filter"></Filtre>
     </div>
@@ -50,12 +50,6 @@
     color: black;
     font-size: 10px;
     margin-top: 5px;
-}
-
-.menu-items {
-    display: flex;
-    flex-direction: column;
-    margin-left: 6px;
 }
 
 .menu-items > * {
@@ -118,5 +112,8 @@
     width: 60px;
     border-radius: 50%;
     background-color: teal;
+}
+.filter-items-container{
+  padding: 30px 20px;
 }
 </style>

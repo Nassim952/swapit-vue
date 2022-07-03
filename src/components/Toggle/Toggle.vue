@@ -50,8 +50,8 @@ transition: all .3s linear 0s;
 }
 
 .icon {
-    width: 2rem;
-    height: 2rem;
+    width: 1rem;
+    height: 1rem;
 }
 
 .fade-toggle-enter-active {

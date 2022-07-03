@@ -4,7 +4,7 @@ class Publisher {
     constructor (url, headers) {
         this.instance = axios.create({
             baseURL: url,
-            timeout: 1000,
+            timeout: 8000,
             headers: headers
         })
     }
