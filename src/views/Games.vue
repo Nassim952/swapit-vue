@@ -81,7 +81,8 @@ export default {
 
     },
     added(game) {
-      return this.$data.UserList.some(e => e === game.id)
+      // this.$data.UserList = [];
+      return this.$data.UserList.some(e => e === game.id);
     },
     async getUser() {
       const providerUser = new User();
@@ -90,7 +91,11 @@ export default {
 
       providerUser.getUsers(null, null, { "email": decoded.email }).then(response => {
         if (response) {
-          this.$data.UserList = response?.ownGames ?? [] + response?.wishGames ?? []
+          response?.ownGames ?? [] + response?.wishGames ?? []
+          var data = response?.ownGames ?? [] + response?.wishGames ?? []
+          if (Array.isArray(data)) {
+            this.$data.UserList = data
+          }
         }
       }).catch(error => {
         console.log(error)

@@ -8,8 +8,8 @@
 
 <script>
 import GameLayer from "../components/Game/GameLayer.vue";
-import {Igdb} from "../lib/Services/Igdb";
-import {User} from "../lib/Services/User";
+import { Igdb } from "../lib/Services/Igdb";
+import { User } from "../lib/Services/User";
 
 import jwt_decode from "jwt-decode";
 
@@ -53,9 +53,9 @@ export default {
         },
         checkEmptySelectedFilter(categorie = null) {
 
-            if (categorie) {       
+            if (categorie) {
                 return this.$data.selectedFilters?.[categorie]?.length === 0
-            } 
+            }
             return true
         },
         updateQuery(value) {
@@ -63,6 +63,8 @@ export default {
             this.refreshRessource()
         },
         added(game) {
+            // this.$data.UserList = [];
+            // console.log(this.$data.UserList)
             return this.$data.UserList.some(e => e === game.id)
         },
         async getUser() {
@@ -72,7 +74,11 @@ export default {
 
             providerUser.getUsers(null, null, { "email": decoded.email }).then(response => {
                 if (response) {
-                this.$data.UserList = response?.ownGames ?? [] + response?.wishGames ?? []
+                    response?.ownGames ?? [] + response?.wishGames ?? []
+                    var data = response?.ownGames ?? [] + response?.wishGames ?? []
+                    if (Array.isArray(data)) {
+                        this.$data.UserList = data
+                    }
                 }
             }).catch(error => {
                 console.log(error)

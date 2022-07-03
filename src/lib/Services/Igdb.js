@@ -3,7 +3,7 @@ class Igdb extends Publisher {
   constructor() {
     super('https://localhost/api', {
       'Accept': 'application/json',
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/merge-patch+json',
     });
   }
 
