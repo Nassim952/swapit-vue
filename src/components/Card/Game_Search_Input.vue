@@ -115,7 +115,8 @@
               response = response.shift()
               provider.patchUser(response.id,  {'ownGames': this.$data.aGamesTmp})
               .then(response => { 
-                if (response?.ownGames) {
+                if (response?.ownGames == []) {
+                  console.log(response.ownGames);
                   providerIgdb.getGames(response?.ownGames)
                   .then(response => {
                   this.$data.aGames = response ?? []
