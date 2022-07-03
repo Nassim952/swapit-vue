@@ -45,8 +45,4 @@ class Exchange extends Publisher {
   }
 }
 
-<<<<<<< HEAD
-export {Exchange};
-=======
 export { Exchange };
->>>>>>> 271698a9c4228344a73774c0e70ef881d8644d88

@@ -42,7 +42,7 @@ export default {
       return "//images.igdb.com/igdb/image/upload/t_1080p/" + this.game.cover + ".png";
     },
     backgroundCover: function () {
-      return "background: url(https://images.igdb.com/igdb/image/upload/t_1080p/" + this.game.cover + ".png);background-repeat: no-repeat;background-size: cover;background-position: 50% 50%;";
+      return "background: url(https://images.igdb.com/igdb/image/upload/t_1080p/" + this.game.cover + ".png);";
     },
   },
   methods: {
@@ -54,7 +54,7 @@ export default {
     },
     getUsers: async function () {
       var provider = new User()
-      provider.getUsers(null, null, null).then(response => {
+      provider.getUsers(null, null, { "ownGames" : this.$route.params.id }).then(response => {
         console.log(response);
         this.$data.users = response
       })
@@ -74,9 +74,9 @@ export default {
     border-radius: 20px;
     margin: 10px 20px;
     display: flex;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: 50% 50%;
+    background-repeat: no-repeat!important;
+    background-size: cover!important;
+    background-position: 50% 50%!important;
 }
 .user-card-container {
     display: flex;
