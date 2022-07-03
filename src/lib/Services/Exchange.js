@@ -1,5 +1,5 @@
 import Publisher from '../Connexion/Publisher'
-class User extends Publisher {
+class Exchange extends Publisher {
   constructor() {
     super('http://localhost:81/', {
       'Accept': 'application/json'
@@ -40,15 +40,15 @@ class User extends Publisher {
     return response;
   }
 
-  async validExchanges(ids = null, properties = null) {
+  async validExchanges(id = null) {
     const response = await this.patch(`${'exchanges'}/${id}/accept`,{});
     return response;
   }
 
-  async refuseExchanges(id = null) {
+  async refuseExchanges(id = null)  {
     const response = await this.patch(`${'exchanges'}/${id}/refuse`,{});
     return response;
   }
 }
 
-export { User };
+export {Exchange};

@@ -44,7 +44,11 @@ const routes = [
     { 
         path: '*',
         component: () => import("../views/404.vue")
-    }
+    },
+    { 
+        path: "/admin",
+        component: () => import("../views/Admin.vue")
+    },
 ];
 
 export default new VueRouter({
