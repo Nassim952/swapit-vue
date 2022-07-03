@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="recap_exchange">
-      <div>L'échange</div>
+      <div>Récap de l'échange</div>
       <GameCardExchange v-if="gameWishSelected || gameToExchangeSelected" :gameToExchange="gameToExchangeSelected"
         :gameWish="gameWishSelected" />
     </div>
@@ -84,7 +84,7 @@ export default {
       providerUser.getUser(this.$route.params.userid).then(response => {
         var result = response?.ownGames ?? [];
         for (var i = 0; i <= result.length; i++) {
-          providerGame.getGame(result[0][i]).then(response => {
+          providerGame.getGame(result[i]).then(response => {
             this.$data.gamesToExchange.push(response);
           })
         }
@@ -98,7 +98,7 @@ export default {
       providerUser.getUser(this.$route.params.userid).then(response => {
         var result = response?.wishGames ?? [];
         for (var i = 0; i <= result.length; i++) {
-          providerGame.getGame(result[0][i]).then(response => {
+          providerGame.getGame(result[i]).then(response => {
             this.$data.gamesWish.push(response);
           })
         }

@@ -44,7 +44,12 @@ const routes = [
     { 
         path: '*',
         component: () => import("../views/404.vue")
-    }
+    },
+    {
+        path: "/recap_exchange",
+        component: () => import("../components/Exchange/Game_Card_Exchange_Recap.vue")
+    },
+
 ];
 
 export default new VueRouter({
