@@ -8,7 +8,7 @@
       <span class="focus-border"></span>
     </div>
     <div v-if="resources">
-      <Game v-for="(game, key) in resources" :key="game.id + key" :game="game" />
+      <Game v-for="(game, key) in resources" :key="game.id + key" :game="game" :inList="added(game)" />
     </div>
   </b-container>
 </template>
@@ -17,7 +17,9 @@
 import Game from "../components/Game/GameLayer.vue";
 import Sidebar from "../components/Filter/SideBar.vue";
 import { Igdb } from "../lib/Services/Igdb";
+import { User } from "../lib/Services/User";
 
+import jwt_decode from "jwt-decode";
 
 export default {
   components: {
@@ -34,11 +36,13 @@ export default {
     resources: [],
     selectedFilters: {},
     filter: false,
+    UserList: [],
   }),
   created() {
     if (this.$props.home) {
       this.refreshRessource()
     }
+    this.getUser();
   },
   methods: {
     async refreshRessource() {
@@ -75,6 +79,22 @@ export default {
         return true
       }
 
+    },
+    added(game) {
+      return this.$data.UserList.some(e => e === game.id)
+    },
+    async getUser() {
+      const providerUser = new User();
+      var token = localStorage.getItem('token');
+      var decoded = jwt_decode(token);
+
+      providerUser.getUsers(null, null, { "email": decoded.email }).then(response => {
+        if (response) {
+          this.$data.UserList = response?.ownGames ?? [] + response?.wishGames ?? []
+        }
+      }).catch(error => {
+        console.log(error)
+      })
     },
   },
   provide() {

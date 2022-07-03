@@ -21,15 +21,8 @@
   import Button from '../Buttons/Button.vue';
   import {User} from "../../lib/Services/User";
   import {Igdb} from "../../lib/Services/Igdb";
+  import jwt_decode from "jwt-decode";
 
-  // const instance = axios.create({
-  //   baseURL: 'http://localhost:81/',
-  //   timeout: 1000,
-  //   headers: {
-  //     'accept': 'application/ld+json',
-  //     'Content-Type' : 'application/merge-patch+json'
-  //   }
-  // })
 
   export default {
       name: "Game_Search_Input",
@@ -80,7 +73,6 @@
           if (!this.added(game)) {
             // console.log( this.$data.aGames);
             this.$data.aGamesTmp.push(game.id)
-            console.log( this.$data.aGamesTmp);
             this.HandleSubmit()
           }
         },
@@ -99,7 +91,7 @@
         clearList: function() {
           this.$data.aGamesTmp = []
           console.info(this.$data.aGamesTmp)
-      },
+        },
         HandleSubmit: function() {
             console.log( 'HandleSubmit');
           if (this.$props.route == "own") {
@@ -112,36 +104,50 @@
           }
         },
         async updateOwnGames() {
-          console.log( 'ownGames');
-          var provider = new User()
-          var providerIgdb = new Igdb()
-           console.log( this.$data.aGamesTmp);
-          provider.patchUser(1,  {'ownGames': this.$data.aGamesTmp})
-          .then(response => { 
-            console.log(response); 
-            if (response?.ownGames) {
-              providerIgdb.getGames(response?.ownGames)
-              .then(response => {
-              this.$data.aGames = response ?? []
-            });
-            } else this.clearList()
+
+          const provider = new User();
+          const providerIgdb = new Igdb()
+          var token = localStorage.getItem('token');
+          var decoded = jwt_decode(token);
+
+          provider.getUsers(null, null, { "email": decoded.email }).then(response => {
+            if(response.length > 0) {
+              provider.patchUser(response.id,  {'ownGames': this.$data.aGamesTmp})
+              .then(response => { 
+                if (response?.ownGames) {
+                  providerIgdb.getGames(response?.ownGames)
+                  .then(response => {
+                  this.$data.aGames = response ?? []
+                });
+                } else this.clearList()
+              })
+            }
+
           })
-          // console.log(this.$data.aGames);
+          .catch(error => {console.log(error)})
         },
         async updateWishGames() {
-          console.log('wishGames');
-           var provider = new User()
-          var providerIgdb = new Igdb()
-          provider.patchUser(1,  {'wishGames': this.$data.aGamesTmp})
-          .then(response => { 
-            console.log(response); 
-            if (response?.wishGames) {
-              providerIgdb.getGames(response?.wishGames)
-              .then(response => {
-                this.$data.aGames = response ?? []
-              });
-            } else this.clearList()
+          const provider = new User();
+          const providerIgdb = new Igdb()
+          var token = localStorage.getItem('wishGames');
+          var decoded = jwt_decode(token);
+
+          provider.getUsers(null, null, { "email": decoded.email }).then(response => {
+            if(response.length > 0) {
+              provider.patchUser(response.id,  {'wishGames': this.$data.aGamesTmp})
+              .then(response => { 
+                if (response?.wishGames) {
+                  providerIgdb.getGames(response?.wishGames)
+                  .then(response => {
+                  this.$data.aGames = response ?? []
+                });
+                } else this.clearList()
+              })
+            }
+
           })
+          .catch(error => {console.log(error)})
+
         },
         resultQuery() {
           var provider = new Igdb()

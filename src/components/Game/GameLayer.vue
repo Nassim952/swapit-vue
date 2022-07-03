@@ -3,8 +3,8 @@
     <div v-bind:style="backgroundCover" class="card cover-bg" :class="[{ full: full, small: !full }]">
       <div class="bg-opacity">
         <div class="btn-list">
-          <button><img class="picto-nav" src="../../assets/images/check.svg" width="45" height="40"></button>
-          <button><img class="picto-nav" src="../../assets/images/heart.svg" width="45" height="40"></button>
+          <button @click="addOwn(game)"><img v-bind:class="{disable:inList}" class="picto-nav" src="../../assets/images/check.svg" width="45" height="40"></button>
+          <button @click="addWish(game)"><img v-bind:class="{disable:inList}" class="picto-nav" src="../../assets/images/heart.svg" width="45" height="40"></button>
         </div>
         <div class="content">
           <div class="card-img">
@@ -44,6 +44,9 @@
 <script>
 // import GameLayerDetails from './GameLayerDetails.vue';
 import { Igdb } from "../../lib/Services/Igdb";
+import jwt_decode from "jwt-decode";
+import { User } from "../../lib/Services/User";
+
 
 export default {
   name: "GameLayer",
@@ -64,6 +67,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    inList: {
+      type: Boolean,
+      default: true,
+    },
   },
   created() {
     if (this.$props.game) {
@@ -72,9 +79,6 @@ export default {
       var platforms = this.$props.game.platforms.map(platform => platform.replace(/\/api\/platforms\//g, '')) ?? null
       provider.getGenres(genres).then(response => { this.$data.genres = response })
       provider.getPlatforms(platforms).then(response => { this.$data.platforms = response })
-      console.log("avant: ", this.$props.game.genres);
-      console.log("genre: ", genres);
-      console.log(platforms);
     }
   },
   computed: {
@@ -87,6 +91,42 @@ export default {
     backgroundCover: function () {
       return "background: url(https://images.igdb.com/igdb/image/upload/t_1080p/" + this.game.cover + ".png);background-repeat: no-repeat;background-size: cover;background-position: 50% 50%;";
     },
+  },
+  methods: {
+    addOwn: function(game) {
+      const provider = new User();
+      var token = localStorage.getItem('token');
+      var decoded = jwt_decode(token);
+
+      provider.getUsers(null, null, { "email": decoded.email }).then(response => {
+        if(response.length > 0) {
+          var ownGames = response?.ownGames
+          ownGames.push(game.id)
+          provider.patchUser(response.id,  {'ownGames': ownGames}).then(response => {
+            console.log(response)
+          })
+        }
+
+      })
+      .catch(error => {console.log(error)})
+    },
+     addWish: function(game) {
+      const provider = new User();
+      var token = localStorage.getItem('token');
+      var decoded = jwt_decode(token);
+
+      provider.getUsers(null, null, { "email": decoded.email }).then(response => {
+        if(response.length > 0) {
+          var wishGames = response?.wishGames
+          wishGames.push(game.id)
+          provider.patchUser(response.id,  {'wishGames': wishGames}).then(response => {
+            console.log(response)
+          })
+        }
+      })
+      .catch(error => {console.log(error)})
+    },
+    
   },
 };
 
