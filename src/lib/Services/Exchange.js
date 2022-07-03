@@ -40,6 +40,15 @@ class User extends Publisher {
     return response;
   }
 
+  async validExchanges(ids = null, properties = null) {
+    const response = await this.patch(`${'exchanges'}/${id}/accept`,{});
+    return response;
+  }
+
+  async refuseExchanges(id = null) {
+    const response = await this.patch(`${'exchanges'}/${id}/refuse`,{});
+    return response;
+  }
 }
 
 export { User };
