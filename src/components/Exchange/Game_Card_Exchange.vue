@@ -20,7 +20,8 @@
 </template>
 
 <script>
-import GameCard from './Game_Card.vue';
+import GameCard from './Game_Card_Recap.vue';
+
 export default {
   name: "Game_Card_Exchange",
    components: {
