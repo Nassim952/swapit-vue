@@ -11,11 +11,11 @@
       </div>
     </div>
     <div class="recap_exchange">
-      <div>L'échange</div>
+      <div>Récap de l'échange</div>
       <GameCardExchange v-if="gameWishSelected || gameToExchangeSelected" :gameToExchange="gameToExchangeSelected"
         :gameWish="gameWishSelected" />
     </div>
-    <Button title="Swaper" :onClick="HandleSubmit" />
+    <Button title="Envoyer la demande de Swap" :onClick="HandleSubmit" />
     <div>
       <!-- <p>{{ tweened.number.toFixed(0) }}</p> -->
     </div>
@@ -82,34 +82,28 @@ export default {
       var providerUser = new User();
       var providerGame = new Igdb();
       providerUser.getUser(this.$route.params.userid).then(response => {
-        var result = response?.ownGames ?? [];
-        for (var i = 0; i <= result.length; i++) {
-          providerGame.getGame(result[0][i]).then(response => {
+        response.ownGames.forEach(element => {
+          providerGame.getGame(element).then(response => {
             this.$data.gamesToExchange.push(response);
-          })
-        }
-        result = response.slice(1);
-        this.$data.gamesToExchange = result;
+          });
+        });
       });
     },
     getGamesWish: async function () {
       var providerUser = new User();
       var providerGame = new Igdb();
       providerUser.getUser(this.$route.params.userid).then(response => {
-        var result = response?.wishGames ?? [];
-        for (var i = 0; i <= result.length; i++) {
-          providerGame.getGame(result[0][i]).then(response => {
+        response.wishGames.forEach(element => {
+          providerGame.getGame(element).then(response => {
             this.$data.gamesWish.push(response);
-          })
-        }
-        result = response.slice(1);
-        this.$data.gamesWish = result;
+          });
+        });
       });
     },
     getGameWishSelected: async function () {
       var provider = new Igdb();
       provider.getGame(this.$route.params.gameid).then(response => {
-        this.$data.gameToExchange = response;
+        this.$data.gameWishSelected = response;
       });
     },
     addOwn: function (game) {
@@ -186,6 +180,7 @@ export default {
   margin: 1rem;
   padding: 2rem;
   border-radius: 2rem;
+  height: 600px;
 }
 
 .btn-swap {

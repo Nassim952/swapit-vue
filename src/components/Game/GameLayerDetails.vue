@@ -16,7 +16,9 @@
             </div>
         </div>
     </div>
-    <UserCard v-for="(user, key) in users" :key="user.id + key" :user="user" :game="game" />
+    <div class="user-card-container">
+      <UserCard v-for="(user, key) in users" :key="user.id + key" :user="user" :game="game" />
+    </div>
   </div>
 </template>
 
@@ -52,7 +54,8 @@ export default {
     },
     getUsers: async function () {
       var provider = new User()
-      provider.getUsers(null, null, { "owned_games"  : this.$route.params.id }).then(response => {
+      provider.getUsers(null, null, null).then(response => {
+        console.log(response);
         this.$data.users = response
       })
     },
@@ -74,6 +77,13 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 50% 50%;
+}
+.user-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: -webkit-fill-available;
+    justify-content: space-evenly;
+    align-items: center;
 }
 .game-layer {
     display: flex;
