@@ -3,8 +3,8 @@
     <div v-bind:style="backgroundCover" class="card cover-bg" :class="[{ full: full, small: !full }]">
       <div class="bg-opacity">
         <div class="btn-list">
-          <div><img class="picto-nav" src="../../assets/images/check.svg" width="45" height="40"></div>
-          <div><img class="picto-nav" src="../../assets/images/heart.svg" width="45" height="40"></div>
+          <button><img class="picto-nav" src="../../assets/images/check.svg" width="45" height="40"></button>
+          <button><img class="picto-nav" src="../../assets/images/heart.svg" width="45" height="40"></button>
         </div>
         <div class="content">
           <div class="card-img">
@@ -379,6 +379,7 @@ export default {
   padding: 15px 10px 15px 0px;
   box-shadow: 0 15px 35px rgb(0 0 0 / 25%);
   border: 3px rgb(28 93 102) solid;
+  z-index: 1;
 }
 
 .bg-opacity {
@@ -386,6 +387,21 @@ export default {
   height: 100%;
   width: 100%;
   border-radius: 15px;
+}
+
+.disable{
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+button{ 
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
 }
 
 /* .container .card.full:not(:hover) .content .card-img {
