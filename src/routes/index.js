@@ -45,10 +45,18 @@ const routes = [
         path: '*',
         component: () => import("../views/404.vue")
     },
+<<<<<<< HEAD
     { 
         path: "/admin",
         component: () => import("../views/Admin.vue")
     },
+=======
+    {
+        path: "/recap_exchange",
+        component: () => import("../components/Exchange/Game_Card_Exchange_Recap.vue")
+    },
+
+>>>>>>> 271698a9c4228344a73774c0e70ef881d8644d88
 ];
 
 export default new VueRouter({

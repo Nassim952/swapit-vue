@@ -112,9 +112,11 @@
 
           provider.getUsers(null, null, { "email": decoded.email }).then(response => {
             if(response.length > 0) {
+              response = response.shift()
               provider.patchUser(response.id,  {'ownGames': this.$data.aGamesTmp})
               .then(response => { 
-                if (response?.ownGames) {
+                if (response?.ownGames == []) {
+                  console.log(response.ownGames);
                   providerIgdb.getGames(response?.ownGames)
                   .then(response => {
                   this.$data.aGames = response ?? []
@@ -139,7 +141,7 @@
                 if (response?.wishGames) {
                   providerIgdb.getGames(response?.wishGames)
                   .then(response => {
-                  this.$data.aGames = response ?? []
+                    this.$data.aGames = response ?? []
                 });
                 } else this.clearList()
               })

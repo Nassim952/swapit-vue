@@ -1,16 +1,10 @@
 import Publisher from '../Connexion/Publisher'
 class Exchange extends Publisher {
   constructor() {
-    super('http://localhost:81/', {
-      'Accept': 'application/json'
-    });
-    this.apiKey = 'b0f9b9c9d3e0e9f7f7f0b8c8c7d';
-    this.baseUrl = 'https://localhost:81/';
-    this.headers = {
+    super('https://localhost:81/api', {
       'Accept': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'user-key': this.apiKey
-    };
+      'Content-Type': 'application/merge-patch+json',
+    });
   }
 
   async getExchange(id, properties = null) {
@@ -51,4 +45,8 @@ class Exchange extends Publisher {
   }
 }
 
+<<<<<<< HEAD
 export {Exchange};
+=======
+export { Exchange };
+>>>>>>> 271698a9c4228344a73774c0e70ef881d8644d88

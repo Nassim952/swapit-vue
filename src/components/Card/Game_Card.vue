@@ -2,8 +2,8 @@
   <div class="game_card">
     <img v-bind:src="coverPreUrl" class="icon">
     <div class="container">
-      <div>{{game.name}}</div>
-      <p>{{game.description}}</p>
+      <div>{{ game.name }}</div>
+      <p>{{ game.description }}</p>
     </div>
   </div>
 </template>
@@ -19,7 +19,7 @@ export default {
   },
   data() {
     return {
-      showSection: false, 
+      showSection: false,
       toggleIcon: "../../assets/icones/add.png",
     }
   },
@@ -32,8 +32,7 @@ export default {
 </script>
 
 <style scoped>
-
-.game_card{
+.game_card {
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -43,11 +42,13 @@ export default {
   overflow: hidden;
   border-radius: 1rem;
 }
+
 .icon-wrapper {
   margin: auto;
 }
+
 .icon {
-    width: 100%;
-    height: auto
+  width: 100%;
+  height: auto
 }
 </style>

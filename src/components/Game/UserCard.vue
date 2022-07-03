@@ -59,6 +59,10 @@ export default {
 </script>
 
 <style>
+.container-card{
+    margin-top: 50px;
+}
+
 .result-card {
     color: rgba(41, 100, 124);
     display: flex;
