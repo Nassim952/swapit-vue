@@ -91,14 +91,6 @@ export default {
         result = response.slice(1);
         this.$data.gamesToExchange = result;
       });
-
-      // var provider = new User()
-      // var providerGame = new Igdb();
-      // provider.getUser(this.$route.params.userid).then(response => {
-      //   this.$data.gamesToExchange = response?.ownGames ?? [];
-      //   var result = this.$data.gamesToExchange.shift();
-      //   this.$data.gamesToExchange = result;
-      // })
     },
     getGamesWish: async function () {
       var providerUser = new User();
@@ -117,14 +109,10 @@ export default {
     getGameWishSelected: async function () {
       var provider = new Igdb();
       provider.getGame(this.$route.params.gameid).then(response => {
-        this.$data.gameWishSelected = response;
+        this.$data.gameToExchange = response;
       });
     },
     addOwn: function (game) {
-      // if (!this.gameOwn(game)) {
-      //   this.$data.my_games.push(game)
-      // }
-      console.log('now owned')
       this.$data.gameWishSelected = game
     },
     gameOwn: function (game_id) {
@@ -152,8 +140,6 @@ export default {
           }).then(response => { console.log(response); })
         }
       })
-      // console.info(this.$data.gameToExchangeSelected);
-      // console.info(this.$data.gameWishSelected);
     },
   },
   provide() {
