@@ -5,19 +5,17 @@
       <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500&display=swap" rel="stylesheet">
       <Navbar/>
       <router-view />
-      <UserNavbar/>
     </div> 
 </template>
 
 
 <script>
 import Navbar from "./components/Navbar/Navbarold.vue";
-import UserNavbar from "./layouts/UserNavbar.vue";
 
 export default {
   name: "App",
   components: {
-    Navbar, UserNavbar
+    Navbar
   }
 };
 </script>

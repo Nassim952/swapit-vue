@@ -12,11 +12,6 @@
                     <router-link to="/games"><img class="picto-nav picto-search" src="../../assets/icones/search.svg" width="30" height="30"></router-link>
                 </div>
             </div>
-           
-            
-            
-            <!-- <SearchInput @input="updateQuery" :enableSuggestion="!home" @actif="actifSearch = !actifSearch"/> -->
-            
             <div class="picto-ctn">
                 <div class="sign-container">
                     <router-link to="/signin" class="link-nav">Connexion</router-link>
@@ -29,115 +24,100 @@
                 <button id="logout-btn" class="logout-btn" @click="logout"><img class="picto-nav" src="../../assets/images/logout.svg" width="20" height="20"></button>
             </div>
         </div>
-        <SideBar v-if="home && actifSearch "/>
-        <div v-if="home">
-            <div v-if="resources">
-                <GameLayer v-for="(game,key) in resources" :key="game.id+key" :game="game"/>
-            </div>
-        </div>
     </div>
 </template>
 
 <script>
-    // import SearchInput from "./SearchInput.vue"
-    // import GameLayer from "../Game/GameLayer.vue";
-    import SideBar from "../Filter/SideBar.vue";
-    import {Igdb} from "../../lib/Services/Igdb";
-    // import User from "../../lib/Services/User.js";
+
     export default {
-        components: {
-            // GameLayer,
-            SideBar,
-            // SearchInput
-        },
-        props: {
-            home: {
-                type: Boolean,
-                default: true
-            },
-        },
-    data: () => ({
-        searchQuery: null,
-        resources: [],
-        selectedFilters: {},
-        actifSearch: false,
-    }),
-    created() {
-        if(this.$props.home){
-            this.refreshRessource()
-        }
-    },
+//         props: {
+//             home: {
+//                 type: Boolean,
+//                 default: true
+//             },
+//         },
+//     data: () => ({
+//         searchQuery: null,
+//         resources: [],
+//         selectedFilters: {},
+//         actifSearch: false,
+//     }),
+//     created() {
+//         if(this.$props.home){
+//             this.refreshRessource()
+//         }
+//     },
     methods:{
         logout() {
             localStorage.clear();
         },
-        async refreshRessource() {
-            var provider = new Igdb()
-            var filters = this.$data.selectedFilters
-            filters.name = this.$data.searchQuery ?? ""
-            provider.getPopulars(null, null, filters).then(response => { this.$data.resources = response})
-        } ,
-        formatedFilters() {
-            var filters = filters = this.checkEmptySelectedFilter() ? '&': '';
-            console.log('filter : '+filters)
-            if (filters) {   
-                if(!this.checkEmptySelectedFilter('genres')){
-                filters = this.$data.selectedFilters.genres ? (filters != '' ? filters+"&" : filters) +`${
-                    (
-                        this.$data.selectedFilters.genres.map((genre, key) => `genres[${key}]=${genre}`)
-                    )
-                    .join('&')}` : filters
-                       console.log(filters)
-                }
-                if(!this.checkEmptySelectedFilter('platforms')){
-                filters = this.$data.selectedFilters.platforms ? (filters != '' ? filters+"&" : filters) +`${
-                    (
-                        this.$data.selectedFilters.platforms.map((platform, key) => `platforms[${key}]=${platform}`)
-                    ).join('&')}` : filters
-                       console.log(filters)
-                }
-                if(!this.checkEmptySelectedFilter('modes')){
-                filters = this.$data.selectedFilters.modes ? (filters != '' ? filters+"&" : filters) +`${
-                    (this.$data.selectedFilters.modes.map((mode, key) => `modes[${key}]=${mode}`)
-                    ).join('&')}` : filters
-                     console.log(filters)
-                }
-                console.log(filters)
-            }
-            console.log(filters)
-            return filters
-        }, 
-        updateFilters(filters, categorie) {
-            this.$data.selectedFilters[categorie] = filters;
-            if (this.checkEmptySelectedFilter(categorie)) {
-                delete  this.$data.selectedFilters[categorie]
-            }
-            this.refreshRessource()
-            console.log(this.$data.selectedFilters)
-        },
-        checkEmptySelectedFilter(categorie = null) {
+//         async refreshRessource() {
+//             var provider = new Igdb()
+//             var filters = this.$data.selectedFilters
+//             filters.name = this.$data.searchQuery ?? ""
+//             provider.getPopulars(null, null, filters).then(response => { this.$data.resources = response})
+//         } ,
+//         formatedFilters() {
+//             var filters = filters = this.checkEmptySelectedFilter() ? '&': '';
+//             console.log('filter : '+filters)
+//             if (filters) {   
+//                 if(!this.checkEmptySelectedFilter('genres')){
+//                 filters = this.$data.selectedFilters.genres ? (filters != '' ? filters+"&" : filters) +`${
+//                     (
+//                         this.$data.selectedFilters.genres.map((genre, key) => `genres[${key}]=${genre}`)
+//                     )
+//                     .join('&')}` : filters
+//                        console.log(filters)
+//                 }
+//                 if(!this.checkEmptySelectedFilter('platforms')){
+//                 filters = this.$data.selectedFilters.platforms ? (filters != '' ? filters+"&" : filters) +`${
+//                     (
+//                         this.$data.selectedFilters.platforms.map((platform, key) => `platforms[${key}]=${platform}`)
+//                     ).join('&')}` : filters
+//                        console.log(filters)
+//                 }
+//                 if(!this.checkEmptySelectedFilter('modes')){
+//                 filters = this.$data.selectedFilters.modes ? (filters != '' ? filters+"&" : filters) +`${
+//                     (this.$data.selectedFilters.modes.map((mode, key) => `modes[${key}]=${mode}`)
+//                     ).join('&')}` : filters
+//                      console.log(filters)
+//                 }
+//                 console.log(filters)
+//             }
+//             console.log(filters)
+//             return filters
+//         }, 
+//         updateFilters(filters, categorie) {
+//             this.$data.selectedFilters[categorie] = filters;
+//             if (this.checkEmptySelectedFilter(categorie)) {
+//                 delete  this.$data.selectedFilters[categorie]
+//             }
+//             this.refreshRessource()
+//             console.log(this.$data.selectedFilters)
+//         },
+//         checkEmptySelectedFilter(categorie = null) {
 
-            if (categorie) {
-                console.log(this.$data.selectedFilters?.[categorie])
-                console.log(this.$data.selectedFilters?.[categorie]?.length)
-                // if(this.$data.selectedFilters?.[categorie]){
-                    return this.$data.selectedFilters?.[categorie]?.length === 0 
-                // }
+//             if (categorie) {
+//                 console.log(this.$data.selectedFilters?.[categorie])
+//                 console.log(this.$data.selectedFilters?.[categorie]?.length)
+//                 // if(this.$data.selectedFilters?.[categorie]){
+//                     return this.$data.selectedFilters?.[categorie]?.length === 0 
+//                 // }
               
-            } else if (!this.$data.selectedFilters) {
-                return true
-            }
+//             } else if (!this.$data.selectedFilters) {
+//                 return true
+//             }
             
-        },
-        updateQuery(value) {
-            this.$data.searchQuery = value
-            this.refreshRessource()
-        }
-    },
-     provide() {
-        return {
-            updateFilters: this.updateFilters,
-        }
+//         },
+//         updateQuery(value) {
+//             this.$data.searchQuery = value
+//             this.refreshRessource()
+//         }
+//     },
+//      provide() {
+//         return {
+//             updateFilters: this.updateFilters,
+//         }
   },
     
     }
