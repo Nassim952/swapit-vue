@@ -53,7 +53,11 @@ const routes = [
         path: "/recap_exchange",
         component: () => import("../components/Exchange/Game_Card_Exchange_Recap.vue")
     },
-
+    {
+        path: "/user.edit/:id",
+        name: "user.edit",
+        component: () => import("../components/Admin/UserForm/userForm.vue")
+    },
 ];
 
 export default new VueRouter({

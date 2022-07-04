@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import UserForm from '../userform/UserForm.vue'
+import UserForm from './UserForm.vue'
 export default {
   name:'UserEdit',
   components: { UserForm },

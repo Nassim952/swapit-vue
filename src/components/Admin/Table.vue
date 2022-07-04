@@ -1,9 +1,7 @@
 <template>
   <div>
         <transition name="modal">
-            <modal v-if="isOpenModal" :data="modalData" 
-                @closeModal="closeModal"
-                @deleteUser="deleteUser" > 
+            <modal v-if="isOpenModal" :data="modalData"> 
             </modal>
         </transition>
         <div>
