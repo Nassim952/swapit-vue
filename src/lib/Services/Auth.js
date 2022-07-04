@@ -4,7 +4,7 @@ class Auth extends Publisher {
   constructor() {
     super('https://swapit-api-core.herokuapp.com/', {
       'Accept': 'application/json',
-      'Content-Type': 'application/merge-patch+json',
+      'Content-Type': 'application/json',
     });
     this.token = null;
   }

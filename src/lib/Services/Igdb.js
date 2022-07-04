@@ -3,7 +3,7 @@ class Igdb extends Publisher {
   constructor() {
     super('https://swapit-api-game.herokuapp.com/api', {
       'Accept': 'application/json',
-      'Content-Type': 'application/merge-patch+json',
+      'Content-Type': 'application/json',
     });
   }
 
