@@ -5,18 +5,19 @@
       <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500&display=swap" rel="stylesheet">
       <Navbar/>
       <router-view />
+      <UserNavbar/>
     </div> 
 </template>
 
 
 <script>
 import Navbar from "./components/Navbar/Navbarold.vue";
-
+import UserNavbar from "./layouts/UserNavbar.vue";
 
 export default {
   name: "App",
   components: {
-    Navbar,
+    Navbar, UserNavbar
   }
 };
 </script>
@@ -31,5 +32,11 @@ a{
 body{
   font-family: 'Montserrat Alternates', sans-serif !important; 
 }
+
+@media screen and (min-width:820px) {
+          html{
+                overflow: hidden;
+            }
+    }
 
 </style>
