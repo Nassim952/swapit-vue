@@ -1,7 +1,7 @@
 import Publisher from '../Connexion/Publisher'
 class User extends Publisher {
   constructor() {
-    super('http://localhost:81/', {
+    super('http://swapit-api-core.herokuapp.com/', {
       'Accept': 'application/json',
       'Content-Type': 'application/merge-patch+json',
       'Authorization': 'Bearer ' + localStorage.getItem('token') ?? 'null'

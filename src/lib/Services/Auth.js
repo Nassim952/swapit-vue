@@ -2,7 +2,7 @@ import Publisher from '../Connexion/Publisher'
 // import { User } from './User';
 class Auth extends Publisher {
   constructor() {
-    super('http://localhost:81/', {
+    super('https://swapit-api-core.herokuapp.com/', {
       'Accept': 'application/json',
       'Content-Type': 'application/merge-patch+json',
     });
