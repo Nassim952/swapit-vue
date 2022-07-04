@@ -1,6 +1,6 @@
 <template>
-  <div id="Filtre" class="menu-items">
-    <h1>{{title}}</h1>
+  <div id="Filtre" class="filter-items">
+    <span class="cat-filter">{{title}}</span>
     <Toggle>
       <!-- <div class="filter">
         <h1>{{title}}</h1>
@@ -15,12 +15,12 @@
           </li>
         </div>
       </div> -->
-      <li v-for="(value,key) in resource" :key="key" active-class="active" tag="button" exact class="side-btn" :ref="`${title}-${key}`">
+      <li v-for="(value,key) in resource" :key="key" active-class="active" tag="button" exact class="side-btn list-filters" :ref="`${title}-${key}`">
         <div class="link-container" @change="updateFilter">
-          <input type="checkbox" :id="key" name="scales" :value="value.id" v-model="checkedFilters">
-          <h2>
+          <input class="check-filter" type="checkbox" :value="value.id" v-model="selectedFilters">
+          <span class="filter-name">
                 {{value.name}}
-          </h2> 
+          </span> 
         </div>
       </li>
     </Toggle>
@@ -45,14 +45,14 @@
     data: () => ({
       searchQuery: null,
       mobile: false,
-      checkedFilters: [],
+      selectedFilters: [],
     }),
     methods: {
       updateFilter: function() {
-        this.updateFilters(this.$data.checkedFilters, this.$props.title);
+        this.updateFilters(this.$data.selectedFilters, this.$props.title);
       },
       checked(option) {
-        return this.checkedFilters.includes(option);
+        return this.selectedFilters.includes(option);
       }
 
     },
@@ -63,11 +63,15 @@
 <style scoped>
 /* body */
 /* title */
-h1{
+.cat-filter{
   color: #fb5d19;
   text-align: center;
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 400;
+  margin-bottom: 20px;
+  border-bottom: 2px solid;
+  padding-bottom: 10px;
+
 }
 /* tasks */
 .filter{
@@ -80,4 +84,26 @@ h1{
   margin: 0px auto;
 }
 
+.link-container{
+  display: flex;
+}
+
+.list-filters{
+  list-style: none;
+}
+
+.filter-name{
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+.filter-items {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 15px rgb(0 0 0 / 10%);
+}
 </style>

@@ -1,19 +1,14 @@
 import Publisher from '../Connexion/Publisher'
 class User extends Publisher {
   constructor() {
-    super('http://swapit-api-game.herokuapp.com/', {
-      'Accept': 'application/json'
-    });
-    this.apiKey = 'b0f9b9c9d3e0e9f7f7f0b8c8c7d';
-    this.baseUrl = 'https://swapit-api-game.herokuapp.com/';
-    this.headers = {
+    super('http://localhost:81/', {
       'Accept': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'user-key': this.apiKey
-    };
+      'Content-Type': 'application/merge-patch+json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token') ?? 'null'
+    });
   }
 
-  async getUser(id, properties = null) {
+  async getUser(id, properties = null)  {
     const response = await this.get(this.formatEndPoint('users',id, properties));
     return response;
   }
@@ -33,8 +28,8 @@ class User extends Publisher {
     return response;
   }
 
-  async getUsers(ids = null, properties = null) {
-    const response = await this.get(this.formatEndPoint('users',ids, properties));
+  async getUsers(ids = null, properties = null, filters = null) {
+    const response = await this.get(this.formatEndPoint('users',ids, properties, filters));
     return response;
   }
 }

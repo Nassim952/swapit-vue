@@ -1,16 +1,10 @@
 import Publisher from '../Connexion/Publisher'
-class User extends Publisher {
+class Exchange extends Publisher {
   constructor() {
-    super('http://swapit-api-game.herokuapp.com/', {
-      'Accept': 'application/json'
-    });
-    this.apiKey = 'b0f9b9c9d3e0e9f7f7f0b8c8c7d';
-    this.baseUrl = 'https://swapit-api-game.herokuapp.com/';
-    this.headers = {
+    super('https://localhost:81/api', {
       'Accept': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'user-key': this.apiKey
-    };
+      'Content-Type': 'application/merge-patch+json',
+    });
   }
 
   async getExchange(id, properties = null) {
@@ -40,6 +34,15 @@ class User extends Publisher {
     return response;
   }
 
+  async validExchanges(id = null) {
+    const response = await this.patch(`${'exchanges'}/${id}/accept`,{});
+    return response;
+  }
+
+  async refuseExchanges(id = null)  {
+    const response = await this.patch(`${'exchanges'}/${id}/refuse`,{});
+    return response;
+  }
 }
 
-export { User };
+export { Exchange };

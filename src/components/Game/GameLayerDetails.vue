@@ -1,103 +1,155 @@
 <template>
-  <div>
-    <div class="card">
-      <div class="card-header">
-        <img v-bind:src="coverPreUrl">
-      </div>
-      <div class="card-body">
-        <span class="tag tag-teal">{{ game.name }}</span>
-        <h4>
-          {{ game.summary }}
-        </h4>
-        <p>
-          {{ game.summary }}
-        </p>
-      </div>
+  <div class="container">
+    <div v-bind:style="backgroundCover" class="container-game-layer">
+        <div class="game-layer">
+            <div class="game-img">
+                    <img v-bind:src="coverPreUrl" width="80" height="80">
+            </div>
+            <div class="info-game">
+                <div class="title-game">{{game.name}}</div>
+                <div class="game-details">
+                    <div class="game-desc">{{game.summary}}</div>
+                    <div class="detail-plus">
+                      <div class="game-rating">{{Math.round(game.aggregatedRating)/10}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="user-card-container">
+      <UserCard v-for="(user, key) in users" :key="user.id + key" :user="user" :game="game" />
     </div>
   </div>
 </template>
 
 <script>
+import {Igdb} from "../../lib/Services/Igdb";
+import {User} from "../../lib/Services/User";
+import UserCard from "./UserCard.vue";
+
 export default {
   name: "GameLayerDetails",
-  data: () => ({
-    filters: {}
-  }),
-  props: {
-    game: {
-      type: Object,
-      required: true,
-    },
+  components: {
+    UserCard,
   },
+  data: () => ({
+    filters: {},
+    game: {},
+    users: [],
+  }),
   computed: {
     coverPreUrl: function () {
       return "//images.igdb.com/igdb/image/upload/t_1080p/" + this.game.cover + ".png";
     },
+    backgroundCover: function () {
+      return "background: url(https://images.igdb.com/igdb/image/upload/t_1080p/" + this.game.cover + ".png);";
+    },
+  },
+  methods: {
+    getGame: async function () {
+      var provider = new Igdb()
+      provider.getGame(this.$route.params.id).then(response => {
+        this.$data.game = response
+      })
+    },
+    getUsers: async function () {
+      var provider = new User()
+      provider.getUsers(null, null, { "ownGames" : this.$route.params.id }).then(response => {
+        console.log(response);
+        this.$data.users = response
+      })
+    },
+  },
+  created() {
+    this.getGame();
+    this.getUsers();
   },
 };
 </script>
 
 <style scoped>
-.flex-game-layer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  height: 250px;
+.container-game-layer {
+    min-width: 1000px;
+    height: 200px;
+    border-radius: 20px;
+    margin: 10px 20px;
+    display: flex;
+    background-repeat: no-repeat!important;
+    background-size: cover!important;
+    background-position: 50% 50%!important;
 }
-
-* {
-  box-sizing: border-box;
+.user-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: -webkit-fill-available;
+    justify-content: space-evenly;
+    align-items: center;
 }
-
-.card {
-  margin: 10px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-  width: 300px;
+.game-layer {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    padding: 20px;
+    width: 100%;
 }
-
-.card-header img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
+.game-img{
+    width: auto;
+    height: 100%;
+    border-radius: 20px;
+    margin-right: 40px;
 }
-
-.card-body {
+.game-img img{
+    width: auto;
+    height: 100%;
+    border-radius: 20px;
+}
+.info-game{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 80%;
+    font-weight: bold;
+}
+.title-game{
+    font-size: 27px;
+    color: rgba(255, 93, 25, 1);
+    margin-bottom: 10px;
+}
+.game-desc{
+    width: 50%;
+    font-size: 12px;
+    color: rgba(41, 100, 124);
+    height: 90px;
+    overflow: hidden;
+}
+.game-details{
+    display: flex;
+    justify-content: space-between;
+}
+.detail-plus{
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 20px;
-  min-height: 250px;
+  justify-content: space-between;
 }
-
-.tag {
-  background: #cccccc;
-  border-radius: 50px;
-  font-size: 12px;
-  margin: 0;
-  color: #fff;
-  padding: 2px 10px;
-  text-transform: uppercase;
-  cursor: pointer;
+.game-platforms{
+    font-size: 10px;
+    color: white;
+    background-color: rgba(255,93,25,1);
+    border-radius: 5px;
+    padding: 2px;
+    margin-bottom: 5px;
 }
-
-.tag-teal {
-  background-color: #47bcd4;
+.game-modes{
+  font-size: 10px;
+    color: white;
+    background-color: rgba(41, 100, 124, 1);
+    border-radius: 5px;
+    padding: 2px;
 }
-
-.tag-purple {
-  background-color: #5e76bf;
-}
-
-.tag-pink {
-  background-color: #cd5b9f;
-}
-
-.card-body p {
-  font-size: 13px;
-  margin: 0 0 40px;
+.game-rating{
+  align-self: center;
+  font-size: 36px;
+  color: rgba(255, 93, 25, 1);
 }
 </style>

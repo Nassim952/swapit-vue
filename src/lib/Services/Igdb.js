@@ -1,16 +1,10 @@
 import Publisher from '../Connexion/Publisher'
 class Igdb extends Publisher {
   constructor() {
-    super('https://swapit-api-game.herokuapp.com/api', {
-      'Accept': 'application/json'
-    });
-    this.apiKey = 'b0f9b9c9d3e0e9f7f7f0b8c8c7d';
-    this.baseUrl = 'https://swapit-api-game.herokuapp.com/api';
-    this.headers = {
+    super('https://localhost/api', {
       'Accept': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'user-key': this.apiKey
-    };
+      'Content-Type': 'application/merge-patch+json',
+    });
   }
 
   async getGame(id, properties = null) {
@@ -18,8 +12,8 @@ class Igdb extends Publisher {
     return data;
   }
 
-  async getGames(ids = null, properties = null) {
-    const data = await this.get(this.formatEndPoint('games',ids, properties));
+  async getGames(ids = null, properties = null,  filters = null) {
+    const data = await this.get(this.formatEndPoint('games',ids, properties, filters));
     return data;
   }
 
@@ -58,6 +52,7 @@ class Igdb extends Publisher {
       if(!('default' in filters)) {
         filters.default = 'popular';
       }
+      console.log(filters)
     }
     const data = await this.get(this.formatEndPoint('games',ids, properties, filters));
     return data;
