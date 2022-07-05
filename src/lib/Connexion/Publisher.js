@@ -48,7 +48,7 @@ class Publisher {
     }
 
     formatProperties(properties) {
-        return Array.isArray(properties) ? `${properties ? 'properties[]='+ properties.map(prop => {console.log(prop); return prop}).join('&properties[]='):''}`: ''; 
+        return Array.isArray(properties) ? `${properties ? 'properties[]='+ properties.map(prop => { return prop}).join('&properties[]='):''}`: ''; 
     }
 
     formatFilters(filters) {
