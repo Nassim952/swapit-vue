@@ -4,6 +4,10 @@ describe ('testing api', () =>{
     it ('should return 200 status code',async ()=>{
         const response = await request(baseurl).get('1')
         .trustLocalhost()
+        .expect("Content-Type", /json/)
         expect (response.statusCode).toBe(200)
+        
     });
 })
+
+
