@@ -1,7 +1,7 @@
 import Publisher from '../Connexion/Publisher'
 class Exchange extends Publisher {
   constructor() {
-    super('https://localhost:81/api', {
+    super('http://localhost:81/', {
       'Accept': 'application/json',
       'Content-Type': 'application/merge-patch+json',
     });
