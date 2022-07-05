@@ -51,12 +51,13 @@
 								<button @click="showExhanges = !showExchanges" v-if='!showExchanges' class="transition duration-200  ease-in-out mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Mes echanges</button>
 							</div>
 						</form>
+						<button @click="updateShowExchanges" v-if='!showExchanges' class="transition duration-200  ease-in-out mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Mes echanges</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="exchange-form">
-			<ExchangeForm></ExchangeForm>
+		<div v-if="showExchanges" class="exchange-form">
+			<ExchangeForm :userId="'4'"></ExchangeForm>
 		</div>
 	</div>
 </template>
@@ -82,7 +83,7 @@ export default {
 				email:'',
 				roles:[],
 			},
-			showExchanges:false,
+			showExchanges : true,
 		}
 	},
 	   created() {
@@ -156,6 +157,10 @@ export default {
 		},
 		removeRole(key){
 			this.userData.roles.splice(key,1)
+		},
+		
+		updateShowExchanges(){
+			this.showExchanges = !this.showExchanges
 		}
 	}
 }

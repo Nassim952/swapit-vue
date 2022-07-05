@@ -1,37 +1,129 @@
 <template>
     <div class="list-exchange-container">
         <h2>Echange</h2>
-        <div class="list-exchange">
-            <div class="exchange-el">
-                <div class="game-info">
-                    <div class="user-pseudo">Ton jeu</div>
-                    <div class="game_card">
-                        <img src="../../../assets/images/acv.png" width="80" height="80">
-                        <div class="text-game">
-                            <span>FIFA 22</span>
+        <h3>reçu</h3>
+        <div v-if="receivedExchanges.length">
+            <div class="list-exchange" v-for="(exchange,key) in receivedExchanges" :key="key+exchange.id+114">
+                <div class="exchange-el" >
+                    <div class="game-info">
+                        <div class="user-pseudo">Ton jeu</div>
+                        <div class="game_card">
+                            <img src="../../../assets/images/acv.png" width="80" height="80">
+                            <div class="text-game">
+                                <span>FIFA 22</span>
+                            </div>
+                        </div>
+                    </div>
+                    <img class="swap-img" src="../../../assets/images/swap.png" width="60" height="60"/>
+                    <div class="game-info">
+                        <div class="user-pseudo">Le jeu de Toto78</div>
+                        <div class="game_card">
+                            <img src="../../../assets/images/acv.png" width="80" height="80">
+                            <div class="text-game">
+                                <span>NBA 2K22</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <img class="swap-img" src="../../../assets/images/swap.png" width="60" height="60"/>
-                <div class="game-info">
-                    <div class="user-pseudo">Le jeu de Toto78</div>
-                    <div class="game_card">
-                        <img src="../../../assets/images/acv.png" width="80" height="80">
-                        <div class="text-game">
-                            <span>NBA 2K22</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button class="btn-delete-exchange"><img src="../../../assets/images/bin.png" height="10" width="10"></button>
+                <button @click="supExchange(exchange.id)" class="btn-delete-exchange"><img src="../../../assets/images/bin.png" height="10" width="10"></button>
+            </div> 
         </div>
+        <div v-else>
+           
+            <p>Vous n'avez reçu aucune demande d'échange</p>
+        </div>
+        <h3>Demandes d'échanges envoyées</h3>
+        <div v-if="sentExchanges.length">
+            <div class="list-exchange" v-for="(exchange,key) in sentExchanges" :key="key+exchange.id+114">
+                <div class="exchange-el" >
+                    <div class="game-info">
+                        <div class="user-pseudo">Ton jeu</div>
+                        <div class="game_card">
+                            <img src="../../../assets/images/acv.png" width="80" height="80">
+                            <div class="text-game">
+                                <span>FIFA 22</span>
+                            </div>
+                        </div>
+                    </div>
+                    <img class="swap-img" src="../../../assets/images/swap.png" width="60" height="60"/>
+                    <div class="game-info">
+                        <div class="user-pseudo">Le jeu de Toto78</div>
+                        <div class="game_card">
+                            <img src="../../../assets/images/acv.png" width="80" height="80">
+                            <div class="text-game">
+                                <span>NBA 2K22</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button @click="supExchange(exchange.id)" class="btn-delete-exchange"><img src="../../../assets/images/bin.png" height="10" width="10"></button>
+            </div>
+        </div>
+        <div v-else>
+            <p>Aucun échange</p>
+        </div>
+        
     </div>
 </template>
 
 <script>
- 
+    import {Exchange} from '../../../lib/Services/Exchange.js';
+    import {User} from '../../../lib/Services/User';
+
 export default {
 	name:'ExchangeForm',
+    props:{
+        userId:{
+            required:true,
+            type:String
+        }
+    },
+    data:function(){
+        return{
+            sentExchanges:[],
+            receivedExchanges:[],
+        }
+    },
+    created(){
+        this.refreshExhanges();
+    },
+    methods:{
+        supExchange(exchange_id){
+            const provider = new Exchange();
+            provider.delExchange(exchange_id)
+            .then((response)=>{
+                if(response){
+                    this.refreshExhanges();
+                   console.log(response)
+                }
+            })
+            
+        },
+        async refreshExhanges() {
+            const provider = new User();
+			provider.getReceivedExchanges(this.userId)
+			.then(response=>{
+                if(response){
+                    this.receivedExchanges = response ?? null;
+                }			
+			})
+			.catch(err=>{
+				console.log(err)
+			})
+            console.log(this.receivedExchanges)
+            provider.getSendExchanges(this.userId)
+			.then(response=>{
+                if(response){
+                    this.sentExchanges = response ?? null
+                }			
+			})
+			.catch(err=>{
+				console.log(err)
+			})
+            console.log(this.receivedExchanges)
+        }
+
+    }
     /* game: {
       type: Object,
       required: true

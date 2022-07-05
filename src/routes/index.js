@@ -13,7 +13,12 @@ const routes = [
     }, {
         path: "/games",
         component: () => import("../views/Games.vue")
-    }, { 
+    }, 
+    {
+        path: "/games/genre/:id",
+        component: () => import("../views/Games.vue")
+    }, 
+    { 
         path: "/owngameslist",
         component: () => import("../views/OwnList.vue")
     }, { 

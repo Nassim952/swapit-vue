@@ -39,10 +39,12 @@ export default {
     UserList: [],
   }),
   created() {
-    if (this.$props.home) {
-      this.refreshRessource()
+    if (this.$route.params.id){
+            this.selectedFilters.genres=[this.$route.params.id]
     }
-    this.getUser();
+
+   this.refreshRessource()
+   this.getUser();
   },
   methods: {
     async refreshRessource() {
