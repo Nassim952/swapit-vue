@@ -99,7 +99,8 @@ export default {
       var decoded = jwt_decode(token);
 
       provider.getUsers(null, null, { "email": decoded.email }).then(response => {
-        if(response.length > 0) {
+        if(response) {
+          response = response.shift()
           var ownGames = response?.ownGames
           ownGames.push(game.id)
           provider.patchUser(response.id,  {'ownGames': ownGames}).then(response => {
@@ -116,7 +117,8 @@ export default {
       var decoded = jwt_decode(token);
 
       provider.getUsers(null, null, { "email": decoded.email }).then(response => {
-        if(response.length > 0) {
+        if(response) {
+          response = response.shift()
           var wishGames = response?.wishGames
           wishGames.push(game.id)
           provider.patchUser(response.id,  {'wishGames': wishGames}).then(response => {

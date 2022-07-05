@@ -1,20 +1,17 @@
 <template>
   <div class="profil-game-card-container">
     <div class="cover-game-card">
-      <div class="cover-wrap">
-        <img style="width: 100px; border-radius: 10px;" v-bind:src="coverPreUrl" alt="cover">
+      <router-link :to="'/showGame/' + game.id">
+        <div class="cover-wrap">
+          <img style="width: 100px; border-radius: 10px;" v-bind:src="coverPreUrl" alt="cover">
+        </div>
+      </router-link>
+      <div class="game-card-info-wrapper">
         <div class="game-container">
           <div class="game-name">{{ game.name }}</div>
-          <div class="info-game-wrapper">
-            <span v-for="(genre, key) in genres.slice(0,1)" id="genres" :key="key" class="tag tag-teal">{{ genre.name }}</span>
-          </div>
         </div>
+        <span v-for="(genre, key) in genres.slice(0, 1)" id="genres" :key="key" class="tag tag-teal">{{ genre.name }}</span>
       </div>
-      <div>
-
-        <div class="game-rating">Note IGDB : {{ parseFloat(game.aggregated_rating).toFixed() }}</div>
-      </div>
-
     </div>
   </div>
 </template>
@@ -51,6 +48,9 @@ export default {
     backgroundCover: function () {
       return "background: url(https://images.igdb.com/igdb/image/upload/t_1080p/" + this.game.cover + ".png);background-repeat: no-repeat;background-size: cover;background-position: 50% 50%;";
     },
+    showGameUrl() {
+      return "/game/" + this.game.id;
+    }
   },
 };
 </script>
@@ -58,11 +58,21 @@ export default {
 <style scoped>
 .cover-game-card {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   background-color: #D4E0E5;
   padding: 20px;
   border-radius: 15px;
+}
+
+.game-card-info-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.profil-game-card-container {
+  width: -webkit-fill-available;
+  margin-top: 10px;
 }
 
 .game-rating {
@@ -70,9 +80,8 @@ export default {
 }
 
 .game-container {
-  display: flex;
-  flex-wrap: wrap;
-  margin-left: 30px;
+  height: 130px;
+  margin-left: 15px;
 }
 
 .info-game-wrapper {
@@ -90,7 +99,6 @@ export default {
 
 .cover-wrap {
   display: flex;
-  width: 200px;
   justify-content: space-between;
 }
 </style>

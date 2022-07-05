@@ -8,7 +8,7 @@
       <GameCardList v-show="aGames" :games="aGames" />
       <div class="button-container">
         <!-- <Button class="valider" title="Valider" :onClick="HandleSubmit" /> -->
-        <Button class="valider" title="Valider" :onClick="HandleSubmit" />
+        <!-- <Button class="valider" title="Valider" :onClick="HandleSubmit" /> -->
         <Button class="vider" title="Vider" :onClick="clearList" />
       </div>
     </div>
@@ -60,14 +60,46 @@ export default {
   methods: {
     async refreshRessource() {
       const provider = new User()
-      if (this.$props.route == "own") {
-        provider.getUser(1).then(response => { this.$data.aGamesTmp = response?.ownGames ?? [] })
-        // this.updateOwnGames()
-      } else {
-        console.log('wishGames');
-        provider.getUser(1).then(response => { this.$data.aGamesTmp = response?.wishGames ?? [] })
-        // this.updateWishGames()
-      }
+      var token = localStorage.getItem('token');
+      var decoded = jwt_decode(token);
+
+      provider.getUsers(null, null, { "email": decoded.email }).then(response => {
+        response = response.shift();
+        if (this.$props.route == "own") {
+          provider.getUser(response.id).then(response => { this.$data.aGamesTmp = response?.ownGames ?? [] })
+          this.updateCurrentOwnGames(response.id)
+        } else {
+          console.log('wishGames');
+          provider.getUser().then(response => { this.$data.aGamesTmp = response?.wishGames ?? [] })
+          this.updateCurrentWishGames(response.id)
+        }
+      })
+    },
+    updateCurrentOwnGames(idUser) {
+      var provider = new User()
+      var providerGame = new Igdb()
+      provider.getUser(idUser).then(response => {
+        if (response) {
+          response.ownGames.forEach(element => {
+            providerGame.getGames(null, null, { "id": element }).then(response => {
+              this.$data.aGames.push(response.shift())
+            })
+          });
+        }
+      })
+    },
+    updateCurrentWishGames(idUser) {
+      var provider = new User()
+      var providerGame = new Igdb()
+      provider.getUser(idUser).then(response => {
+        if (response) {
+          response.wishGames.forEach(element => {
+            providerGame.getGames(null, null, { "id": element }).then(response => {
+              this.$data.aGames.push(response.shift())
+            })
+          });
+        }
+      })
     },
     add: function (game) {
       if (!this.added(game)) {
@@ -92,7 +124,24 @@ export default {
     },
     clearList: function () {
       this.$data.aGamesTmp = []
-      console.info(this.$data.aGamesTmp)
+
+      const provider = new User()
+      var token = localStorage.getItem('token');
+      var decoded = jwt_decode(token);
+
+      provider.getUsers(null, null, { "email": decoded.email }).then(response => {
+        response = response.shift();
+        if(this.$props.route == "own"){
+          provider.patchUser(response.id, { 'ownGames': [] }).then(response => {
+            console.log(response);
+          })
+        }else{
+          provider.patchUser(response.id, { 'wishGames': [] }).then(response => {
+            console.log("wesh",response);
+          })
+        }
+      })
+
     },
     HandleSubmit: function () {
       console.log('HandleSubmit');
@@ -112,7 +161,7 @@ export default {
       var token = localStorage.getItem('token');
       var decoded = jwt_decode(token);
       console.log(decoded.email);
-      
+
       provider.getUsers(null, null, { "email": decoded.email }).then(response => {
 
         if (response) {
