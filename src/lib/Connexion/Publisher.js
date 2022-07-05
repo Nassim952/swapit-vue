@@ -28,7 +28,9 @@ class Publisher {
     }
 
     delete = async function(url) {
-         this.instance.delete(url).then(response => { return response.data }).catch(error => { console.log(error) }) 
+        console.log(url)
+        var response = await this.instance.delete(url).then(response => { return response }).catch(error => { console.log(error) }) 
+        return response
     }
 
     formatEndPoint(entity, ids, properties, filters) {
