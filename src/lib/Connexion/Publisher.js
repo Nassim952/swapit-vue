@@ -29,7 +29,9 @@ class Publisher {
     }
 
     delete = async function(url) {
-         this.instance.delete(url).then(response => { return response.data }).catch(error => { console.log(error) }) 
+        console.log(url)
+        var response = await this.instance.delete(url).then(response => { return response }).catch(error => { console.log(error) }) 
+        return response
     }
 
     formatEndPoint(entity, ids, properties, filters) {
@@ -49,7 +51,7 @@ class Publisher {
     }
 
     formatProperties(properties) {
-        return Array.isArray(properties) ? `${properties ? 'properties[]='+ properties.map(prop => {console.log(prop); return prop}).join('&properties[]='):''}`: ''; 
+        return Array.isArray(properties) ? `${properties ? 'properties[]='+ properties.map(prop => { return prop}).join('&properties[]='):''}`: ''; 
     }
 
     formatFilters(filters) {

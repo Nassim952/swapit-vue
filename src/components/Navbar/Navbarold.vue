@@ -13,11 +13,6 @@
                             src="../../assets/icones/search.svg" width="30" height="30"></router-link>
                 </div>
             </div>
-
-
-
-            <!-- <SearchInput @input="updateQuery" :enableSuggestion="!home" @actif="actifSearch = !actifSearch"/> -->
-
             <div class="picto-ctn">
                 <div class="sign-container">
                     <router-link v-if="hidden" to="/signin" class="link-nav">Connexion</router-link>

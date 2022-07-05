@@ -9,6 +9,7 @@ class Exchange extends Publisher {
 
   async getExchange(id, properties = null) {
     const response = await this.get(this.formatEndPoint('exchanges',id, properties));
+    console.log('getExchange', response)
     return response;
   }
 
@@ -45,4 +46,4 @@ class Exchange extends Publisher {
   }
 }
 
-export { Exchange };
+export {Exchange};

@@ -23,9 +23,10 @@
         <div class="card-details">
           <div class="card-body">
             <div class="tags">
-              <span v-for="(genre, key) in genres" id="genres" :key="key" class="tag tag-teal">{{ genre.name }}</span>
+              <router-link v-for="(genre, key) in genres" :key="key" :to="'/games/genre/'+ genre.id">
+                <span  id="genres"  class="tag tag-teal">{{ genre.name }}</span>
+              </router-link>             
             </div>
-
             <p>
               {{ game.summary.slice(0, 500) }}
             </p>
