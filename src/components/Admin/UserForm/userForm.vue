@@ -31,11 +31,17 @@
 							<div class="md:flex md:flex-row md:space-x-4 w-full text-xs">
 								<div class="w-full flex flex-col mb-3">
 									<label class="font-semibold text-gray-600 py-2">role</label>
-									<select v-model="userData.roles" class="block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4 md:w-full "   >
-											<option value="ROLE_ADMIN">Admin</option>
-											<option value="ROLE_USER">Utilisateur</option>
-										
+									<select @change="addRole($event)"  class="block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4 md:w-full "   >
+											<option value='ROLE_ADMIN'>Admin</option>
+											<option value='ROLE_USER'>Utilisateur</option>
 									</select>
+									
+									<div v-for="(role,key) in userData.roles" :key="role+key">
+										<p class="text-sm text-red-500 hidden mt-3" id="error">{{role}}</p>
+										<button @click="removeRole(key)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
+											<span class="material-icons">delete</span></button>
+									</div>
+									
 									<p class="text-sm text-red-500 hidden mt-3" id="error">Please fill out this field.</p>
 								</div>
 								</div>
@@ -87,8 +93,9 @@ export default {
 		},
 		createUser() {
 			const data = {
-				name:this.userData.name,
+				username:this.userData.username,
 				email:this.userData.email,
+				roles:this.userData.roles,
 			}
 			const provider = new User();
 			provider.postUser(data)
@@ -101,8 +108,9 @@ export default {
 		},
 		updateUser(){
 			const data = {
-				name:this.userData.name,
+				username:this.userData.username,
 				email:this.userData.email,
+				roles:this.userData.roles,
 			}
 			const provider = new User();
 			provider.patchUser(this.userData.id ,data)
@@ -133,6 +141,16 @@ export default {
 				this.createUser()
 			}
 		},
+		addRole(e){
+			if(e.target.value){
+				if(this.userData.roles.indexOf(e.target.value) == -1){
+					this.userData.roles.push(e.target.value)
+				}
+			}
+		},
+		removeRole(key){
+			this.userData.roles.splice(key,1)
+		}
 	}
 }
 </script>
