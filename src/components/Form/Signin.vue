@@ -53,7 +53,7 @@
         }
       )
       .then(function (response) {
-          console.log(data.email);
+          /* console.log(data.email);
           for (var i=0; i<=response.data['hydra:member'].length ; i++) {
             if(data.email == response.data['hydra:member'][i]['email'] && data.password == response.data['hydra:member'][i]['password']){
               localStorage.setItem('username', response.data['hydra:member'][i]['username']);
@@ -64,7 +64,7 @@
               // this.$data.connexion_failed = true
             }
             console.log(provider.getToken());
-          }     
+          } */     
       })
 
 
