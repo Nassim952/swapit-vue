@@ -1,26 +1,31 @@
 import Publisher from '../Connexion/Publisher'
+// import { User } from './User';
 class Auth extends Publisher {
   constructor() {
-    super('https://localhost:81/', {
-      'Accept': 'application/json'
-    });
-    this.apiKey = 'b0f9b9c9d3e0e9f7f7f0b8c8c7d';
-    this.baseUrl = 'https://localhost:81/';
-    this.headers = {
+    super('http://localhost:81/', {
       'Accept': 'application/json',
-      'user-key': this.apiKey
-    };
+      'Content-Type': 'application/merge-patch+json',
+    });
     this.token = null;
   }
   async login(data) {
-    const response = await this.post('login_check', {auth: data});
-    this.token = response.token;
+    const response = await this.post('login_check', data);
+    response?.token ? localStorage.setItem('token', response.token) : this.token = null;
     return response;
   }
 
   async refresh(data) {
-    const response = await this.post('login', {auth: data});
+    const response = await this.post('login', data);
     return response;
+  }
+
+  disconnect() {
+    this.token = null;
+    localStorage.clear();
+  }
+
+  getToken() {
+    return this.token;
   }
   
 }

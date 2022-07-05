@@ -23,8 +23,8 @@ const routes = [
         path: "/subscription",
         component: () => import("../views/Subscription.vue")
     }, { 
-        path: "/exchange",
-        component: () => import("../views/Exchange.vue")
+        path: "/exchange/:userid/:gameid",
+        component: () => import("../components/Exchange/Game_Exchange.vue")
     }, { 
         path: "/profile",
         component: () => import("../views/Profil.vue")
@@ -37,6 +37,23 @@ const routes = [
         path: "/popularGames",
         component: () => import("../views/popularGames.vue")
     },
+    {
+        path: "/showGame/:id",
+        component: () => import("../components/Game/GameLayerDetails.vue"),
+    },
+    { 
+        path: '*',
+        component: () => import("../views/404.vue")
+    },
+    { 
+        path: "/admin",
+        component: () => import("../views/Admin.vue")
+    },
+    {
+        path: "/recap_exchange",
+        component: () => import("../components/Exchange/Game_Card_Exchange_Recap.vue")
+    },
+
 ];
 
 export default new VueRouter({
