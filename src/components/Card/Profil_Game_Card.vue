@@ -6,7 +6,7 @@
         <div class="game-container">
           <div class="game-name">{{ game.name }}</div>
           <div class="info-game-wrapper">
-            <span v-for="(genre, key) in genres" id="genres" :key="key" class="tag tag-teal">{{ genre.name }}</span>
+            <span v-for="(genre, key) in genres.slice(0,1)" id="genres" :key="key" class="tag tag-teal">{{ genre.name }}</span>
           </div>
         </div>
       </div>
