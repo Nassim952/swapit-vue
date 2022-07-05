@@ -44,7 +44,9 @@
 									
 								<p class="info-champs">Les champs obligatoires sont marquer  <abbr title="Required field">*</abbr></p>
 								<div class="btn-form-container">
-									<button @click="this.$router.push('/')" class="btn-form">Annuler</button>
+									<router-link to="/admin">
+										<button class="btn-form">Annuler</button>
+									</router-link>
 									<button  type="submit" v-if='!userData' class="btn-form">Créer</button>
 									<button v-else class="btn-form">Modifier</button>
 								</div>

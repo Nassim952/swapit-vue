@@ -2,31 +2,10 @@
     <div class="list-exchange-container">
         <h2>Echange</h2>
         <h3>reçu</h3>
-        <div v-if="receivedExchanges.length">
+       <div v-if="receivedExchanges.length">
             <div class="list-exchange" v-for="(exchange,key) in receivedExchanges" :key="key+exchange.id+114">
-                <div class="exchange-el" >
-                    <div class="game-info">
-                        <div class="user-pseudo">Ton jeu</div>
-                        <div class="game_card">
-                            <img src="../../../assets/images/acv.png" width="80" height="80">
-                            <div class="text-game">
-                                <span>FIFA 22</span>
-                            </div>
-                        </div>
-                    </div>
-                    <img class="swap-img" src="../../../assets/images/swap.png" width="60" height="60"/>
-                    <div class="game-info">
-                        <div class="user-pseudo">Le jeu de Toto78</div>
-                        <div class="game_card">
-                            <img src="../../../assets/images/acv.png" width="80" height="80">
-                            <div class="text-game">
-                                <span>NBA 2K22</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button @click="supExchange(exchange.id)" class="btn-delete-exchange"><img src="../../../assets/images/bin.png" height="10" width="10"></button>
-            </div> 
+                <ExchangeCard :exchange="exchange" />
+            </div>
         </div>
         <div v-else>
            
@@ -35,28 +14,7 @@
         <h3>Demandes d'échanges envoyées</h3>
         <div v-if="sentExchanges.length">
             <div class="list-exchange" v-for="(exchange,key) in sentExchanges" :key="key+exchange.id+114">
-                <div class="exchange-el" >
-                    <div class="game-info">
-                        <div class="user-pseudo">Ton jeu</div>
-                        <div class="game_card">
-                            <img src="../../../assets/images/acv.png" width="80" height="80">
-                            <div class="text-game">
-                                <span>FIFA 22</span>
-                            </div>
-                        </div>
-                    </div>
-                    <img class="swap-img" src="../../../assets/images/swap.png" width="60" height="60"/>
-                    <div class="game-info">
-                        <div class="user-pseudo">Le jeu de Toto78</div>
-                        <div class="game_card">
-                            <img src="../../../assets/images/acv.png" width="80" height="80">
-                            <div class="text-game">
-                                <span>NBA 2K22</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button @click="supExchange(exchange.id)" class="btn-delete-exchange"><img src="../../../assets/images/bin.png" height="10" width="10"></button>
+                <ExchangeCard :exchange="exchange" />
             </div>
         </div>
         <div v-else>
@@ -69,6 +27,7 @@
 <script>
     import {Exchange} from '../../../lib/Services/Exchange.js';
     import {User} from '../../../lib/Services/User';
+    import ExchangeCard from './exchangeCard.vue'
 
 export default {
 	name:'ExchangeForm',
@@ -78,10 +37,15 @@ export default {
             type:String
         }
     },
+    components:{
+        ExchangeCard
+    },
     data:function(){
         return{
             sentExchanges:[],
             receivedExchanges:[],
+            receivedExchangesTmp:[],
+            sentExchangesTmp:[],
         }
     },
     created(){
@@ -103,18 +67,18 @@ export default {
             const provider = new User();
 			provider.getReceivedExchanges(this.userId)
 			.then(response=>{
+                 console.log(response);
                 if(response){
-                    this.receivedExchanges = response ?? null;
+                    this.receivedExchanges = response;
                 }			
 			})
 			.catch(err=>{
 				console.log(err)
 			})
-            console.log(this.receivedExchanges)
             provider.getSendExchanges(this.userId)
 			.then(response=>{
                 if(response){
-                    this.sentExchanges = response ?? null
+                    this.sentExchanges = response;
                 }			
 			})
 			.catch(err=>{
@@ -122,8 +86,12 @@ export default {
 			})
             console.log(this.receivedExchanges)
         }
-
-    }
+    },
+    provide() {
+        return {
+            supExchange: this.supExchange,
+        }
+        }
     /* game: {
       type: Object,
       required: true
