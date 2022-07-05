@@ -1,33 +1,31 @@
 <template>
     <div class="list-exchange-container">
-        <h2>Echange</h2>
-        <h3>reçu</h3>
-       <div v-if="receivedExchanges.length">
-            <div class="list-exchange" v-for="(exchange,key) in receivedExchanges" :key="key+exchange.id+114">
-                <ExchangeCard :exchange="exchange" />
-            </div>
+        <h2 class="title-block">Listes d'échanges</h2>
+        <h4>Demandes d'échanges reçu</h4>
+        <div v-if="receivedExchanges.length">
+                <div class="list-exchange" v-for="(exchange,key) in receivedExchanges" :key="key+exchange.id+114">
+                    <ExchangeCard :exchange="exchange" />
+                </div>
         </div>
         <div v-else>
-           
-            <p>Vous n'avez reçu aucune demande d'échange</p>
+            <p>L'utilisateur n'a reçu aucune demande d'échange</p>
         </div>
-        <h3>Demandes d'échanges envoyées</h3>
+        <h4>Demandes d'échanges envoyées</h4>
         <div v-if="sentExchanges.length">
             <div class="list-exchange" v-for="(exchange,key) in sentExchanges" :key="key+exchange.id+114">
                 <ExchangeCard :exchange="exchange" />
             </div>
         </div>
         <div v-else>
-            <p>Aucun échange</p>
+            <p>L'utilisateur n'a envoyé aucune demande d'échange</p>
         </div>
-        
     </div>
 </template>
 
 <script>
     import {Exchange} from '../../../lib/Services/Exchange.js';
     import {User} from '../../../lib/Services/User';
-    import ExchangeCard from './exchangeCard.vue'
+    import ExchangeCard from './exchangeCard.vue';
 
 export default {
 	name:'ExchangeForm',
@@ -91,16 +89,7 @@ export default {
         return {
             supExchange: this.supExchange,
         }
-        }
-    /* game: {
-      type: Object,
-      required: true
-    },
-    computed: {
-    coverPreUrl: function () {
-      return "//images.igdb.com/igdb/image/upload/t_1080p/" + this.game.cover + ".png";
-    },
-  }, */
+    }
 };
 
 </script>
@@ -154,18 +143,7 @@ export default {
 .user-pseudo{
     margin-bottom: 10px;
 }
-.btn-delete-exchange{
-    position: absolute;
-    background-color: rgb(252, 87, 87);
-    border: none;
-    border-radius: 0px 20px 0px 10px;
-    color: white;
-    transition: all 0.3s ease;
-    right: 40px;
-    margin-top: 10px;
-    padding: 3px 10px;
-}
-.btn-delete-exchange:hover{
-    background-color: rgb(173, 0, 0);
+.title-block{
+    margin-bottom: 30px;
 }
 </style>

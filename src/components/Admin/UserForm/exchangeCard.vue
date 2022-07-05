@@ -178,11 +178,11 @@ export default {
     position: absolute;
     background-color: rgb(252, 87, 87);
     border: none;
-    border-radius: 0px 20px 0px 10px;
+    border-radius: 0px 10px 0px 10px;
     color: white;
     transition: all 0.3s ease;
     right: 40px;
-    margin-top: 10px;
+    margin-top: -155px;
     padding: 3px 10px;
 }
 .btn-delete-exchange:hover{
