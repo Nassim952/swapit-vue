@@ -12,11 +12,10 @@
 <script>
 import Navbar from "./components/Navbar/Navbarold.vue";
 
-
 export default {
   name: "App",
   components: {
-    Navbar,
+    Navbar
   }
 };
 </script>
@@ -31,5 +30,4 @@ a{
 body{
   font-family: 'Montserrat Alternates', sans-serif !important; 
 }
-
 </style>

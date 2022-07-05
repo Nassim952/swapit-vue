@@ -23,9 +23,10 @@
         <div class="card-details">
           <div class="card-body">
             <div class="tags">
-              <span v-for="(genre, key) in genres" id="genres" :key="key" class="tag tag-teal">{{ genre.name }}</span>
+              <router-link v-for="(genre, key) in genres" :key="key" :to="'/games/genre/'+ genre.id">
+                <span  id="genres"  class="tag tag-teal">{{ genre.name }}</span>
+              </router-link>             
             </div>
-
             <p>
               {{ game.summary.slice(0, 500) }}
             </p>
@@ -99,7 +100,8 @@ export default {
       var decoded = jwt_decode(token);
 
       provider.getUsers(null, null, { "email": decoded.email }).then(response => {
-        if(response.length > 0) {
+        if(response) {
+          response = response.shift()
           var ownGames = response?.ownGames
           ownGames.push(game.id)
           provider.patchUser(response.id,  {'ownGames': ownGames}).then(response => {
@@ -116,7 +118,8 @@ export default {
       var decoded = jwt_decode(token);
 
       provider.getUsers(null, null, { "email": decoded.email }).then(response => {
-        if(response.length > 0) {
+        if(response) {
+          response = response.shift()
           var wishGames = response?.wishGames
           wishGames.push(game.id)
           provider.patchUser(response.id,  {'wishGames': wishGames}).then(response => {

@@ -42,7 +42,7 @@ export default {
   computed: {
     myList() {
       return this.$props.games ?? []
-    }
+    },
 
     
     // sortMode: function(s) {

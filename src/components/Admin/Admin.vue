@@ -1,26 +1,23 @@
 <template>
     <div>
         <div>
-            <Table :datas="datas" :titles="titles" v-if="datas"  @delete='deleteData' @edit="showEditModal"/>
+            <Table :datas="datas" :titles="titles" v-if="datas" @retrieveList="retriveList" :choice="choice" :page="page">
+                <tr>
+                    <th v-for="(title, key) in titles" :key="title+key">
+                    {{title}}
+                    </th>
+                </tr>
+            </Table>
             <h3 v-else>Désolé , il n'y a pas de données pour cette table </h3>
             <h4>Choisir une autre table :</h4>
-            <button class="userChoice" @click="updateChoice">Utilisateurs</button>
-            <button class="swapChoice" @click="updateChoice">Echanges</button>
-        </div>
-        <div v-if="showEdit">
-            <div v-if="enableEdit">
-                <input v-for="(value,key) in datas" :key="data.id+key" type="text" v-model="data.id" placeholder="id" />
-            </div>
-            <div v-else>
-                <p v-for="(value,key) in datas" :key="data.id+key" type="text" placeholder="id"> {{key}} : {{value}}</p>
-            </div>
+            <button v-if="choice !== 'users'" class="userChoice" @click="updateChoice">Utilisateurs</button>
+            <button v-else class="swapChoice" @click="updateChoice">Echanges</button>
         </div>
     </div>
 </template>
 <script>
     import { User } from '../../lib/Services/User';
     import { Exchange } from '../../lib/Services/Exchange';
-    // import Input from '../Inputs/Input.vue';
     import Table from "./Table.vue";
 
     export default {
@@ -37,6 +34,7 @@
                 enableEdit: false,
                 dataEdit: {},
                 showEdit: false,
+                page: 1,
             }
         },
         created() {
@@ -44,24 +42,25 @@
         },
         provide (){
             return {
-                deleteData : this.deleteData
+                retriveList : this.retriveList
             }
         },
         methods: {
-            getDatas: function () {
+            getDatas: function (filters = null) {
                 if (this.choice == 'users') {
                     const provider = new User()
-                
-                    provider.getUsers()
-                    .then(response => {this.datas = response})
+                    provider.getUsers(null,['id','username','email','ownGames','wishGames'], filters)
+                    .then(response => {
+                        this.datas = response
+                        
+                        this.updateTitles()})
                     .catch(err => {
                         this.$data.datas = null;
                         console.error(err)
                     })
                 } else {
                     const provider = new Exchange()
-                
-                    provider.getExchanges()
+                    provider.getExchanges(null,null, filters)
                     .then(response => {this.datas = response})
                     .catch(err => {
                         this.$data.datas = null;
@@ -70,34 +69,7 @@
                     })
                 }
             },
-            deleteData: function(id) {
-               if (this.choice == 'users') {
-                    const provider = new User()
-                
-                    provider.delUser(id)
-                    .then(response => {this.datas = response})
-                    .catch(err => {
-                        this.$data.datas = null;
-                        console.error(err)
-                    })
-                } else {
-                    const provider = new Exchange()
-                
-                    provider.delExchange(id)
-                    .then(response => {this.datas = response})
-                    .catch(err => {
-                        this.$data.datas = null;
-                        console.error(err)
-                    })
-                }
-            },
-            showEditModal: function(data) {
-                this.$data.dataEdit = data
-                this.$data.showEdit = true
-            },
-            closeEdit: function() {
-                this.$data.showEdit = false
-            },
+            
             updateTitles: function () {
                 if (this.$data.datas) {
                     let titles = []
@@ -114,6 +86,9 @@
                     this.$data.choice = 'users'
                 }
                 this.getDatas()
+            }, retriveList: function (filter = null) {
+                this.$data.page = filter ?? 1
+                this.getDatas({'page': this.$data.page})
             }
         },
         

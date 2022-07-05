@@ -24,12 +24,23 @@ class User extends Publisher {
   }
 
   async delUser(id) {
+    console.log('delete' ,id)
     const response = await this.delete(this.formatEndPoint('users',id));
     return response;
   }
 
   async getUsers(ids = null, properties = null, filters = null) {
     const response = await this.get(this.formatEndPoint('users',ids, properties, filters));
+    return response;
+  }
+
+  async getReceivedExchanges(id) {
+    const response = await this.get(`${'users'}/${id}/received_exchanges`,{});
+    return response;
+  }
+
+  async getSendExchanges(id) {
+    const response = await this.get(`${'users'}/${id}/send_exchanges`,{});
     return response;
   }
 }
