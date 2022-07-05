@@ -70,6 +70,7 @@
     methods:{
         logout() {
             localStorage.clear();
+            this.$router.push("/");
         },
         async refreshRessource() {
             var provider = new Igdb()
