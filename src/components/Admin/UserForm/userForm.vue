@@ -7,54 +7,48 @@
 						<div class="flex flex-col sm:flex-row items-center">
 							<h2 v-if="!userData" class="font-semibold text-lg mr-auto">Creer un Utilisateur</h2>
 							<h2 v-else class="font-semibold text-lg mr-auto">Modifier un utilisateur</h2>
-							<div class="w-full sm:w-auto sm:ml-auto mt-3 sm:mt-0"></div>
 						</div>
 						<form @submit.prevent="saveUser" class="mt-5">
 							<div class="form">
 								<div class="md:flex flex-row md:space-x-4 w-full text-xs">
 									<div class="mb-3 space-y-2 w-full text-xs">
-										<label  class="font-semibold text-gray-600 py-2">identifiant <abbr title="required">*</abbr></label>
-										<input v-model="userData.username" placeholder="Frist Name" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" required="required" type="text" name="integration[shop_name]" id="integration_shop_name">
-										<small class="text-red text-xs hidden">merci de saisir ce champ.</small>
+										<label  class="label-user-form py-2">Id utilisateur <abbr title="required">*</abbr></label>
+										<div class="flex flex-wrap items-stretch w-full mb-4 relative">
+											<input v-model="userData.username" placeholder="Frist Name" class="input-user-form" required="required" type="text" name="integration[shop_name]" id="integration_shop_name">
+										</div>
 									</div>
 								</div>
 								<div class="mb-3 space-y-2 w-full text-xs">
-									<label class=" font-semibold text-gray-600 py-2">Your email<abbr title="required">*</abbr></label>
+									<label class="label-user-form py-2">Email utilisateur<abbr title="required">*</abbr></label>
 									<div class="flex flex-wrap items-stretch w-full mb-4 relative">
-										<div class="flex">
-											<span class=" flex items-center leading-normal bg-grey-lighter border-1 rounded-r-none border border-r-0 border-blue-300 px-3 whitespace-no-wrap text-grey-dark text-sm w-12 h-10 bg-blue-500 justify-center items-center  text-xl rounded-lg text-white">
-												<span class="material-icons"></span>
-										</span>
-										</div>
-										<input v-model="userData.email" type="email" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border border-l-0 h-10 border-grey-light rounded-lg rounded-l-none px-3 relative focus:border-blue focus:shadow" placeholder="abcxy@abc.com" required>
+										<input v-model="userData.email" type="email" class="input-user-form" placeholder="abcxy@abc.com" required>
 									</div>
 								</div>
 								<div class="md:flex md:flex-row md:space-x-4 w-full text-xs">
 									<div class="w-full flex flex-col mb-3">
-										<label class="font-semibold text-gray-600 py-2">role</label>
-										<select @change="addRole($event)"  class="block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4 md:w-full "   >
-												<option value='ROLE_ADMIN'>Admin</option>
-												<option value='ROLE_USER'>Utilisateur</option>
-										</select>
-										
-										<div v-for="(role,key) in userData.roles" :key="role+key">
-											<p class="text-sm text-red-500 hidden mt-3" id="error">{{role}}</p>
-											<button @click="removeRole(key)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
-												<span class="material-icons">delete</span></button>
+										<label class="label-user-form py-2">Role utilisateur</label>
+										<div class="flex flex-wrap items-stretch w-full mb-4 relative">
+											<select @change="addRole($event)"  class="input-user-form">
+													<option value='ROLE_ADMIN'>Admin</option>
+													<option value='ROLE_USER'>Utilisateur</option>
+											</select>
 										</div>
-										<small class="text-red text-xs hidden">merci de saisir ce champ.</small>
-										<p class="text-sm text-red-500 hidden mt-3" id="error">merci de saisir ce champ.</p>
+									</div>
+									<div class="role-container" v-for="(role,key) in userData.roles" :key="role+key">
+										<p class="role-user" id="error">{{role}}</p>
+										<button @click="removeRole(key)" class="remove-role-btn">
+											<img src="../../../assets/images/bin.png" height="10" width="10">
+										</button>
 									</div>
 								</div>
 									
-								<p class="text-xs text-red-500 text-right my-3">Les champs obligatoires sont marquer  <abbr title="Required field">*</abbr></p>
-								<div class="mt-5 text-right md:space-x-3 md:block flex flex-col-reverse">
-									<button @click="this.$router.push('/')" class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100"> Cancel </button>
-									<button  type="submit" v-if='!userData' class="transition duration-200  ease-in-out mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Create</button>
-									<button v-else class="transition duration-200  ease-in-out mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Update</button>
+								<p class="info-champs">Les champs obligatoires sont marquer  <abbr title="Required field">*</abbr></p>
+								<div class="btn-form-container">
+									<button @click="this.$router.push('/')" class="btn-form">Annuler</button>
+									<button  type="submit" v-if='!userData' class="btn-form">Créer</button>
+									<button v-else class="btn-form">Modifier</button>
 								</div>
 								<button @click="showExhanges = !showExchanges" v-if='!showExchanges' class="transition duration-200  ease-in-out mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Mes echanges</button>
-
 							</div>
 						</form>
 					</div>
@@ -171,6 +165,7 @@ export default {
 .user-form-container{
 	display: flex;
 	justify-content: space-between;
+	margin-bottom: 50px;
 }
 
 .exchange-form{
@@ -182,5 +177,63 @@ export default {
 
 .user-form{
 	width: 30%;
+}
+
+.input-user-form{
+	padding: 0 1rem;
+    border: 1px solid #e2e2e2;
+    border-radius: 10px;
+	transition: all ease-in 0.1s;
+}
+
+.input-user-form:focus{
+    outline-color: #FF5D12;
+	transform: translateX(5px);
+}
+
+.label-user-form{
+	font-size: 12px;
+}
+
+.role-user{
+	border-radius: 10px;
+	padding: 10px;
+	font-size: 12px;
+	background-color: #e2e2e2;
+	color: white;
+}
+.role-container{
+	display: flex;
+	justify-content: space-between;
+}
+.remove-role-btn{
+	background-color: rgb(252, 87, 87);
+	border: none;
+	padding: 5px 10px;
+	height: 35px;
+	transition: all 0.3s ease;
+	border-radius: 10px;
+}
+.remove-role-btn:hover{
+	background-color: rgb(173, 0, 0);
+}
+.info-champs{
+	font-size: 10px;
+}
+.btn-form{
+	background-color: rgb(0, 0, 0);
+	border: none;
+	padding: 5px 10px;
+	height: 35px;
+	transition: all 0.3s ease;
+	border-radius: 10px;
+	color: white;
+}
+.btn-form:hover{
+	background-color: rgba(0, 0, 0, 0.385);
+}
+.btn-form-container{
+	display: flex;
+	justify-content: space-between;
 }
 </style>
