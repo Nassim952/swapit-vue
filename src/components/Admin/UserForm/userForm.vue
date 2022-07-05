@@ -4,17 +4,17 @@
 		<div class="grid  gap-8 grid-cols-1">
 				<div class="flex flex-col ">
 						<div class="flex flex-col sm:flex-row items-center">
-							<h2 v-if="!userData" class="font-semibold text-lg mr-auto">Create User</h2>
-							<h2 v-else class="font-semibold text-lg mr-auto">Update	 User</h2>
+							<h2 v-if="!userData" class="font-semibold text-lg mr-auto">Creer un Utilisateur</h2>
+							<h2 v-else class="font-semibold text-lg mr-auto">Modifier un utilisateur</h2>
 							<div class="w-full sm:w-auto sm:ml-auto mt-3 sm:mt-0"></div>
 						</div>
 			<form @submit.prevent="saveUser" class="mt-5">
 				<div class="form">
 						<div class="md:flex flex-row md:space-x-4 w-full text-xs">
 							<div class="mb-3 space-y-2 w-full text-xs">
-								<label  class="font-semibold text-gray-600 py-2">Username <abbr title="required">*</abbr></label>
+								<label  class="font-semibold text-gray-600 py-2">identifiant <abbr title="required">*</abbr></label>
 								<input v-model="userData.username" placeholder="Frist Name" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" required="required" type="text" name="integration[shop_name]" id="integration_shop_name">
-								<p class="text-red text-xs hidden">Please fill out this field.</p>
+								<small class="text-red text-xs hidden">merci de saisir ce champ.</small>
 							</div>
 						</div>
 						<div class="mb-3 space-y-2 w-full text-xs">
@@ -31,12 +31,18 @@
 							<div class="md:flex md:flex-row md:space-x-4 w-full text-xs">
 								<div class="w-full flex flex-col mb-3">
 									<label class="font-semibold text-gray-600 py-2">role</label>
-									<select v-model="userData.roles" class="block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4 md:w-full "   >
-											<option value="ROLE_ADMIN">Admin</option>
-											<option value="ROLE_USER">Utilisateur</option>
-										
+									<select @change="addRole($event)"  class="block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4 md:w-full "   >
+											<option value='ROLE_ADMIN'>Admin</option>
+											<option value='ROLE_USER'>Utilisateur</option>
 									</select>
-									<p class="text-sm text-red-500 hidden mt-3" id="error">Please fill out this field.</p>
+									
+									<div v-for="(role,key) in userData.roles" :key="role+key">
+										<p class="text-sm text-red-500 hidden mt-3" id="error">{{role}}</p>
+										<button @click="removeRole(key)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
+											<span class="material-icons">delete</span></button>
+									</div>
+									<small class="text-red text-xs hidden">merci de saisir ce champ.</small>
+									<p class="text-sm text-red-500 hidden mt-3" id="error">merci de saisir ce champ.</p>
 								</div>
 								</div>
 								
@@ -46,6 +52,8 @@
 									<button  type="submit" v-if='!userData' class="transition duration-200  ease-in-out mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Create</button>
 									<button v-else class="transition duration-200  ease-in-out mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Update</button>
 								</div>
+								<button @click="showExhanges = !showExchanges" v-if='!showExchanges' class="transition duration-200  ease-in-out mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Mes echanges</button>
+								
 							</div>
 						</form>
 					</div>
@@ -71,6 +79,7 @@ export default {
 				email:'',
 				roles:[],
 			},
+			showExchanges:false,
 		}
 	},
 	   created() {
@@ -87,8 +96,9 @@ export default {
 		},
 		createUser() {
 			const data = {
-				name:this.userData.name,
+				username:this.userData.username,
 				email:this.userData.email,
+				roles:this.userData.roles,
 			}
 			const provider = new User();
 			provider.postUser(data)
@@ -101,8 +111,9 @@ export default {
 		},
 		updateUser(){
 			const data = {
-				name:this.userData.name,
+				username:this.userData.username,
 				email:this.userData.email,
+				roles:this.userData.roles,
 			}
 			const provider = new User();
 			provider.patchUser(this.userData.id ,data)
@@ -133,6 +144,16 @@ export default {
 				this.createUser()
 			}
 		},
+		addRole(e){
+			if(e.target.value){
+				if(this.userData.roles.indexOf(e.target.value) == -1){
+					this.userData.roles.push(e.target.value)
+				}
+			}
+		},
+		removeRole(key){
+			this.userData.roles.splice(key,1)
+		}
 	}
 }
 </script>
