@@ -1,20 +1,36 @@
 <template>
-<div class=" modal">
-    <div class="modal-wrapper">
-        <div class="relative modal-container  ">
-            <button @click="closeModal" class="close-btn absolute  material-icons cursor-pointer hover:text-blue-300">
-                close
-            </button>
-            <div class="font-bold " v-for="(value,key) in data" :key="value.id+key">
-                <div>{{key}} : {{value}}</div>
-            </div>
-            <div class="modal-body py-5 space-y-3">
-                <router-link :to="{ name: 'user.edit', params: { id: data.id }}" class="text-sm hover:bg-blue-300">EDIT</router-link>
-                <button><p @click="deleteData(data.id)" class="text-sm hover:bg-blue-300 ">DELETE</p></button>
+    <div class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button @click="closeModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <table class="table table-striped table-hover m-0">
+                        <tbody v-for="(value,key) in data" :key="value.id+key">
+                            <tr>
+                                <td>
+                                    {{key}} : {{value}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="modal-footer">
+                    <button :to="{ name: 'user.edit', params: { id: data.id }}" class="picto-search bg-white">
+                        Modifier
+                    </button>
+
+                    <button @click="deleteData(data.id)" class="picto-search bg-white">
+                        Supprimer
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </template>
 
 <script>

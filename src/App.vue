@@ -31,10 +31,6 @@ body{
   font-family: 'Montserrat Alternates', sans-serif !important; 
 }
 
-@media screen and (min-width:820px) {
-          html{
-                overflow: hidden;
-            }
-    }
+
 
 </style>

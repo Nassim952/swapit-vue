@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <p class="page-name">Liste de jeux possedés</p>
+    <div style="margin: -30px">
         <Admin/>
     </div>
 </template>
