@@ -1,21 +1,28 @@
 <template>
-    <div class="profile-container">
-        <div class="profile-bloc user-info">
-            <div class="profile-img"><img src="../assets/images/Sly.png" alt="profile"></div>
-            <div class="profile-name">{{ user.username }}</div>
-            <div class="profile-nbr-swap"><span>5</span><img src="../assets/images/swap.png" alt="swap"></div>
-        </div>
-        <div class="profile-bloc user-ownlist scrollbar" id="style-1">
-            <h3>Liste de jeux possédés</h3>
-            <div class="list-wrapper">
-                <ProfilGameCard v-for="(game, key) in ownGames" :key="game.id + key" :game="game" class="" />
+    <div>
+        <div class="profile-container">
+            <div class="profile-bloc user-info">
+                <div class="profile-img"><img src="../assets/images/Sly.png" alt="profile"></div>
+                <div class="profile-name">{{ user.username }}</div>
+                <div class="profile-nbr-swap"><span>5</span><img src="../assets/images/swap.png" alt="swap"></div>
             </div>
-        </div>
-        <div class="profile-bloc user-wishlist scrollbar" id="style-1">
-            <h3>Liste de jeux souhaités</h3>
-            <div class="list-wrapper">
-                <ProfilGameCard v-for="(game, key) in wishGames" :key="game.id + key" :game="game" class="" />
+            <div class="profile-bloc user-ownlist scrollbar" id="style-1">
+                <h3>Liste de jeux possédés</h3>
+                <div class="list-wrapper">
+                    <ProfilGameCard v-for="(game, key) in ownGames" :key="game.id + key" :game="game" class="" />
+                </div>
             </div>
+            <div class="profile-bloc user-wishlist scrollbar" id="style-1">
+                <h3>Liste de jeux souhaités</h3>
+                <div class="list-wrapper">
+                    <ProfilGameCard v-for="(game, key) in wishGames" :key="game.id + key" :game="game" class="" />
+                </div>
+            </div>
+
+
+        </div>
+        <div class="exchange-form">
+            <ExchangeForm/>
         </div>
     </div>
 </template>
@@ -25,10 +32,12 @@ import ProfilGameCard from "../components/Card/Profil_Game_Card.vue";
 import { Igdb } from '../lib/Services/Igdb'
 import { User } from '../lib/Services/User'
 import jwt_decode from 'jwt-decode'
+import ExchangeForm from '../components/Exchange/exchangeForm.vue'
 
 export default {
     components: {
         ProfilGameCard,
+        ExchangeForm
     },
     data() {
         return {
@@ -210,5 +219,12 @@ export default {
     padding: 30px;
     margin-top: 40px;
     height: -webkit-fill-available;
+}
+
+.exchange-form {
+    box-shadow: 0 1rem 3rem rgb(0 0 0 / 18%);
+    background-color: white;
+    width: 100%;
+    margin-right: 20px;
 }
 </style>
