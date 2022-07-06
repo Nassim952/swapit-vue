@@ -20,9 +20,11 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button :to="{ name: 'user.edit', params: { id: data.id }}" class="picto-search bg-white">
-                        Modifier
-                    </button>
+                    <router-link :to="{ name: 'user.edit', params: { id: data.id }}">
+                        <button class="picto-search bg-white">
+                            Modifier
+                        </button>
+                    </router-link>
 
                     <button @click="deleteData(data.id)" class="picto-search bg-white">
                         Supprimer
