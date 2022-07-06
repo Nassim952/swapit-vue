@@ -3,7 +3,7 @@ class Exchange extends Publisher {
   constructor() {
     super('http://localhost:81/', {
       'Accept': 'application/json',
-      'Content-Type': 'application/merge-patch+json',
+      'Content-Type': 'application/json',
     });
   }
 

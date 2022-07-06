@@ -11,24 +11,27 @@ class Publisher {
 
     post = async function(url,data) {
         console.log(url)
-        var response = await this.instance.post(url, data).then(response => { console.log(response);return response.data }).catch(error => { console.log(error) })
+        var response = await this.instance.post(url, data).then(response => { return response.data }).catch(error => { console.log(error) })
         return response
     }
 
     patch = async function(url,data) {
         console.log(url)
-        var response = await this.instance.patch(url, data).then(response => { return response.data }).catch(error => { console.log(error) })
+        var response = await this.instance.patch(url, data).then(response => {  return response.data }).catch(error => { console.log(error) })
+    
         return response
     }
 
     get = async function(url) {
         console.log(url)
-        var response = await this.instance.get(url).then(response => { return response.data }).catch(error => { console.log(error) })
+        var response = await this.instance.get(url).then(response => {  return response.data }).catch(error => { console.log(error) })
         return response
     }
 
     delete = async function(url) {
-         this.instance.delete(url).then(response => { return response.data }).catch(error => { console.log(error) }) 
+        console.log(url)
+        var response = await this.instance.delete(url).then(response => { return response }).catch(error => { console.log(error) }) 
+        return response
     }
 
     formatEndPoint(entity, ids, properties, filters) {

@@ -2,6 +2,7 @@ import VueRouter from "vue-router";
 
 const routes = [
     {
+        name: "home",
         path: "/",
         component: () => import("../views/Home.vue")
     }, {
@@ -13,7 +14,12 @@ const routes = [
     }, {
         path: "/games",
         component: () => import("../views/Games.vue")
-    }, { 
+    }, 
+    {
+        path: "/games/genre/:id",
+        component: () => import("../views/Games.vue")
+    }, 
+    { 
         path: "/owngameslist",
         component: () => import("../views/OwnList.vue")
     }, { 
@@ -38,6 +44,7 @@ const routes = [
         component: () => import("../views/popularGames.vue")
     },
     {
+        name: "showGame",
         path: "/showGame/:id",
         component: () => import("../components/Game/GameLayerDetails.vue"),
     },

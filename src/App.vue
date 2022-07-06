@@ -30,7 +30,4 @@ a{
 body{
   font-family: 'Montserrat Alternates', sans-serif !important; 
 }
-
-
-
 </style>

@@ -3,7 +3,7 @@ class User extends Publisher {
   constructor() {
     super('http://localhost:81/', {
       'Accept': 'application/json',
-      'Content-Type': 'application/merge-patch+json',
+      'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token') ?? 'null'
     });
   }
@@ -31,6 +31,16 @@ class User extends Publisher {
 
   async getUsers(ids = null, properties = null, filters = null) {
     const response = await this.get(this.formatEndPoint('users',ids, properties, filters));
+    return response;
+  }
+
+  async getReceivedExchanges(id) {
+    const response = await this.get(`${'users'}/${id}/received_exchanges`,{});
+    return response;
+  }
+
+  async getSendExchanges(id) {
+    const response = await this.get(`${'users'}/${id}/send_exchanges`,{});
     return response;
   }
 }

@@ -39,10 +39,12 @@ export default {
     UserList: [],
   }),
   created() {
-    if (this.$props.home) {
-      this.refreshRessource()
+    if (this.$route.params.id){
+            this.selectedFilters.genres=[this.$route.params.id]
     }
-    this.getUser();
+
+   this.refreshRessource()
+   this.getUser();
   },
   methods: {
     async refreshRessource() {
@@ -91,8 +93,8 @@ export default {
 
       providerUser.getUsers(null, null, { "email": decoded.email }).then(response => {
         if (response) {
-          response?.ownGames ?? [] + response?.wishGames ?? []
-          var data = response?.ownGames ?? [] + response?.wishGames ?? []
+          response?.ownGames ?? []
+          var data = response?.ownGames ?? []
           if (Array.isArray(data)) {
             this.$data.UserList = data
           }
