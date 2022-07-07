@@ -55,7 +55,6 @@ export default {
     getUsers: async function () {
       var provider = new User()
       provider.getUsers(null, null, { "ownGames" : this.$route.params.id }).then(response => {
-        console.log(response);
         this.$data.users = response
       })
     },

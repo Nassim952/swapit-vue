@@ -49,12 +49,6 @@ export default {
             return "/exchange/" + this.user.id + "/" + this.game.id;
         }
     },
-    // data: () => ({
-    //     searchQuery: null,
-    //     resources: [],
-    //     selectedFilters: {},
-    //     actifSearch: false,
-    // }),
 }
 </script>
 

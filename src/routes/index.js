@@ -56,6 +56,10 @@ const routes = [
         path: "/admin",
         component: () => import("../views/Admin.vue")
     },
+    { 
+        path: "/admin/login",
+        component: () => import("../views/AdminSignin.vue")
+    },
     {
         path: "/recap_exchange",
         component: () => import("../components/Exchange/Game_Card_Exchange_Recap.vue")

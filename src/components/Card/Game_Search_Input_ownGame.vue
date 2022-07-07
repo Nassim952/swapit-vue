@@ -54,7 +54,6 @@
       methods:{
         add: function(game) {
           if (!this.added(game)) {
-            console.log( this.$data.my_games);
             this.$data.my_games.push(game)
           }
         },

@@ -69,7 +69,6 @@ export default {
       this.$data.gameToExchangeSelected = game ?? null;
     },
     setWishSelected: function (game) {
-      console.log('now wish selected');
       this.$data.gameWishSelected = game ?? null;
     },
     resetToExchangeSelected: function () {

@@ -1,6 +1,5 @@
 <template>
     <div>
-        <p class="page-name">Liste de jeux possedés</p>
         <Admin/>
     </div>
 </template>

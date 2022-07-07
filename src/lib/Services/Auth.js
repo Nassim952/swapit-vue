@@ -28,9 +28,7 @@ class Auth extends Publisher {
       if(response) {
         var data = response
         data = data.shift()
-        console.log('data', data)
         data?.password ? delete data.password : null;
-        console.log('data', data)
         return data;
       }
     }

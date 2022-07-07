@@ -52,7 +52,6 @@ export default {
     },
     methods:{
         supp(id){
-            console.log('del ',id);
             this.$emit('delete', id)
         }
     },

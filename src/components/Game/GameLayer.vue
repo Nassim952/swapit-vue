@@ -98,7 +98,6 @@ export default {
 
       provider.auth.me().then(response => {
         if(response) {
-          console.log('auth', response)
           var ownGames = response?.ownGames
           ownGames.push(game.id)
           provider.patchUser(response.id,  {'ownGames': ownGames}).then(response => {

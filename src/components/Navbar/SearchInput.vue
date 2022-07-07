@@ -27,8 +27,6 @@
       refreshRessource() {
         if (this.$data.searchQuery) {
           fetch(`https://localhost/api/games.json?properties%5B%5D=name&name=${this.searchQuery}`).then(response => response.json()).then(data => {
-            console.log(this.$data.searchQuery)
-            console.info(data)
             this.$data.resources = data;
           }).catch(err => {
             console.error(err)
@@ -47,13 +45,6 @@
       resultQuery() {
         if (this.$data.searchQuery && this.$data.resources) {
           var resources = this.ressourceFormater(this.$data.resources)
-          // console.log('resultQuery')
-          // console.info(resources.filter(item => {
-          //   return this.searchQuery
-          //     .toLowerCase()
-          //     .split(" ")
-          //     .every(v => item.name.toLowerCase().includes(v.toLowerCase()));
-          // }))
           return resources.filter(item => {
             return this.searchQuery
               .toLowerCase()
