@@ -143,6 +143,7 @@ export default {
 			var provider = new User()
 			provider.getUser(this.$route.params.id)
 				.then((response) => {
+					delete response.password;
 					this.userData = response
 				})
 				.catch(err => {

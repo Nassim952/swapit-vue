@@ -21,7 +21,6 @@ import GameCardList from './Game_Card_List.vue';
 import Button from '../Buttons/Button.vue';
 import { User } from "../../lib/Services/User";
 import { Igdb } from "../../lib/Services/Igdb";
-import jwt_decode from "jwt-decode";
 
 
 export default {
@@ -60,11 +59,9 @@ export default {
   methods: {
     async refreshRessource() {
       const provider = new User()
-      var token = localStorage.getItem('token');
-      var decoded = jwt_decode(token);
 
-      provider.getUsers(null, null, { "email": decoded.email }).then(response => {
-        response = response.shift();
+
+      provider.auth.me().then(response => {
         if (this.$props.route == "own") {
           provider.getUser(response.id).then(response => { this.$data.aGamesTmp = response?.ownGames ?? [] })
           this.updateCurrentOwnGames(response.id)
@@ -124,13 +121,9 @@ export default {
     },
     clearList: function () {
       this.$data.aGamesTmp = []
-
       const provider = new User()
-      var token = localStorage.getItem('token');
-      var decoded = jwt_decode(token);
-
-      provider.getUsers(null, null, { "email": decoded.email }).then(response => {
-        response = response.shift();
+    
+     provider.auth.me().then(response => {
         if(this.$props.route == "own"){
           provider.patchUser(response.id, { 'ownGames': [] }).then(response => {
             console.log(response);
@@ -156,16 +149,11 @@ export default {
     },
     async updateOwnGames() {
 
-      var provider = new User();
+      const provider = new User();
       const providerIgdb = new Igdb()
-      var token = localStorage.getItem('token');
-      var decoded = jwt_decode(token);
-      console.log(decoded.email);
-
-      provider.getUsers(null, null, { "email": decoded.email }).then(response => {
-
+    
+      provider.auth.me().then(response => {
         if (response) {
-          response = response.shift()
           console.log(this.$data.aGamesTmp);
           provider.patchUser(response.id, { 'ownGames': this.$data.aGamesTmp })
             .then(response => {
@@ -185,12 +173,9 @@ export default {
     async updateWishGames() {
       const provider = new User();
       const providerIgdb = new Igdb()
-      var token = localStorage.getItem('token');
-      var decoded = jwt_decode(token);
 
-      provider.getUsers(null, null, { "email": decoded.email }).then(response => {
+      provider.auth.me().then(response => {
         if (response) {
-          response = response.shift()
           console.log(this.$data.aGamesTmp);
           provider.patchUser(response.id, { 'wishGames': this.$data.aGamesTmp })
             .then(response => {

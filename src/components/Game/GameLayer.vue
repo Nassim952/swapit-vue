@@ -45,7 +45,6 @@
 <script>
 // import GameLayerDetails from './GameLayerDetails.vue';
 import { Igdb } from "../../lib/Services/Igdb";
-import jwt_decode from "jwt-decode";
 import { User } from "../../lib/Services/User";
 
 
@@ -96,12 +95,9 @@ export default {
   methods: {
     addOwn: function(game) {
       const provider = new User();
-      var token = localStorage.getItem('token');
-      var decoded = jwt_decode(token);
 
-      provider.getUsers(null, null, { "email": decoded.email }).then(response => {
+      provider.auth.me().then(response => {
         if(response) {
-          response = response.shift()
           var ownGames = response?.ownGames
           ownGames.push(game.id)
           provider.patchUser(response.id,  {'ownGames': ownGames}).then(response => {
@@ -114,12 +110,10 @@ export default {
     },
      addWish: function(game) {
       const provider = new User();
-      var token = localStorage.getItem('token');
-      var decoded = jwt_decode(token);
 
-      provider.getUsers(null, null, { "email": decoded.email }).then(response => {
+      provider.auth.me().then(response => {
         if(response) {
-          response = response.shift()
+          console.log('auth', response)
           var wishGames = response?.wishGames
           wishGames.push(game.id)
           provider.patchUser(response.id,  {'wishGames': wishGames}).then(response => {

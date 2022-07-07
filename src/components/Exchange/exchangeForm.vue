@@ -27,7 +27,6 @@
 import { Exchange } from '../../lib/Services/Exchange.js';
 import { User } from '../../lib/Services/User';
 import ExchangeCard from './exchangeCard.vue';
-import jwt_decode from 'jwt-decode';
 import ExchangeCardAccept from './exchangeCardAccept.vue';
 
 export default {
@@ -55,14 +54,15 @@ export default {
             const provider = new Exchange();
             provider.patchExchange(exchange_id, { 'confirmed': false })
                 .then((response) => {
-                    if (response) {
-                        provider.delExchange(exchange_id)
-                            .then((response) => {
-                                if (response) {
-                                    this.refreshExhanges();
-                                }
-                            })
-                    }
+                    // if (response) {
+                    //     provider.delExchange(exchange_id)
+                    //         .then((response) => {
+                    //             if (response) {
+                    //                 this.refreshExhanges();
+                    //             }
+                    //         })
+                    // }
+                    console.log(response);
                 })
 
         },
@@ -70,14 +70,15 @@ export default {
             const provider = new Exchange();
             provider.patchExchange(exchange_id, { 'confirmed': true })
                 .then((response) => {
-                    if (response) {
-                        provider.delExchange(exchange_id)
-                            .then((response) => {
-                                if (response) {
-                                    this.refreshExhanges();
-                                }
-                            })
-                    }
+                    // if (response) {
+                    //     provider.delExchange(exchange_id)
+                    //         .then((response) => {
+                    //             if (response) {
+                    //                 this.refreshExhanges();
+                    //             }
+                    //         })
+                    // }
+                    console.log(response);
                 })
         },
         async refreshExhanges() {
@@ -102,13 +103,9 @@ export default {
                 })
         },
         async getCurrentUser() {
-            var token = localStorage.getItem('token');
-            var decoded = jwt_decode(token);
-
             var provider = new User()
-            provider.getUsers(null, null, { "email": decoded.email }).then(response => {
+            provider.auth.me().then(response => {
                 if (response) {
-                    response = response.shift()
                     this.$data.user = response
                     this.refreshExhanges();
                 }
