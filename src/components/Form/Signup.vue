@@ -64,7 +64,10 @@
             email: data.email,
             password: data.password
           }
-        ).then(response => { console.log(response) })
+        ).then(response => { 
+          console.log(response) 
+          this.$router.push("/signin");
+        })
       }
     },
     name: "Register",

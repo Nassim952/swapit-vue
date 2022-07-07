@@ -1,10 +1,12 @@
 <template>
-<search-user></search-user>
-<list-user></list-user>
+<div>
+    <search-user></search-user>
+    <list-user></list-user>
+</div>
 </template>
 
 <script>
-import ListUser from '../components/user/ListUser.vue'
+import ListUser from './user/ListUser.vue'
 import SearchUser from './functionalities/SearchUser.vue'
 
 export default {

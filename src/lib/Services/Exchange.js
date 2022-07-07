@@ -4,11 +4,13 @@ class Exchange extends Publisher {
     super('http://localhost:81/', {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token') ?? 'null'
     });
   }
 
   async getExchange(id, properties = null) {
     const response = await this.get(this.formatEndPoint('exchanges',id, properties));
+    console.log('getExchange', response)
     return response;
   }
 
@@ -45,4 +47,4 @@ class Exchange extends Publisher {
   }
 }
 
-export { Exchange };
+export {Exchange};

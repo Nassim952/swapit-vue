@@ -31,9 +31,7 @@ export default {
         UserList: [],
     }),
     created() {
-        if (this.$props.home) {
-            this.refreshRessource()
-        }
+        this.refreshRessource()
         this.getUser();
     },
     methods: {

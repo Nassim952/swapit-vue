@@ -23,9 +23,10 @@
         <div class="card-details">
           <div class="card-body">
             <div class="tags">
-              <span v-for="(genre, key) in genres" id="genres" :key="key" class="tag tag-teal">{{ genre.name }}</span>
+              <router-link v-for="(genre, key) in genres" :key="key" :to="'/games/genre/'+ genre.id">
+                <span  id="genres"  class="tag tag-teal">{{ genre.name }}</span>
+              </router-link>             
             </div>
-
             <p>
               {{ game.summary.slice(0, 500) }}
             </p>
@@ -44,7 +45,6 @@
 <script>
 // import GameLayerDetails from './GameLayerDetails.vue';
 import { Igdb } from "../../lib/Services/Igdb";
-import jwt_decode from "jwt-decode";
 import { User } from "../../lib/Services/User";
 
 
@@ -95,11 +95,10 @@ export default {
   methods: {
     addOwn: function(game) {
       const provider = new User();
-      var token = localStorage.getItem('token');
-      var decoded = jwt_decode(token);
 
-      provider.getUsers(null, null, { "email": decoded.email }).then(response => {
-        if(response.length > 0) {
+      provider.auth.me().then(response => {
+        if(response) {
+          console.log('auth', response)
           var ownGames = response?.ownGames
           ownGames.push(game.id)
           provider.patchUser(response.id,  {'ownGames': ownGames}).then(response => {
@@ -112,11 +111,10 @@ export default {
     },
      addWish: function(game) {
       const provider = new User();
-      var token = localStorage.getItem('token');
-      var decoded = jwt_decode(token);
 
-      provider.getUsers(null, null, { "email": decoded.email }).then(response => {
-        if(response.length > 0) {
+      provider.auth.me().then(response => {
+        if(response) {
+          
           var wishGames = response?.wishGames
           wishGames.push(game.id)
           provider.patchUser(response.id,  {'wishGames': wishGames}).then(response => {

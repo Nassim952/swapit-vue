@@ -56,8 +56,8 @@ export default {
           password: data.password
         }
       ).then(function (response) {
-        this.$router.push("/popularGames");
         console.log(response);
+        this.$router.push("/");
       });
     }
   }
