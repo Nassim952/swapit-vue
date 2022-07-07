@@ -26,11 +26,12 @@ class Auth extends Publisher {
     if (localStorage.getItem('email')) {
       const response = await this.get(this.formatEndPoint('users',null, null, {'email': localStorage.getItem('email')}));
       if(response) {
-        response = response.shift();
-        console.log('response', response)
-        response?.password ? delete response.password : null;
-        console.log('response', response)
-        return response;
+        var data = response
+        data = data.shift()
+        console.log('data', data)
+        data?.password ? delete data.password : null;
+        console.log('data', data)
+        return data;
       }
     }
     return false;
