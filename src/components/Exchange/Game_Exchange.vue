@@ -131,7 +131,11 @@ export default {
             proposer: "users/" + response[0].id,
             proposerGame: this.$data.gameToExchangeSelected.id,
             senderGame: this.$data.gameWishSelected.id
-          }).then(response => { console.log(response); })
+          }).then(response => 
+          { 
+            console.log(response);
+            this.$router.push('/profile'); 
+          })
         }
       })
     },
