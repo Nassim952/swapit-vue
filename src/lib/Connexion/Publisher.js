@@ -7,10 +7,6 @@ class Publisher {
             timeout: 8000,
             headers: headers
         })
-        this.instance.interceptors.request.use(function(config){
-            config.url = config.url.replace('http://', 'https://')
-            return config
-        })
     }
 
     post = async function(url,data) {
