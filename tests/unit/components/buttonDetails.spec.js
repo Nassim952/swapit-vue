@@ -1,5 +1,5 @@
 import { shallowMount } from "@vue/test-utils";
-import Button from '@/components/buttons/Button_Details.vue'
+import Button from '../../src/components/buttons/Button_Details.vue'
 
 describe('Button_Details.vue', () => {
     it('check Button Details component',() => {

@@ -1,5 +1,5 @@
 import request from "supertest";
-const baseurl =  "https://swapit-api-game.herokuapp.com/";
+const baseurl =  "https://swapit-api-game.herokuapp.com/api";
 
 
 
