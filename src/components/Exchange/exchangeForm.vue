@@ -4,7 +4,7 @@
         <h4>Demandes d'échanges reçu :</h4>
         <div v-if="receivedExchanges.length">
             <div class="list-exchange" v-for="(exchange, key) in receivedExchanges" :key="key + exchange.id + 114">
-                <ExchangeCardAccept :exchange="exchange" />
+                <ExchangeCardAccept v-if="exchange.confirmed == null" :exchange="exchange" />
             </div>
         </div>
         <div v-else>
@@ -14,7 +14,7 @@
         <h4>Demandes d'échanges envoyées :</h4>
         <div v-if="sentExchanges.length">
             <div class="list-exchange" v-for="(exchange, key) in sentExchanges" :key="key + exchange.id + 114">
-                <ExchangeCard :exchange="exchange" />
+                <ExchangeCard v-if="exchange.confirmed == null" :exchange="exchange" />
             </div>
         </div>
         <div v-else>
@@ -52,33 +52,21 @@ export default {
     methods: {
         supExchange(exchange_id) {
             const provider = new Exchange();
-            provider.patchExchange(exchange_id, { 'confirmed': false })
+            provider.refuseExchanges(exchange_id)
                 .then((response) => {
-                    // if (response) {
-                    //     provider.delExchange(exchange_id)
-                    //         .then((response) => {
-                    //             if (response) {
-                    //                 this.refreshExhanges();
-                    //             }
-                    //         })
-                    // }
-                    console.log(response);
+                    if (response) {
+                        this.refreshExhanges();
+                    }
                 })
 
         },
         acceptExchange(exchange_id) {
             const provider = new Exchange();
-            provider.patchExchange(exchange_id, { 'confirmed': true })
+            provider.validExchanges(exchange_id)
                 .then((response) => {
-                    // if (response) {
-                    //     provider.delExchange(exchange_id)
-                    //         .then((response) => {
-                    //             if (response) {
-                    //                 this.refreshExhanges();
-                    //             }
-                    //         })
-                    // }
-                    console.log(response);
+                    if (response) {
+                        this.refreshExhanges();
+                    }
                 })
         },
         async refreshExhanges() {

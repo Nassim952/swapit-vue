@@ -4,6 +4,7 @@ class Exchange extends Publisher {
     super('http://localhost:81/', {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token') ?? 'null'
     });
   }
 
