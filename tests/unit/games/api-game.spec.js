@@ -3,7 +3,7 @@ const baseurl =  "https://localhost/api";
 
 
 
-// COMPANY
+/* // COMPANY
 describe ('Fetching api route : company', () =>{
     it ('should return 200 status code',async ()=>{
         const response = await request(baseurl).get('/companies')
@@ -29,7 +29,7 @@ describe ('Fetching api route : /api/games', () =>{
         expect (response.statusCode).toBe(200)
         
     });
-})
+}) */
 
 describe ('Fetching api route : /api/games/{id}', () =>{
     it ('should return 200 status code',async ()=>{
@@ -91,14 +91,14 @@ describe ('Fetching api route : Genre', () =>{
     });
 })
 
-describe ('Fetching api route : /api/genres/{id}', () =>{
+/* describe ('Fetching api route : /api/genres/{id}', () =>{
     it ('should return 200 status code',async ()=>{
         const response = await request(baseurl).get('/genres/1')
         .trustLocalhost()
         expect (response.statusCode).toBe(200)
         
     });
-})
+}) */
 
 // MODES
 describe ('Fetching api route : /api/modes', () =>{
@@ -128,12 +128,12 @@ describe ('Fetching api route : platforms', () =>{
         
     });
 })
-describe ('Fetching api route : platforms/{id}', () =>{
+/* describe ('Fetching api route : platforms/{id}', () =>{
     it ('should return 200 status code',async ()=>{
         const response = await request(baseurl).get('/platforms/1')
         .trustLocalhost()
         expect (response.statusCode).toBe(200)
         
     });
-})
+}) */
 
