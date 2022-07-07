@@ -9,10 +9,10 @@
         name: "Error",
         props:{
             variant: {
-            type: String,
-            default: 'white',
-            validator: (val) => ["white", "black",].includes(val),
-            },
+                type: String,
+                default: 'white',
+                validator: (val) => ["white", "black",].includes(val),
+                },
             value:{
             type: String,
             default:' ',

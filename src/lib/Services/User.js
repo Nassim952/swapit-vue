@@ -1,4 +1,5 @@
 import Publisher from '../Connexion/Publisher'
+import { Auth } from './Auth';
 class User extends Publisher {
   constructor() {
     super('http://swapit-api-core.herokuapp.com/', {
@@ -6,6 +7,7 @@ class User extends Publisher {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token') ?? 'null'
     });
+    this.auth = new Auth();
   }
 
   async getUser(id, properties = null)  {

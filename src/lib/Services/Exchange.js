@@ -4,6 +4,7 @@ class Exchange extends Publisher {
     super('https://swapit-api-core.herokuapp.com/', {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token') ?? 'null'
     });
   }
 

@@ -1,6 +1,7 @@
 <template>
 	<div class="user-form-container">
-		<div class="user-form z-0  flex items-center justify-center  mb-8 py-7 md:py-12 px-4 sm:px-6 lg:px-8  items-center">
+		<div
+			class="user-form z-0  flex items-center justify-center  mb-8 py-7 md:py-12 px-4 sm:px-6 lg:px-8  items-center">
 			<div class="max-w-md w-full   space-y-8 p-4 bg-gray-100 rounded-xl shadow-lg z-10">
 				<div class="grid  gap-8 grid-cols-1">
 					<div class="flex flex-col ">
@@ -12,156 +13,163 @@
 							<div class="form">
 								<div class="md:flex flex-row md:space-x-4 w-full text-xs">
 									<div class="mb-3 space-y-2 w-full text-xs">
-										<label  class="label-user-form py-2">Id utilisateur <abbr title="required">*</abbr></label>
+										<label class="label-user-form py-2">Id utilisateur <abbr
+												title="required">*</abbr></label>
 										<div class="flex flex-wrap items-stretch w-full mb-4 relative">
-											<input v-model="userData.username" placeholder="Frist Name" class="input-user-form" required="required" type="text" name="integration[shop_name]" id="integration_shop_name">
+											<input v-model="userData.username" placeholder="Frist Name"
+												class="input-user-form" required="required" type="text"
+												name="integration[shop_name]" id="integration_shop_name">
 										</div>
 									</div>
 								</div>
 								<div class="mb-3 space-y-2 w-full text-xs">
-									<label class="label-user-form py-2">Email utilisateur<abbr title="required">*</abbr></label>
+									<label class="label-user-form py-2">Email utilisateur<abbr
+											title="required">*</abbr></label>
 									<div class="flex flex-wrap items-stretch w-full mb-4 relative">
-										<input v-model="userData.email" type="email" class="input-user-form" placeholder="abcxy@abc.com" required>
+										<input v-model="userData.email" type="email" class="input-user-form"
+											placeholder="abcxy@abc.com" required>
 									</div>
 								</div>
 								<div class="md:flex md:flex-row md:space-x-4 w-full text-xs">
 									<div class="w-full flex flex-col mb-3">
 										<label class="label-user-form py-2">Role utilisateur</label>
 										<div class="flex flex-wrap items-stretch w-full mb-4 relative">
-											<select @change="addRole($event)"  class="input-user-form">
-													<option value='ROLE_ADMIN'>Admin</option>
-													<option value='ROLE_USER'>Utilisateur</option>
+											<select @change="addRole($event)" class="input-user-form">
+												<option value='ROLE_ADMIN'>Admin</option>
+												<option value='ROLE_USER'>Utilisateur</option>
 											</select>
 										</div>
 									</div>
-									<div class="role-container" v-for="(role,key) in userData.roles" :key="role+key">
-										<p class="role-user" id="error">{{role}}</p>
+									<div class="role-container" v-for="(role, key) in userData.roles" :key="role + key">
+										<p class="role-user" id="error">{{ role }}</p>
 										<button @click="removeRole(key)" class="remove-role-btn">
 											<img src="../../../assets/images/bin.png" height="10" width="10">
 										</button>
 									</div>
 								</div>
-									
-								<p class="info-champs">Les champs obligatoires sont marquer  <abbr title="Required field">*</abbr></p>
+
+								<p class="info-champs">Les champs obligatoires sont marquer <abbr
+										title="Required field">*</abbr></p>
 								<div class="btn-form-container">
 									<router-link to="/admin">
 										<button class="btn-form">Annuler</button>
 									</router-link>
-									<button  type="submit" v-if='!userData' class="btn-form">Créer</button>
+									<button type="submit" v-if='!userData' class="btn-form">Créer</button>
 									<button v-else class="btn-form">Modifier</button>
 								</div>
-								<button @click="showExhanges = !showExchanges" v-if='!showExchanges' class="transition duration-200  ease-in-out mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Mes echanges</button>
+								<button @click="showExhanges = !showExchanges" v-if='!showExchanges'
+									class="transition duration-200  ease-in-out mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Mes
+									echanges</button>
 							</div>
 						</form>
-						<button @click="updateShowExchanges" v-if='!showExchanges' class="transition duration-200  ease-in-out mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Mes echanges</button>
+						<button @click="updateShowExchanges" v-if='!showExchanges'
+							class="transition duration-200  ease-in-out mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Mes
+							echanges</button>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div v-if="showExchanges" class="exchange-form">
-			<ExchangeForm :userId="'4'"></ExchangeForm>
+			<ExchangeForm/>
 		</div>
 	</div>
 </template>
 
 <script>
-	import ExchangeForm from "./exchangeForm.vue";
- 	import {User} from '../../../lib/Services/User';
+import ExchangeForm from "./exchangeForm.vue";
+import { User } from '../../../lib/Services/User';
 export default {
-	name:'UserForm',
-	components: { 
-        ExchangeForm 
-    },
-	props:{
-		userId:{
-			required:false,
-			type:String
-		},
+	name: 'UserForm',
+	components: {
+		ExchangeForm
 	},
-	data(){
-		return{
-			userData:{
-				username:'',
-				email:'',
-				roles:[],
+	data() {
+		return {
+			userData: {
+				username: '',
+				email: '',
+				roles: [],
 			},
-			showExchanges : true,
+			showExchanges: true,
 		}
 	},
-	   created() {
-            this.getUser();
-        },
-	methods:{
-		submitForm(e){
+	created() {
+		this.getUser();
+	},
+	methods: {
+		submitForm(e) {
 			e.preventDefault()
-			if(this.userId){
+			if (this.userId) {
 				this.updateUser()
-			}else{
+			} else {
 				this.createUser()
 			}
 		},
 		createUser() {
 			const data = {
-				username:this.userData.username,
-				email:this.userData.email,
-				roles:this.userData.roles,
+				username: this.userData.username,
+				email: this.userData.email,
+				roles: this.userData.roles,
+				id: this.userData.id
 			}
 			const provider = new User();
 			provider.postUser(data)
-			.then((response)=>{
-				console.log(response)
-			})
-			.catch(err=>{
-				console.log(err)
-			})
+				.then((response) => {
+					console.log(response)
+				})
+				.catch(err => {
+					console.log(err)
+				})
 		},
-		updateUser(){
+		updateUser() {
 			const data = {
-				username:this.userData.username,
-				email:this.userData.email,
-				roles:this.userData.roles,
+				username: this.userData.username,
+				email: this.userData.email,
+				roles: this.userData.roles,
+				id: this.userData.id
 			}
 			const provider = new User();
-			provider.patchUser(this.userData.id ,data)
-			.then(response=>{
-								console.log(response)
+			provider.patchUser(this.userData.id, data)
+				.then(response => {
+					console.log(response)
 
-				// this.$router.push('/')
-			})
-			.catch(err=>{
-				console.log(err)
-			})
+					// this.$router.push('/')
+				})
+				.catch(err => {
+					console.log(err)
+				})
 		},
 		async getUser() {
 			var provider = new User()
 			provider.getUser(this.$route.params.id)
-			.then((response)=>{
-				this.userData = response
-			})
-			.catch(err=>{
-				console.log(err)
-			})
+				.then((response) => {
+					delete response.password;
+					this.userData = response
+				})
+				.catch(err => {
+					console.log(err)
+				})
 		},
-		saveUser(){
+		saveUser() {
 			console.log(this.userData)
-			if(this.userData){
+			if (this.userData) {
 				this.updateUser()
-			}else{
+			} else {
 				this.createUser()
 			}
 		},
-		addRole(e){
-			if(e.target.value){
-				if(this.userData.roles.indexOf(e.target.value) == -1){
+		addRole(e) {
+			if (e.target.value) {
+				if (this.userData.roles.indexOf(e.target.value) == -1) {
 					this.userData.roles.push(e.target.value)
 				}
 			}
 		},
-		removeRole(key){
-			this.userData.roles.splice(key,1)
+		removeRole(key) {
+			this.userData.roles.splice(key, 1)
 		},
-		
-		updateShowExchanges(){
+
+		updateShowExchanges() {
 			this.showExchanges = !this.showExchanges
 		}
 	}
@@ -169,51 +177,53 @@ export default {
 </script>
 
 <style scoped>
-.user-form-container{
+.user-form-container {
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 50px;
 }
 
-.exchange-form{
+.exchange-form {
 	box-shadow: 0 1rem 3rem rgb(0 0 0 / 18%);
 	background-color: white;
 	width: 70%;
 	margin-right: 20px;
 }
 
-.user-form{
+.user-form {
 	width: 30%;
 }
 
-.input-user-form{
+.input-user-form {
 	padding: 0 1rem;
-    border: 1px solid #e2e2e2;
-    border-radius: 10px;
+	border: 1px solid #e2e2e2;
+	border-radius: 10px;
 	transition: all ease-in 0.1s;
 }
 
-.input-user-form:focus{
-    outline-color: #FF5D12;
+.input-user-form:focus {
+	outline-color: #FF5D12;
 	transform: translateX(5px);
 }
 
-.label-user-form{
+.label-user-form {
 	font-size: 12px;
 }
 
-.role-user{
+.role-user {
 	border-radius: 10px;
 	padding: 10px;
 	font-size: 12px;
 	background-color: #e2e2e2;
 	color: white;
 }
-.role-container{
+
+.role-container {
 	display: flex;
 	justify-content: space-between;
 }
-.remove-role-btn{
+
+.remove-role-btn {
 	background-color: rgb(252, 87, 87);
 	border: none;
 	padding: 5px 10px;
@@ -221,13 +231,16 @@ export default {
 	transition: all 0.3s ease;
 	border-radius: 10px;
 }
-.remove-role-btn:hover{
+
+.remove-role-btn:hover {
 	background-color: rgb(173, 0, 0);
 }
-.info-champs{
+
+.info-champs {
 	font-size: 10px;
 }
-.btn-form{
+
+.btn-form {
 	background-color: rgb(0, 0, 0);
 	border: none;
 	padding: 5px 10px;
@@ -236,10 +249,12 @@ export default {
 	border-radius: 10px;
 	color: white;
 }
-.btn-form:hover{
+
+.btn-form:hover {
 	background-color: rgba(0, 0, 0, 0.385);
 }
-.btn-form-container{
+
+.btn-form-container {
 	display: flex;
 	justify-content: space-between;
 }

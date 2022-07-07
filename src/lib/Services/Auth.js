@@ -10,7 +10,10 @@ class Auth extends Publisher {
   }
   async login(data) {
     const response = await this.post('login_check', data);
-    response?.token ? localStorage.setItem('token', response.token) : this.token = null;
+    if(response?.token) {
+      localStorage.setItem('token', response.token)
+      localStorage.setItem('email', data.email)
+    }
     return response;
   }
 
@@ -19,13 +22,27 @@ class Auth extends Publisher {
     return response;
   }
 
+  async me() {
+    if (localStorage.getItem('email')) {
+      const response = await this.get(this.formatEndPoint('users',null, null, {'email': localStorage.getItem('email')}));
+      if(response) {
+        var data = response
+        data = data.shift()
+        console.log('data', data)
+        data?.password ? delete data.password : null;
+        console.log('data', data)
+        return data;
+      }
+    }
+    return false;
+  }
+
   disconnect() {
-    this.token = null;
     localStorage.clear();
   }
 
   getToken() {
-    return this.token;
+    return localStorage.getItem('token') ?? null;
   }
   
 }

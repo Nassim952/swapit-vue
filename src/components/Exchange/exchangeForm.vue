@@ -1,19 +1,20 @@
 <template>
     <div class="list-exchange-container">
         <h2 class="title-block">Listes d'échanges</h2>
-        <h4>Demandes d'échanges reçu</h4>
+        <h4>Demandes d'échanges reçu :</h4>
         <div v-if="receivedExchanges.length">
             <div class="list-exchange" v-for="(exchange, key) in receivedExchanges" :key="key + exchange.id + 114">
-                <ExchangeCard :exchange="exchange" />
+                <ExchangeCardAccept v-if="exchange.confirmed == null" :exchange="exchange" />
             </div>
         </div>
         <div v-else>
             <p>L'utilisateur n'a reçu aucune demande d'échange</p>
         </div>
-        <h4>Demandes d'échanges envoyées</h4>
+        <br />
+        <h4>Demandes d'échanges envoyées :</h4>
         <div v-if="sentExchanges.length">
             <div class="list-exchange" v-for="(exchange, key) in sentExchanges" :key="key + exchange.id + 114">
-                <ExchangeCard :exchange="exchange" />
+                <ExchangeCard v-if="exchange.confirmed == null" :exchange="exchange" />
             </div>
         </div>
         <div v-else>
@@ -23,22 +24,26 @@
 </template>
 
 <script>
-import { Exchange } from '../../../lib/Services/Exchange.js';
-import { User } from '../../../lib/Services/User';
+import { Exchange } from '../../lib/Services/Exchange.js';
+import { User } from '../../lib/Services/User';
 import ExchangeCard from './exchangeCard.vue';
+import ExchangeCardAccept from './exchangeCardAccept.vue';
 
 export default {
     name: 'ExchangeForm',
     components: {
-        ExchangeCard
-    },
+    ExchangeCard,
+    ExchangeCardAccept
+},
     data: function () {
         return {
+            user: {},
             sentExchanges: [],
             receivedExchanges: [],
             receivedExchangesTmp: [],
             sentExchangesTmp: [],
-            user: {},
+            receivingExchange: false,
+            sendingExchange: false,
         }
     },
     created() {
@@ -47,20 +52,27 @@ export default {
     methods: {
         supExchange(exchange_id) {
             const provider = new Exchange();
-            provider.delExchange(exchange_id)
+            provider.refuseExchanges(exchange_id)
                 .then((response) => {
                     if (response) {
                         this.refreshExhanges();
-                        console.log(response)
                     }
                 })
 
+        },
+        acceptExchange(exchange_id) {
+            const provider = new Exchange();
+            provider.validExchanges(exchange_id)
+                .then((response) => {
+                    if (response) {
+                        this.refreshExhanges();
+                    }
+                })
         },
         async refreshExhanges() {
             const provider = new User();
             provider.getReceivedExchanges(this.$data.user.id)
                 .then(response => {
-                    console.log(response);
                     if (response) {
                         this.receivedExchanges = response;
                     }
@@ -77,11 +89,10 @@ export default {
                 .catch(err => {
                     console.log(err)
                 })
-            console.log(this.receivedExchanges)
         },
         async getCurrentUser() {
             var provider = new User()
-            provider.getUser(this.$route.params.id).then(response => {
+            provider.auth.me().then(response => {
                 if (response) {
                     this.$data.user = response
                     this.refreshExhanges();
@@ -89,10 +100,10 @@ export default {
             })
         },
     },
-
     provide() {
         return {
             supExchange: this.supExchange,
+            acceptExchange: this.acceptExchange,
         }
     }
 };
