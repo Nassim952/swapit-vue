@@ -3,14 +3,15 @@ import Error from '@/components/Errors/Error.vue'
 
 describe('Error.vue', () => {
     it('check Error component',() => {
-        const variant = "black"
-        const value = "value"
+        const variant = "white"
+        const value = "erreur"
         
         const wrapper = shallowMount(Error, {
-            propsData: {variant, value
+            propsData: {variant,
+                        value
                     }
         })
-        expect(wrapper.text()).toMatch(variant)
+        expect(wrapper.text()).toMatch(value, variant)
         
     } )
 })

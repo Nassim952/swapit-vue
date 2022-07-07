@@ -9,8 +9,7 @@ describe('Button_Details.vue', () => {
             return "sortie"
         }
         const wrapper = shallowMount(Button, {
-            propsData: {name,
-                        title,
+            propsData: {title,
                         as,
                         onClick
                     }
