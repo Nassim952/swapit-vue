@@ -77,7 +77,7 @@ const routes = [
         meta: { requiresAuth: true }
     },
     {
-        path: "/user.edit/:id",
+        path: "/user-edit/:id",
         name: "user.edit",
         component: () => import("../components/Admin/UserForm/userForm.vue"),
         meta: { requiresAdmin: true }
