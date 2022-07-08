@@ -64,8 +64,7 @@
             email: data.email,
             password: data.password
           }
-        ).then(response => { 
-          console.log(response) 
+        ).then(() => { 
           window.location.href = '/'
         })
       }

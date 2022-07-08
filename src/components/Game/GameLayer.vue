@@ -100,8 +100,7 @@ export default {
         if(response) {
           var ownGames = response?.ownGames
           ownGames.push(game.id)
-          provider.patchUser(response.id,  {'ownGames': ownGames}).then(response => {
-            console.log(response)
+          provider.patchUser(response.id,  {'ownGames': ownGames}).then(() => {
           })
         }
 
@@ -116,8 +115,7 @@ export default {
           
           var wishGames = response?.wishGames
           wishGames.push(game.id)
-          provider.patchUser(response.id,  {'wishGames': wishGames}).then(response => {
-            console.log(response)
+          provider.patchUser(response.id,  {'wishGames': wishGames}).then(() => {
           })
         }
       })

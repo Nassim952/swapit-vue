@@ -76,8 +76,7 @@
           // this.$emit('submit', this.my_games)
           instance.patch(`/users/${localStorage.getItem('id')}`,{
             ownGames: this.my_games
-          }).then(function (response) {
-            console.log(response);
+          }).then(function () {
           })
           .catch(function (error) {
             console.log(error);

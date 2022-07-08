@@ -103,7 +103,7 @@
       if (this.choice == 'users') {
           const provider = new User()
           provider.delUser(id)
-          .then(response => { console.log(response); this.retrieveList()})
+          .then(() => { this.retrieveList()})
           .catch(err => {
               this.$data.datas = null;
               console.error(err)
@@ -112,7 +112,7 @@
           const provider = new Exchange()
       
           provider.delExchange(id)
-          .then(response => {console.log(response); this.retrieveList()})
+          .then(() => { this.retrieveList()})
           .catch(err => {
               this.$data.datas = null;
               console.error(err)

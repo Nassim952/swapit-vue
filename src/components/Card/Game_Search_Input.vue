@@ -120,12 +120,10 @@ export default {
     
      provider.auth.me().then(response => {
         if(this.$props.route == "own"){
-          provider.patchUser(response.id, { 'ownGames': [] }).then(response => {
-            console.log(response);
+          provider.patchUser(response.id, { 'ownGames': [] }).then(() => {
           })
         }else{
-          provider.patchUser(response.id, { 'wishGames': [] }).then(response => {
-            console.log(response);
+          provider.patchUser(response.id, { 'wishGames': [] }).then(() => {
           })
         }
       })

@@ -9,17 +9,17 @@
             </div>
             <div class="info-user">
                 <div class="header-card">Echanges</div>
-                <div class="nbr-card">10</div>
+                <div class="nbr-card">{{ user.receivedExchanges.length + user.sendExchanges.length }}</div>
                 <div><img src="../../assets/images/swap-arrow.svg" width="30" height="30"></div>
             </div>
             <div class="info-user">
                 <div class="header-card">Jeux possédés</div>
-                <div class="nbr-card border-side">10</div>
+                <div class="nbr-card border-side">{{user.ownGames.length}}</div>
                 <div><img src="../../assets/images/check.svg" width="30" height="30"></div>
             </div>
             <div class="info-user">
                 <div class="header-card">Jeux souhaités</div>
-                <div class="nbr-card">10</div>
+                <div class="nbr-card">{{user.wishGames.length}}</div>
                 <div><img src="../../assets/images/heart.svg" width="30" height="30"></div>
             </div>
         </div>
