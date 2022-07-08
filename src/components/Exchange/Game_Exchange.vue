@@ -31,7 +31,7 @@ import Button from '../Buttons/Button.vue';
 import jwt_decode from "jwt-decode";
 import { User } from '../../lib/Services/User';
 import { Igdb } from '../../lib/Services/Igdb';
-import { Exchange } from '../../lib/Services/Core/Exchange';
+import { Exchange } from '../../lib/Services/Exchange';
 
 export default {
   name: "Game_Exchange",
@@ -69,7 +69,6 @@ export default {
       this.$data.gameToExchangeSelected = game ?? null;
     },
     setWishSelected: function (game) {
-      console.log('now wish selected');
       this.$data.gameWishSelected = game ?? null;
     },
     resetToExchangeSelected: function () {

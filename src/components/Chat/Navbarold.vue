@@ -76,36 +76,6 @@
             var filters = this.$data.selectedFilters
             filters.name = this.$data.searchQuery ?? ""
             provider.getPopulars(null, null, filters).then(response => { this.$data.resources = response})
-        } ,
-        formatedFilters() {
-            var filters = filters = this.checkEmptySelectedFilter() ? '&': '';
-            console.log('filter : '+filters)
-            if (filters) {   
-                if(!this.checkEmptySelectedFilter('genres')){
-                filters = this.$data.selectedFilters.genres ? (filters != '' ? filters+"&" : filters) +`${
-                    (
-                        this.$data.selectedFilters.genres.map((genre, key) => `genres[${key}]=${genre}`)
-                    )
-                    .join('&')}` : filters
-                       console.log(filters)
-                }
-                if(!this.checkEmptySelectedFilter('platforms')){
-                filters = this.$data.selectedFilters.platforms ? (filters != '' ? filters+"&" : filters) +`${
-                    (
-                        this.$data.selectedFilters.platforms.map((platform, key) => `platforms[${key}]=${platform}`)
-                    ).join('&')}` : filters
-                       console.log(filters)
-                }
-                if(!this.checkEmptySelectedFilter('modes')){
-                filters = this.$data.selectedFilters.modes ? (filters != '' ? filters+"&" : filters) +`${
-                    (this.$data.selectedFilters.modes.map((mode, key) => `modes[${key}]=${mode}`)
-                    ).join('&')}` : filters
-                     console.log(filters)
-                }
-                console.log(filters)
-            }
-            console.log(filters)
-            return filters
         }, 
         updateFilters(filters, categorie) {
             this.$data.selectedFilters[categorie] = filters;

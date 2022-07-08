@@ -74,7 +74,6 @@ export default {
     updateFieldValue({target}) {
       const {name, value} = target;
       this.$data.values[name] = value;
-      console.log(this.$data.values)
     }
   },
 };

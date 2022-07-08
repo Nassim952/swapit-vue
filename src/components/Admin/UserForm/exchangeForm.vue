@@ -51,7 +51,6 @@ export default {
                 .then((response) => {
                     if (response) {
                         this.refreshExhanges();
-                        console.log(response)
                     }
                 })
 
@@ -60,7 +59,6 @@ export default {
             const provider = new User();
             provider.getReceivedExchanges(this.$data.user.id)
                 .then(response => {
-                    console.log(response);
                     if (response) {
                         this.receivedExchanges = response;
                     }
@@ -77,7 +75,6 @@ export default {
                 .catch(err => {
                     console.log(err)
                 })
-            console.log(this.receivedExchanges)
         },
         async getCurrentUser() {
             var provider = new User()

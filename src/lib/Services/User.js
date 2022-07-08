@@ -26,7 +26,6 @@ class User extends Publisher {
   }
 
   async delUser(id) {
-    console.log('delete' ,id)
     const response = await this.delete(this.formatEndPoint('users',id));
     return response;
   }

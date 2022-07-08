@@ -1,5 +1,5 @@
 <template>
-    <div style="margin: -30px">
+    <div>
         <Admin/>
     </div>
 </template>

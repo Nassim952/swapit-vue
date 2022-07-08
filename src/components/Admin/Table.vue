@@ -126,11 +126,9 @@
     computed: {
       titles: function () {
         let titles = []
-        console.log(this.$props.datas[0])
         for (const [ key] of Object.entries(this.$props.datas[0])) {
             titles.push(key)
         }
-        console.log(Object.entries(this.$props.datas[0]))
         return titles
       },
       entries:function(){

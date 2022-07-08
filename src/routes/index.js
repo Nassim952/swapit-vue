@@ -67,6 +67,10 @@ const routes = [
         component: () => import("../views/Admin.vue"),
         meta: { requiresAdmin: true }
     },
+    { 
+        path: "/admin/login",
+        component: () => import("../views/AdminSignin.vue")
+    },
     {
         path: "/recap_exchange",
         component: () => import("../components/Exchange/Game_Card_Exchange_Recap.vue"),
@@ -76,7 +80,7 @@ const routes = [
         path: "/user.edit/:id",
         name: "user.edit",
         component: () => import("../components/Admin/UserForm/userForm.vue"),
-        meta: { requiresAuth: true }
+        meta: { requiresAdmin: true }
     },
 ];
 
@@ -96,10 +100,10 @@ router.beforeEach((to, from, next) => {
         next();
     }
     if(to.matched.some(record => record.meta.requiresAdmin)) {
-        if (localStorage.getItem("token") && localStorage.getItem("role") === "ROLE_ADMIN,ROLE_USER") {
+        if (localStorage.getItem("token") && localStorage.getItem("role").includes("ROLE_ADMIN")) {
             next();
         } else {
-            next("/");
+            next("/admin/");
         }
     } else {
         next();
