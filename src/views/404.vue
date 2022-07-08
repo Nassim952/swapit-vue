@@ -4,7 +4,7 @@
             <h1>404</h1>
             <h2> Oops, il n'y a pas de jeux ici.</h2>
             <p> Nous ne trouvons pas la page que vous demandez. </p>
-            <router-link :to="{name: 'home'}" class="btn btn-retour">Go Back Home</router-link>
+            <router-link :to="{name: 'home'}" class="btn btn-retour">Revenir à la page d'accueil</router-link>
         </div>
         <div class="col col-lg-3">
             <img src="../assets/images/illustration-Manette.png" />

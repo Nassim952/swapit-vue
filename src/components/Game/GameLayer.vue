@@ -287,6 +287,15 @@ export default {
   margin-left: 200px;
 }
 
+@media only screen and (max-width: 414px){
+.container .card .card-details {
+  position: absolute;
+  bottom: 1em;
+  display: flex;
+  margin-left: 0px;
+}
+}
+
 .container .card .card-details .card-body {
   list-style: none;
   margin: 0 10px;
