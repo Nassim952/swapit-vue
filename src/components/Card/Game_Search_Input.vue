@@ -66,7 +66,6 @@ export default {
           provider.getUser(response.id).then(response => { this.$data.aGamesTmp = response?.ownGames ?? [] })
           this.updateCurrentOwnGames(response.id)
         } else {
-          console.log('wishGames');
           provider.getUser().then(response => { this.$data.aGamesTmp = response?.wishGames ?? [] })
           this.updateCurrentWishGames(response.id)
         }
@@ -100,10 +99,7 @@ export default {
     },
     add: function (game) {
       if (!this.added(game)) {
-        // console.log( this.$data.aGames);
-        console.log(this.$data.aGamesTmp);
         this.$data.aGamesTmp.push(game.id)
-        console.log(this.$data.aGamesTmp);
         this.HandleSubmit()
       }
     },
@@ -111,7 +107,6 @@ export default {
       if (this.added(game.id)) {
         this.$data.aGamesTmp = this.$data.aGamesTmp.filter(e => e.id !== game.id)
         this.HandleSubmit()
-
       }
     },
     added: function (game_id) {
@@ -125,25 +120,19 @@ export default {
     
      provider.auth.me().then(response => {
         if(this.$props.route == "own"){
-          provider.patchUser(response.id, { 'ownGames': [] }).then(response => {
-            console.log(response);
+          provider.patchUser(response.id, { 'ownGames': [] }).then(() => {
           })
         }else{
-          provider.patchUser(response.id, { 'wishGames': [] }).then(response => {
-            console.log("wesh",response);
+          provider.patchUser(response.id, { 'wishGames': [] }).then(() => {
           })
         }
       })
 
     },
     HandleSubmit: function () {
-      console.log('HandleSubmit');
       if (this.$props.route == "own") {
-        console.log('ownGames');
         this.updateOwnGames()
       } else {
-        console.log('wishGames');
-
         this.updateWishGames()
       }
     },
@@ -154,10 +143,8 @@ export default {
     
       provider.auth.me().then(response => {
         if (response) {
-          console.log(this.$data.aGamesTmp);
           provider.patchUser(response.id, { 'ownGames': this.$data.aGamesTmp })
             .then(response => {
-              console.log(response);
               if (response?.ownGames !== []) {
                 providerIgdb.getGames(response?.ownGames)
                   .then(response => {
@@ -176,10 +163,8 @@ export default {
 
       provider.auth.me().then(response => {
         if (response) {
-          console.log(this.$data.aGamesTmp);
           provider.patchUser(response.id, { 'wishGames': this.$data.aGamesTmp })
             .then(response => {
-              console.log(response);
               if (response?.wishGames) {
                 providerIgdb.getGames(response?.wishGames)
                   .then(response => {

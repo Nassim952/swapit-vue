@@ -1,5 +1,5 @@
 import Publisher from '../Connexion/Publisher'
-// import { User } from './User';
+import jwt_decode from 'jwt-decode'
 class Auth extends Publisher {
   constructor() {
     super('https://swapit-api-core.herokuapp.com/', {
@@ -11,8 +11,10 @@ class Auth extends Publisher {
   async login(data) {
     const response = await this.post('login_check', data);
     if(response?.token) {
+      var decoded = jwt_decode(response.token);
       localStorage.setItem('token', response.token)
       localStorage.setItem('email', data.email)
+      localStorage.setItem('role', decoded.roles)
     }
     return response;
   }
@@ -28,9 +30,7 @@ class Auth extends Publisher {
       if(response) {
         var data = response
         data = data.shift()
-        console.log('data', data)
         data?.password ? delete data.password : null;
-        console.log('data', data)
         return data;
       }
     }

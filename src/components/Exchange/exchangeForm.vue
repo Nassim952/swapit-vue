@@ -32,14 +32,15 @@ import ExchangeCardAccept from './exchangeCardAccept.vue';
 export default {
     name: 'ExchangeForm',
     components: {
-    ExchangeCard,
-    ExchangeCardAccept
-},
+        ExchangeCard,
+        ExchangeCardAccept
+    },
     data: function () {
         return {
             user: {},
             sentExchanges: [],
             receivedExchanges: [],
+            pendingExchanges: [],
             receivedExchangesTmp: [],
             sentExchangesTmp: [],
             receivingExchange: false,
@@ -84,6 +85,15 @@ export default {
                 .then(response => {
                     if (response) {
                         this.sentExchanges = response;
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+            provider.getPendingExchanges(this.$data.user.id)
+                .then(response => {
+                    if (response) {
+                        this.pendingExchanges = response;
                     }
                 })
                 .catch(err => {

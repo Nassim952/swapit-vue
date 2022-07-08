@@ -1,5 +1,6 @@
 <template>
   <div id="Game_Exchange" class="exchange_container">
+    <div>{{ message }}</div>
     <div class="gameExchange">
       <div class="to_exchange user_game_container">
         <div>Jeux Possedés de {{ user.username }}</div>
@@ -7,6 +8,7 @@
       </div>
       <div class="wish_exchange user_game_container">
         <div>Jeux Souhaitées de {{ user.username }}</div>
+
         <GamesWishExchange :games="gamesWish" />
       </div>
     </div>
@@ -31,7 +33,7 @@ import Button from '../Buttons/Button.vue';
 import jwt_decode from "jwt-decode";
 import { User } from '../../lib/Services/User';
 import { Igdb } from '../../lib/Services/Igdb';
-import { Exchange } from '../../lib/Services/Core/Exchange';
+import { Exchange } from '../../lib/Services/Exchange';
 
 export default {
   name: "Game_Exchange",
@@ -48,6 +50,7 @@ export default {
     gamesToExchange: [],
     gamesWish: [],
     user: {},
+    message: "",
   }),
   computed: {
 
@@ -69,7 +72,6 @@ export default {
       this.$data.gameToExchangeSelected = game ?? null;
     },
     setWishSelected: function (game) {
-      console.log('now wish selected');
       this.$data.gameWishSelected = game ?? null;
     },
     resetToExchangeSelected: function () {
@@ -131,7 +133,9 @@ export default {
             proposer: "users/" + response[0].id,
             proposerGame: this.$data.gameToExchangeSelected.id,
             senderGame: this.$data.gameWishSelected.id
-          }).then(response => { console.log(response); })
+          }).then(() => {
+            this.$router.push('/profile');
+          })
         }
       })
     },

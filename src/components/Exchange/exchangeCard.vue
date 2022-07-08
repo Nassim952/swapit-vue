@@ -77,7 +77,6 @@ export default {
                 })
         },
         getOwner(id) {
-            console.log(id);
             const provider = new User();
 
             provider.getUser(id)
@@ -91,7 +90,6 @@ export default {
                 })
         },
         getProposer(id) {
-            console.log(id);
             const provider = new User();
 
             provider.getUser(id)

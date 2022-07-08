@@ -54,7 +54,6 @@
       methods:{
         add: function(game) {
           if (!this.added(game)) {
-            console.log( this.$data.my_games);
             this.$data.my_games.push(game)
           }
         },
@@ -77,8 +76,7 @@
           // this.$emit('submit', this.my_games)
           instance.patch(`/users/${localStorage.getItem('id')}`,{
             ownGames: this.my_games
-          }).then(function (response) {
-            console.log(response);
+          }).then(function () {
           })
           .catch(function (error) {
             console.log(error);

@@ -27,14 +27,14 @@ class Igdb extends Publisher {
     return data;
   }
 
-    async getPlatform(id , properties = null) {
-      const data = await this.get(this.formatEndPoint('platforms',id, properties));
-      return data;
+  async getPlatform(id , properties = null) {
+    const data = await this.get(this.formatEndPoint('platforms',id, properties));
+    return data;
   }
 
-    async getPlatforms(ids = null, properties= null) {
-      const data =  await this.get(this.formatEndPoint('platforms',ids, properties));
-      return data;
+  async getPlatforms(ids = null, properties= null) {
+    const data =  await this.get(this.formatEndPoint('platforms',ids, properties));
+    return data;
   }
 
   async getMode(id, properties= null) {
@@ -52,7 +52,6 @@ class Igdb extends Publisher {
       if(!('default' in filters)) {
         filters.default = 'popular';
       }
-      console.log(filters)
     }
     const data = await this.get(this.formatEndPoint('games',ids, properties, filters));
     return data;

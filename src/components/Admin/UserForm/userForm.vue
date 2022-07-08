@@ -114,8 +114,7 @@ export default {
 			}
 			const provider = new User();
 			provider.postUser(data)
-				.then((response) => {
-					console.log(response)
+				.then(() => {
 				})
 				.catch(err => {
 					console.log(err)
@@ -130,10 +129,7 @@ export default {
 			}
 			const provider = new User();
 			provider.patchUser(this.userData.id, data)
-				.then(response => {
-					console.log(response)
-
-					// this.$router.push('/')
+				.then(() => {
 				})
 				.catch(err => {
 					console.log(err)
@@ -151,7 +147,6 @@ export default {
 				})
 		},
 		saveUser() {
-			console.log(this.userData)
 			if (this.userData) {
 				this.updateUser()
 			} else {
