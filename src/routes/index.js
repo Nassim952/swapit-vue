@@ -100,10 +100,10 @@ router.beforeEach((to, from, next) => {
         next();
     }
     if(to.matched.some(record => record.meta.requiresAdmin)) {
-        if (localStorage.getItem("token") && localStorage.getItem("role").includes("ROLE_ADMIN")) {
+        if (localStorage.getItem("token") && localStorage.getItem("role") == "ROLE_ADMIN,ROLE_USER") {
             next();
         } else {
-            next("/admin/");
+            next("/admin/login");
         }
     } else {
         next();
