@@ -65,7 +65,7 @@
             password: data.password
           }
         ).then(() => { 
-          window.location.href = '/'
+          window.location.href = '/signin'
         })
       }
     },
