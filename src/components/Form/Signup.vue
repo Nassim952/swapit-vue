@@ -25,12 +25,6 @@
           <Field name="password_confirm" type="password"> </Field>
           <Error  v-if="errors.password_confirm" :value="errors.password_confirm"/>
         </div>
-
-        <div class="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="remember-me"> Se souvenir de moi
-          </label>
-        </div>
         <Button :onClick='handleSubmit' title="Inscription" type="submit">Inscription</Button>
       </Formik>
     </main>
@@ -64,9 +58,7 @@
             email: data.email,
             password: data.password
           }
-        ).then(() => { 
-          window.location.href = '/signin'
-        })
+        )
       }
     },
     name: "Register",

@@ -56,7 +56,18 @@ export default {
             provider.refuseExchanges(exchange_id)
                 .then((response) => {
                     if (response) {
+                        this.$alert("L'échange a bien été refusé", "Succès", {
+                            type: "success",
+                            showClose: false,
+                            duration: 3000
+                        });
                         this.refreshExhanges();
+                    }else{
+                        this.$alert("Une erreur est survenue", "Erreur", {
+                            type: "error",
+                            showClose: false,
+                            duration: 3000
+                        });
                     }
                 })
 
@@ -66,7 +77,10 @@ export default {
             provider.validExchanges(exchange_id)
                 .then((response) => {
                     if (response) {
+                        alert('L\'échange a été validé !');
                         this.refreshExhanges();
+                    }else{
+                        alert('Une erreur est survenue lors de la validation de l\'échange');
                     }
                 })
         },
