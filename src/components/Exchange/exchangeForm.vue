@@ -123,15 +123,15 @@ export default {
                 .catch(err => {
                     console.log(err)
                 })
-            provider.getPendingExchanges(this.$data.user.id)
-                .then(response => {
-                    if (response) {
-                        this.pendingExchanges = response;
-                    }
-                })
-                .catch(err => {
-                    console.log(err)
-                })
+            // provider.getPendingExchanges(this.$data.user.id)
+            //     .then(response => {
+            //         if (response) {
+            //             this.pendingExchanges = response;
+            //         }
+            //     })
+            //     .catch(err => {
+            //         console.log(err)
+            //     })
         },
         async getCurrentUser() {
             var provider = new User()

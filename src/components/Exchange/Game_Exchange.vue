@@ -30,7 +30,6 @@ import GamesWishExchange from './Game_Wish_Exchange.vue';
 import GamesToExchange from './Game_To_Exchange.vue';
 import GameCardExchange from './Game_Card_Exchange.vue';
 import Button from '../Buttons/Button.vue';
-import jwt_decode from "jwt-decode";
 import { User } from '../../lib/Services/User';
 import { Igdb } from '../../lib/Services/Igdb';
 import { Exchange } from '../../lib/Services/Exchange';
@@ -123,14 +122,11 @@ export default {
       var provider = new Exchange();
       var providerUser = new User();
 
-      var token = localStorage.getItem('token');
-      var decoded = jwt_decode(token);
-
-      providerUser.getUsers(null, null, { "email": decoded.email }).then(response => {
+      providerUser.auth.me().then(response => {
         if (response) {
           provider.postExchange({
             owner: "users/" + this.$data.user.id,
-            proposer: "users/" + response[0].id,
+            proposer: "users/" + response.id,
             proposerGame: this.$data.gameToExchangeSelected.id,
             senderGame: this.$data.gameWishSelected.id
           }).then(() => {

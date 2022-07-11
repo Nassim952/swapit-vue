@@ -4,7 +4,7 @@
             <div class="profile-bloc user-info">
                 <div class="profile-img"><img src="../assets/images/Sly.png" alt="profile"></div>
                 <div class="profile-name">{{ user.username }}</div>
-                <div class="profile-nbr-swap"><span>{{ user.receivedExchanges.length + user.sendExchanges.length }}</span><img src="../assets/images/swap.png" alt="swap"></div>
+                <div class="profile-nbr-swap"><span></span><img src="../assets/images/swap.png" alt="swap"></div>
             </div>
             <div class="profile-bloc user-ownlist scrollbar" id="style-1">
                 <h3>Liste de jeux possédés</h3>
@@ -32,7 +32,6 @@
 import ProfilGameCard from "../components/Card/Profil_Game_Card.vue";
 import { Igdb } from '../lib/Services/Igdb'
 import { User } from '../lib/Services/User'
-import jwt_decode from 'jwt-decode'
 import ExchangeForm from '../components/Exchange/exchangeForm.vue'
 import Profil_Game_Card_Wish from "../components/Card/Profil_Game_Card_Wish.vue";
 
@@ -64,61 +63,44 @@ export default {
     },
     methods: {
         async getUserOwnGames() {
-            var token = localStorage.getItem('token');
-            var decoded = jwt_decode(token);
-
             var provider = new User()
             var providerGame = new Igdb()
-            provider.getUsers(null, null, { "email": decoded.email }).then(response => {
+            provider.auth.me().then(response => {
                 if (response) {
-                    response = response.shift()
-                    response.ownGames.forEach(element => {
-                        providerGame.getGames(null, null, { "id": element }).then(response => {
-                            this.$data.ownGames.push(response.shift())
-                        })
-                    });
+                    providerGame.getGames(response.ownGames).then(response => {
+                        if(response) {
+                            this.$data.ownGames = response
+                        }
+                    })
                 }
             })
         },
         async getUserWishGames() {
-            var token = localStorage.getItem('token');
-            var decoded = jwt_decode(token);
 
             var provider = new User()
             var providerGame = new Igdb()
-            provider.getUsers(null, null, { "email": decoded.email }).then(response => {
+            provider.auth.me().then(response => {
                 if (response) {
-                    response = response.shift()
-                    response.wishGames.forEach(element => {
-                        providerGame.getGames(null, null, { "id": element }).then(response => {
-                            this.$data.wishGames.push(response.shift())
-                        })
-                    });
+                    providerGame.getGames(response.wishGames).then(response => {
+                        if(response) {
+                            this.$data.wishGames = response
+                        }
+                    })
                 }
             })
         },
         async getCurrentUser() {
-            var token = localStorage.getItem('token');
-            var decoded = jwt_decode(token);
-
             var provider = new User()
-            provider.getUsers(null, null, { "email": decoded.email }).then(response => {
+            provider.auth.me().then(response => {
                 if (response) {
-                    response = response.shift()
                     this.$data.user = response
                 }
             })
         },
         supGame(game_id, list) {
-            var token = localStorage.getItem('token');
-            var decoded = jwt_decode(token);
-
             var provider = new User()
-            console.log(game_id)
-            provider.getUsers(null, null, { "email": decoded.email }).then(response => {
+            provider.auth.me().then(response => {
                 if (response) {
-                    response = response.shift()
-                    console.log(response.ownGames)
                     if (list == "own") {
                         response.ownGames.splice(response.ownGames.indexOf(game_id), 1)
                         provider.patchUser(response.id, { "ownGames": response.ownGames })
