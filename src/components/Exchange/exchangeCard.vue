@@ -22,7 +22,7 @@
             </div>
         </div>
         <div>
-            <button @click="supExchange(exchange.id)" class="btn-delete-exchange"><img src="../../assets/images/bin.png"
+            <button @click="supExchange(exchange.id, 'cancel')" class="btn-delete-exchange"><img src="../../assets/images/bin.png"
                     height="10" width="10"></button>
         </div>
     </div>

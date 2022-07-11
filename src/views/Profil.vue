@@ -15,14 +15,15 @@
             <div class="profile-bloc user-wishlist scrollbar" id="style-1">
                 <h3>Liste de jeux souhaités</h3>
                 <div class="list-wrapper">
-                    <ProfilGameCard v-for="(game, key) in wishGames" :key="game.id + key" :game="game" class="" />
+                    <Profil_Game_Card_Wish v-for="(game, key) in wishGames" :key="game.id + key" :game="game"
+                        class="" />
                 </div>
             </div>
 
 
         </div>
         <div class="exchange-form">
-            <ExchangeForm/>
+            <ExchangeForm />
         </div>
     </div>
 </template>
@@ -33,11 +34,13 @@ import { Igdb } from '../lib/Services/Igdb'
 import { User } from '../lib/Services/User'
 import jwt_decode from 'jwt-decode'
 import ExchangeForm from '../components/Exchange/exchangeForm.vue'
+import Profil_Game_Card_Wish from "../components/Card/Profil_Game_Card_Wish.vue";
 
 export default {
     components: {
         ProfilGameCard,
-        ExchangeForm
+        ExchangeForm,
+        Profil_Game_Card_Wish
     },
     data() {
         return {
@@ -106,6 +109,54 @@ export default {
                 }
             })
         },
+        supGame(game_id, list) {
+            var token = localStorage.getItem('token');
+            var decoded = jwt_decode(token);
+
+            var provider = new User()
+            console.log(game_id)
+            provider.getUsers(null, null, { "email": decoded.email }).then(response => {
+                if (response) {
+                    response = response.shift()
+                    console.log(response.ownGames)
+                    if (list == "own") {
+                        response.ownGames.splice(response.ownGames.indexOf(game_id), 1)
+                        provider.patchUser(response.id, { "ownGames": response.ownGames })
+                        this.$fire({
+                            title: "Suppression réussie",
+                            text: "Votre jeu a bien été supprimé de votre liste de jeux possédés",
+                            type: "success",
+                        }).then(() => {
+                            window.location.href = "/profile"
+                        })
+                    } else {
+                        response.wishGames.splice(response.wishGames.indexOf(game_id), 1)
+                        provider.patchUser(response.id, { "wishGames": response.wishGames })
+                        this.$fire({
+                            title: "Suppression réussie",
+                            text: "Votre jeu a bien été supprimé de votre liste de jeux souhaités",
+                            type: "success",
+                        }).then(() => {
+                            window.location.href = "/profile"
+                        })
+                    }
+                }
+                else {
+                    this.$fire({
+                        title: "Erreur",
+                        text: "Une erreur est survenue lors de la suppression de votre jeu",
+                        type: "error",
+                    }).then(() => {
+                        window.location.href = "/profile"
+                    })
+                }
+            })
+        },
+    },
+    provide() {
+        return {
+            supGame: this.supGame,
+        }
     }
 }
 </script>

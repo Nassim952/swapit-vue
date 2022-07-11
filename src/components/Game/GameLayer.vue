@@ -107,7 +107,7 @@ export default {
             ownGames.push(game.id)
             provider.patchUser(response.id, { 'ownGames': ownGames }).then(() => {
               this.$fire({
-                title: "Jeu en ajouté",
+                title: "Jeu ajouté",
                 text: "Jeu ajouté à votre liste de jeu possédés",
                 type: "success",
               })
@@ -123,7 +123,7 @@ export default {
               ownGames.push(game.id)
               provider.patchUser(response.id, { 'ownGames': ownGames }).then(() => {
                 this.$fire({
-                  title: "Jeu en ajouté",
+                  title: "Jeu ajouté",
                   text: "Jeu ajouté à votre liste de jeu possédés",
                   type: "success",
                 })
@@ -156,7 +156,7 @@ export default {
             wishGames.push(game.id)
             provider.patchUser(response.id, { 'wishGames': wishGames }).then(() => {
               this.$fire({
-                title: "Jeu en ajouté",
+                title: "Jeu ajouté",
                 text: "Jeu ajouté à votre liste de jeu souhaités",
                 type: "success",
               })
@@ -172,7 +172,7 @@ export default {
               wishGames.push(game.id)
               provider.patchUser(response.id, { 'wishGames': wishGames }).then(() => {
                 this.$fire({
-                  title: "Jeu en ajouté",
+                  title: "Jeu ajouté",
                   text: "Jeu ajouté à votre liste de jeu souhaités",
                   type: "success",
                 })

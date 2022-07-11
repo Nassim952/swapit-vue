@@ -11,9 +11,8 @@
       alt="Card image cap" style="width: 250px;">
     <div class="card-body d-flex flex-nowrap">
       <div class="card-text d-flex flex-wrap">
-        <h5 style="width: 100%; color: #29647C;">{{ game.name }}</h5>
-        <h6 style="width: 100%;">genre</h6>
-        <h7 style="width: 100%; color: #29647C;">date</h7>
+        <h5 style="width: 100%; color: #29647C; font-weight: bold;">{{ game.name }}</h5>
+        <h6 style="width: 100%; color: #29647C;">PS4</h6>
       </div>
     </div>
   </div>

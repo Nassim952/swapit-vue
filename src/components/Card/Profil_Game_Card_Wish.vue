@@ -10,10 +10,12 @@
         <div class="game-container">
           <div class="game-name">{{ game.name }}</div>
         </div>
-        <span v-for="(genre, key) in genres.slice(0, 1)" id="genres" :key="key" class="tag tag-teal">{{ genre.name }}</span>
+        <span v-for="(genre, key) in genres.slice(0, 1)" id="genres" :key="key" class="tag tag-teal">{{ genre.name
+        }}</span>
       </div>
       <div class="btn-supp-wrapper">
-        <button @click="supGame(game.id, 'own')" class="btn-delete-exchange"><img src="../../assets/images/bin.png" height="10" width="10"></button>
+        <button @click="supGame(game.id, 'wish')" class="btn-delete-exchange"><img src="../../assets/images/bin.png"
+            height="10" width="10"></button>
       </div>
     </div>
   </div>
@@ -68,7 +70,7 @@ export default {
   border-radius: 15px;
 }
 
-.btn-supp-wrapper{
+.btn-supp-wrapper {
   margin-top: 105px;
 }
 
@@ -111,17 +113,17 @@ export default {
 }
 
 .btn-delete-exchange {
-    background-color: rgb(252, 87, 87);
-    border: none;
-    border-radius: 10px 10px 10px 10px;
-    color: white;
-    transition: all 0.3s ease;
-    right: 20px;
-    margin-top: -155px;
-    padding: 3px 10px;
+  background-color: rgb(252, 87, 87);
+  border: none;
+  border-radius: 10px 10px 10px 10px;
+  color: white;
+  transition: all 0.3s ease;
+  right: 20px;
+  margin-top: -155px;
+  padding: 3px 10px;
 }
 
 .btn-delete-exchange:hover {
-    background-color: rgb(173, 0, 0);
+  background-color: rgb(173, 0, 0);
 }
 </style>

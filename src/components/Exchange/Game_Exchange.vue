@@ -134,7 +134,13 @@ export default {
             proposerGame: this.$data.gameToExchangeSelected.id,
             senderGame: this.$data.gameWishSelected.id
           }).then(() => {
-            this.$router.push('/profile');
+            this.$fire({
+              title: "Swap envoyé !",
+              text: "Votre demande de swap a bien été envoyé à " + this.$data.user.username,
+              type: "success"
+            }).then(() => {
+              this.$router.push("/profile");
+            });
           })
         }
       })

@@ -51,36 +51,55 @@ export default {
         this.getCurrentUser();
     },
     methods: {
-        supExchange(exchange_id) {
+        supExchange(exchange_id, type) {
             const provider = new Exchange();
             provider.refuseExchanges(exchange_id)
                 .then((response) => {
                     if (response) {
-                        this.$alert("L'échange a bien été refusé", "Succès", {
-                            type: "success",
-                            showClose: false,
-                            duration: 3000
-                        });
-                        this.refreshExhanges();
-                    }else{
-                        this.$alert("Une erreur est survenue", "Erreur", {
-                            type: "error",
-                            showClose: false,
-                            duration: 3000
-                        });
+                        if (type == 'cancel') {
+                            this.$fire({
+                                title: 'Succès',
+                                text: 'L\'échange a bien été annulé',
+                                type: 'success'
+                            }).then(() => {
+                                this.refreshExhanges();
+                            });
+                        }else {
+                            this.$fire({
+                                title: 'Succès',
+                                text: 'L\'échange a bien été refusé',
+                                type: 'success'
+                            }).then(() => {
+                                this.refreshExhanges();
+                            });
+                        }
+                    } else {
+                        this.$fire({
+                            title: 'Erreur',
+                            text: 'Une erreur est survenue',
+                            type: 'error'
+                        })
                     }
                 })
-
         },
         acceptExchange(exchange_id) {
             const provider = new Exchange();
             provider.validExchanges(exchange_id)
                 .then((response) => {
                     if (response) {
-                        alert('L\'échange a été validé !');
-                        this.refreshExhanges();
-                    }else{
-                        alert('Une erreur est survenue lors de la validation de l\'échange');
+                        this.$fire({
+                            title: 'Succès',
+                            text: 'L\'échange a bien été validé',
+                            type: 'success'
+                        }).then(() => {
+                            this.refreshExhanges();
+                        })
+                    } else {
+                        this.$fire({
+                            title: 'Erreur',
+                            text: 'Une erreur est survenue',
+                            type: 'error'
+                        })
                     }
                 })
         },
