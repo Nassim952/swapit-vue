@@ -10,18 +10,15 @@ class Exchange extends Publisher {
 
   async getExchange(id, properties = null) {
     const response = await this.get(this.formatEndPoint('exchanges',id, properties));
-    console.log('getExchange', response)
     return response;
   }
 
   async postExchange(data) {
     const response = await this.post('exchanges',data);
     return response;
-    
   }
 
   async patchExchange(id, data) {
-    console.log('patch' ,data)
     const response = await this.patch(this.formatEndPoint('exchanges',id),data);
     return response;
   }

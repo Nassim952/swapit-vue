@@ -16,6 +16,11 @@ export default {
   name: "App",
   components: {
     Navbar
+  },
+  provide() {
+    return {
+      router: this.$router
+    };
   }
 };
 </script>

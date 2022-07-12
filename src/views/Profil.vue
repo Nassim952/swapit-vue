@@ -4,7 +4,7 @@
             <div class="profile-bloc user-info">
                 <div class="profile-img"><img src="../assets/images/Sly.png" alt="profile"></div>
                 <div class="profile-name">{{ user.username }}</div>
-                <div class="profile-nbr-swap"><span>5</span><img src="../assets/images/swap.png" alt="swap"></div>
+                <div class="profile-nbr-swap"><span>{{ user.receivedExchanges.length + user.sendExchanges.length }}</span><img src="../assets/images/swap.png" alt="swap"></div>
             </div>
             <div class="profile-bloc user-ownlist scrollbar" id="style-1">
                 <h3>Liste de jeux possédés</h3>
@@ -72,7 +72,6 @@ export default {
                     response.ownGames.forEach(element => {
                         providerGame.getGames(null, null, { "id": element }).then(response => {
                             this.$data.ownGames.push(response.shift())
-                            console.log(this.$data.ownGames)
                         })
                     });
                 }
@@ -90,7 +89,6 @@ export default {
                     response.wishGames.forEach(element => {
                         providerGame.getGames(null, null, { "id": element }).then(response => {
                             this.$data.wishGames.push(response.shift())
-                            console.log(this.$data.wishGames)
                         })
                     });
                 }

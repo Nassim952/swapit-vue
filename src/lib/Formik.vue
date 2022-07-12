@@ -6,20 +6,14 @@
       </div>
       
       <slot v-bind="{handleSubmit, errors, with_label, values}" :values="values" ></slot>
-    <PulseLoader :loading="isLoading" v-if="isLoading">
-      
-    </PulseLoader>
+  
     </div>
 </template>
 
 <script>
 
-import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 export default {
   name: "Formik",
-  components: {
-     PulseLoader
-    },
   props: {
     initialValues: {Object, default: () => ({})},
     title: {
@@ -80,7 +74,6 @@ export default {
     updateFieldValue({target}) {
       const {name, value} = target;
       this.$data.values[name] = value;
-      console.log(this.$data.values)
     }
   },
 };

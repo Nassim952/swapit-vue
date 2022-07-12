@@ -48,7 +48,6 @@ export default {
         // console.info(event.target)
       },
       changeActive() {
-        console.log(this.$data.value)
         if(this.$data.value) {
           this.$data.isActive = true
         } else {

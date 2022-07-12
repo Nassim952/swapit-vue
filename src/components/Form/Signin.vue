@@ -2,7 +2,7 @@
   <div class="">
     <main class="form-signin">
       <Formik title="Connexion" :onSubmit="onSubmit" :validator="validator"
-        v-slot="{ handleSubmit, errors, with_label }" :with_label="true"
+        v-slot="{handleSubmit, errors, with_label }" :with_label="true"
         description="Connecter vous à votre compte Swapit">
         <div>
           <Field type="email" name="email" placeholder="name@example.com" :with_label="with_label"
@@ -23,7 +23,7 @@
             <input type="checkbox" value="remember-me"> Se souvenir de moi
           </label>
         </div>
-        <Button :onClick='handleSubmit' title="Connexion" type="submit">Connexion</Button>
+        <Button :onClick="handleSubmit" title="Connexion" type="submit">Connexion</Button>
       </Formik>
     </main>
   </div>
@@ -37,12 +37,15 @@ import Formik from "../../lib/Formik.vue";
 import Field from "../../lib/Field.vue";
 import Error from "../Errors/Error.vue";
 import { Auth } from "../../lib/Services/Auth";
+
 export default {
   components: {
     Formik,
     Field,
     Button,
     Error
+  },
+  created() {
   },
   computed: {
     validator: () => validator,
@@ -55,12 +58,11 @@ export default {
           email: data.email,
           password: data.password
         }
-      ).then(function (response) {
-        console.log(response);
-        this.$router.push("/");
+      ).then(() => {
+        window.location.href = '/'
       });
-    }
-  }
+    },
+  },
 }
 
 </script>

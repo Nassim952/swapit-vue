@@ -98,11 +98,9 @@ export default {
 
       provider.auth.me().then(response => {
         if(response) {
-          console.log('auth', response)
           var ownGames = response?.ownGames
           ownGames.push(game.id)
-          provider.patchUser(response.id,  {'ownGames': ownGames}).then(response => {
-            console.log(response)
+          provider.patchUser(response.id,  {'ownGames': ownGames}).then(() => {
           })
         }
 
@@ -117,8 +115,7 @@ export default {
           
           var wishGames = response?.wishGames
           wishGames.push(game.id)
-          provider.patchUser(response.id,  {'wishGames': wishGames}).then(response => {
-            console.log(response)
+          provider.patchUser(response.id,  {'wishGames': wishGames}).then(() => {
           })
         }
       })
@@ -285,6 +282,15 @@ export default {
   left: 2vw;
   display: flex;
   margin-left: 200px;
+}
+
+@media only screen and (max-width: 414px){
+.container .card .card-details {
+  position: absolute;
+  bottom: 1em;
+  display: flex;
+  margin-left: 0px;
+}
 }
 
 .container .card .card-details .card-body {

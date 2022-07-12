@@ -64,9 +64,8 @@
             email: data.email,
             password: data.password
           }
-        ).then(response => { 
-          console.log(response) 
-          this.$router.push("/signin");
+        ).then(() => { 
+          window.location.href = '/signin'
         })
       }
     },
