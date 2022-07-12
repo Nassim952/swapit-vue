@@ -1,14 +1,14 @@
 import Publisher from '../Connexion/Publisher'
-import { Auth } from './Auth';
-import VueSimpleAlert from 'vue-simple-alert';
-class User extends Publisher {
+import { AuthAdmin } from './AuthAdmin';
+import VueSimpleAlert from "vue-simple-alert";
+class UserAdmin extends Publisher {
   constructor() {
     super('http://localhost:81/', {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token') ?? 'null'
+      'Authorization': 'Bearer ' + 'var env token Admin'
     });
-    this.auth = new Auth();
+    this.authAdmin = new AuthAdmin();
   }
 
   async getUser(id, properties = null) {
@@ -17,24 +17,32 @@ class User extends Publisher {
   }
 
   async postUser(data) {
-    this.post(this.formatEndPoint('users'), data).then(response => {
-      if(response){
+    this.getUsers(null, null, { 'email': data.email }).then(response => {
+      response = response.shift();
+      if (response === undefined) {
+        this.post(this.formatEndPoint('users'), data);
         VueSimpleAlert.fire({
           title: 'Utilisateur créé',
           text: 'Vous pouvez maintenant vous connecter',
           type: 'success',
           timer: 3000
         }).then(() => {
-          window.location.href = "/signin";
+          window.location.href = "/signin"
         })
       }
-      else{
-        VueSimpleAlert.fire({
-          title: 'Erreur lors de la création de l\'utilisateur',
-          text: 'Le mail est peut-être déjà utilisé',
-          type: 'error',
+      else {
+        VueSimpleAlert.fire({ 
+          title: 'Email déjà utilisé', 
+          text: 'Veuillez en choisir un autre', 
+          type: 'warning', 
         })
       }
+    }).catch(() => {
+      VueSimpleAlert.fire({ 
+        title: 'Erreur', 
+        text: 'Veuillez réessayer', 
+        type: 'error', 
+      })
     })
   }
 
@@ -64,4 +72,4 @@ class User extends Publisher {
   }
 }
 
-export { User };
+export { UserAdmin };

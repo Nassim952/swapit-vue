@@ -11,15 +11,25 @@
 
 <script>
 import Navbar from "./components/Navbar/Navbarold.vue";
+import {UserAdmin} from "./lib/Services/UserAdmin";
 
 export default {
   name: "App",
   components: {
     Navbar
   },
+  data() {
+    return {
+      userAdmin: new UserAdmin()
+    };
+  },
+  created(){
+    this.$data.userAdmin.authAdmin.login();
+  },
   provide() {
     return {
-      router: this.$router
+      router: this.$router,
+      userAdmin: this.$data.userAdmin
     };
   }
 };

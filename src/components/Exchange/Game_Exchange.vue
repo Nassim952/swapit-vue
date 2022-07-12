@@ -2,11 +2,15 @@
   <div id="Game_Exchange" class="exchange_container">
     <div class="gameExchange">
       <div class="to_exchange user_game_container">
-        <div style="margin-bottom: 20px;"><h5>Jeux Possedés de {{ capitalizeFirstLetter(user.username) }}</h5></div>
+        <div style="margin-bottom: 20px;">
+          <h5>Jeux Possedés de {{ capitalizeFirstLetter(user.username) }}</h5>
+        </div>
         <GamesToExchange :games="gamesToExchange" />
       </div>
       <div class="wish_exchange user_game_container">
-        <div style="margin-bottom: 20px;"><h5>Jeux Souhaitées de {{ capitalizeFirstLetter(user.username) }}</h5></div>
+        <div style="margin-bottom: 20px;">
+          <h5>Jeux Souhaitées de {{ capitalizeFirstLetter(user.username) }}</h5>
+        </div>
         <GamesWishExchange :matchingGames="matchingGames" :unMatchingGames="unMatchingGames" />
       </div>
     </div>
@@ -82,23 +86,25 @@ export default {
     getGamesToExchange: async function () {
       var providerUser = new User();
       var providerGame = new Igdb();
-      providerUser.getUser(this.$route.params.userid).then(response => {
-        response.ownGames.forEach(element => {
-          providerGame.getGame(element).then(response => {
-            this.$data.gamesToExchange.push(response);
-          });
-        });
+      providerUser.getUser(this.$route.params.userid).then((response) => {
+        if (response?.ownGames !== []) {
+          providerGame.getGames(response?.ownGames)
+            .then(response => {
+              this.$data.gamesToExchange = response ?? []
+            });
+        }
       });
     },
     getGamesWish: async function () {
       var providerUser = new User();
       var providerGame = new Igdb();
-      providerUser.getUser(this.$route.params.userid).then(response => {
-        response.wishGames.forEach(element => {
-          providerGame.getGame(element).then(response => {
-            this.$data.gamesWish.push(response);
-          });
-        });
+      providerUser.getUser(this.$route.params.userid).then((response) => {
+        if (response?.wishGames !== []) {
+          providerGame.getGames(response?.wishGames)
+            .then(response => {
+              this.$data.gamesWish = response ?? []
+            });
+        }
       });
     },
     getGameWishSelected: async function () {
@@ -150,17 +156,28 @@ export default {
           var matchingGames = []
           var unMatchingGames = []
 
+          console.log(currentUserOwnGames)
+          console.log(otherUserWishGames)
+
           otherUserWishGames.forEach(game => {
             if (currentUserOwnGames.includes(game)) {
-              providerGame.getGame(game).then(response => {
-                matchingGames.push(response)
-              })
+              matchingGames.push(game)
             } else {
-              providerGame.getGame(game).then(response => {
-                unMatchingGames.push(response)
-              })
+              unMatchingGames.push(game)
             }
           })
+
+          if(matchingGames.length > 0) {
+            providerGame.getGames(matchingGames).then(response => {
+              this.$data.matchingGames = response
+            })
+          }
+
+          if(unMatchingGames.length > 0) {
+            providerGame.getGames(unMatchingGames).then(response => {
+              this.$data.unMatchingGames = response
+            })
+          }
 
           this.$data.matchingGames = matchingGames
           this.$data.unMatchingGames = unMatchingGames

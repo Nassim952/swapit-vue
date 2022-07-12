@@ -64,36 +64,36 @@ export default {
       provider.auth.me().then(response => {
         if (this.$props.route == "own") {
           provider.getUser(response.id).then(response => { this.$data.aGamesTmp = response?.ownGames ?? [] })
-          this.updateCurrentOwnGames(response.id)
+          this.updateCurrentOwnGames()
         } else {
           provider.getUser().then(response => { this.$data.aGamesTmp = response?.wishGames ?? [] })
-          this.updateCurrentWishGames(response.id)
+          this.updateCurrentWishGames()
         }
       })
     },
-    updateCurrentOwnGames(idUser) {
+    updateCurrentOwnGames() {
       var provider = new User()
       var providerGame = new Igdb()
-      provider.getUser(idUser).then(response => {
+      provider.auth.me().then(response => {
         if (response && response.ownGames.length > 0) {
-          response.ownGames.forEach(element => {
-            providerGame.getGames(null, null, { "id": element }).then(response => {
-              this.$data.aGames.push(response.shift())
-            })
-          });
+          providerGame.getGames(response.ownGames).then(response => {
+            if (response) {
+              this.$data.aGames = response
+            }
+          })
         }
       })
     },
-    updateCurrentWishGames(idUser) {
+    updateCurrentWishGames() {
       var provider = new User()
       var providerGame = new Igdb()
-      provider.getUser(idUser).then(response => {
+      provider.auth.me().then(response => {
         if (response && response.wishGames.length > 0) {
-          response.wishGames.forEach(element => {
-            providerGame.getGames(null, null, { "id": element }).then(response => {
-              this.$data.aGames.push(response.shift())
-            })
-          });
+          providerGame.getGames(response.wishGames).then(response => {
+            if (response) {
+              this.$data.aGames = response
+            }
+          })
         }
       })
     },
@@ -158,8 +158,6 @@ export default {
           else {
             this.$data.aGamesTmp.forEach(element => {
               if (response.ownGames == element) {
-                console.log(response.ownGames)
-                console.log(element)
                 isExist = true;
               }
             });
