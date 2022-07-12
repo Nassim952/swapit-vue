@@ -102,7 +102,6 @@ export default {
         if (response) {
           var isExist = false
           var ownGames = response?.ownGames
-          console.log(ownGames)
           if (ownGames.length < 1) {
             ownGames.push(game.id)
             provider.patchUser(response.id, { 'ownGames': ownGames }).then(() => {

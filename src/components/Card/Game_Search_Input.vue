@@ -75,7 +75,7 @@ export default {
       var provider = new User()
       var providerGame = new Igdb()
       provider.getUser(idUser).then(response => {
-        if (response) {
+        if (response && response.ownGames.length > 0) {
           response.ownGames.forEach(element => {
             providerGame.getGames(null, null, { "id": element }).then(response => {
               this.$data.aGames.push(response.shift())
@@ -88,7 +88,7 @@ export default {
       var provider = new User()
       var providerGame = new Igdb()
       provider.getUser(idUser).then(response => {
-        if (response) {
+        if (response && response.wishGames.length > 0) {
           response.wishGames.forEach(element => {
             providerGame.getGames(null, null, { "id": element }).then(response => {
               this.$data.aGames.push(response.shift())

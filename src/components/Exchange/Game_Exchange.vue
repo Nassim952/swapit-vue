@@ -1,15 +1,13 @@
 <template>
   <div id="Game_Exchange" class="exchange_container">
-    <div>{{ message }}</div>
     <div class="gameExchange">
       <div class="to_exchange user_game_container">
-        <div>Jeux Possedés de {{ user.username }}</div>
+        <div style="margin-bottom: 20px;"><h5>Jeux Possedés de {{ capitalizeFirstLetter(user.username) }}</h5></div>
         <GamesToExchange :games="gamesToExchange" />
       </div>
       <div class="wish_exchange user_game_container">
-        <div>Jeux Souhaitées de {{ user.username }}</div>
-
-        <GamesWishExchange :games="gamesWish" />
+        <div style="margin-bottom: 20px;"><h5>Jeux Souhaitées de {{ capitalizeFirstLetter(user.username) }}</h5></div>
+        <GamesWishExchange :matchingGames="matchingGames" :unMatchingGames="unMatchingGames" />
       </div>
     </div>
     <div class="recap_exchange">
@@ -49,7 +47,8 @@ export default {
     gamesToExchange: [],
     gamesWish: [],
     user: {},
-    message: "",
+    matchingGames: [],
+    unMatchingGames: [],
   }),
   computed: {
 
@@ -57,7 +56,8 @@ export default {
   created() {
     this.getGamesToExchange();
     this.getGamesWish();
-    this.getGameWishSelected();
+    this.getMatchingGames();
+    // this.getGameWishSelected();
     this.getUser();
   },
   methods: {
@@ -115,8 +115,60 @@ export default {
         return game.id
       })).includes(game_id)
     },
+    addGameOwnList(idGame) {
+      var provider = new User();
+      provider.auth.me().then(response => {
+        response.ownGames.push(idGame);
+        provider.patchUser(response.id, { 'ownGames': response.ownGames }).then(() => {
+          this.$fire({
+            title: "Succès",
+            text: "Le jeu a été ajouté à vos jeux possédés !",
+            type: "success"
+          }).then(() => {
+            window.location.reload();
+          })
+        }).catch(() => {
+          this.$fire({
+            title: "Erreur",
+            text: "Une erreur est survenue lors de l'ajout du jeu à vos jeux possédés !",
+            type: "error"
+          })
+        })
+      })
+    },
     gameIsSelected: function (game) {
       return (this.gameToExchangeSelected && this.gameToExchangeSelected.id == game.id) || (this.gameWishSelected && this.gameWishSelected.id == game.id)
+    },
+    getMatchingGames() {
+      var provider = new User()
+      var providerGame = new Igdb()
+
+      provider.auth.me().then(response => {
+        var currentUserOwnGames = response.ownGames
+        provider.getUser(this.$route.params.userid).then(response => {
+          var otherUserWishGames = response.wishGames
+          var matchingGames = []
+          var unMatchingGames = []
+
+          otherUserWishGames.forEach(game => {
+            if (currentUserOwnGames.includes(game)) {
+              providerGame.getGame(game).then(response => {
+                matchingGames.push(response)
+              })
+            } else {
+              providerGame.getGame(game).then(response => {
+                unMatchingGames.push(response)
+              })
+            }
+          })
+
+          this.$data.matchingGames = matchingGames
+          this.$data.unMatchingGames = unMatchingGames
+        })
+      })
+    },
+    capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
     },
     HandleSubmit: async function () {
       var provider = new Exchange();
@@ -139,6 +191,12 @@ export default {
             });
           })
         }
+      }).catch(() => {
+        this.$fire({
+          title: "Erreur",
+          text: "Une erreur est survenue lors de l'envoi de votre demande de swap !",
+          type: "error"
+        })
       })
     },
   },
@@ -153,6 +211,7 @@ export default {
       gameIsSelected: this.gameIsSelected,
       gameOwn: this.gameOwn,
       addOwn: this.addOwn,
+      addGameOwnList: this.addGameOwnList,
     }
   },
 };

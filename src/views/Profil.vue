@@ -3,8 +3,8 @@
         <div class="profile-container">
             <div class="profile-bloc user-info">
                 <div class="profile-img"><img src="../assets/images/Sly.png" alt="profile"></div>
-                <div class="profile-name">{{ user.username }}</div>
-                <div class="profile-nbr-swap"><span></span><img src="../assets/images/swap.png" alt="swap"></div>
+                <div class="profile-name">{{ capitalizeFirstLetter(user.username) }}</div>
+                <!-- <div class="profile-nbr-swap"><span></span><img src="../assets/images/swap.png" alt="swap"></div> -->
             </div>
             <div class="profile-bloc user-ownlist scrollbar" id="style-1">
                 <h3>Liste de jeux possédés</h3>
@@ -66,7 +66,7 @@ export default {
             var provider = new User()
             var providerGame = new Igdb()
             provider.auth.me().then(response => {
-                if (response) {
+                if (response && response.ownGames.length > 0) {
                     providerGame.getGames(response.ownGames).then(response => {
                         if(response) {
                             this.$data.ownGames = response
@@ -80,7 +80,7 @@ export default {
             var provider = new User()
             var providerGame = new Igdb()
             provider.auth.me().then(response => {
-                if (response) {
+                if (response && response.wishGames.length > 0) {
                     providerGame.getGames(response.wishGames).then(response => {
                         if(response) {
                             this.$data.wishGames = response
@@ -134,6 +134,9 @@ export default {
                 }
             })
         },
+        capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
     },
     provide() {
         return {
@@ -169,7 +172,6 @@ export default {
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     padding: 100px 0px;
 }
 

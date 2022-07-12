@@ -64,7 +64,7 @@ export default {
                             }).then(() => {
                                 this.refreshExhanges();
                             });
-                        }else {
+                        } else {
                             this.$fire({
                                 title: 'Succès',
                                 text: 'L\'échange a bien été refusé',
@@ -84,6 +84,31 @@ export default {
         },
         acceptExchange(exchange_id) {
             const provider = new Exchange();
+            // const providerUser = new User();
+
+            // provider.getExchange(exchange_id).then((response) => {
+            //     var ownerId = response.owner.slice(7)
+            //     var proposerId = response.proposer.slice(7)
+            //     var ownerGame = response.senderGame
+            //     var proposerGame = response.proposerGame
+
+            //     providerUser.getUser(ownerId).then((response) => {
+            //         const index = response.ownGames.indexOf(ownerGame)
+            //         if (index > -1) {
+            //             response.ownGames.splice(index, 1)
+            //             provider.patchUser(ownerId, { 'ownGames': response.ownGames })
+            //         }
+            //     })
+
+            //     providerUser.getUser(proposerId).then((response) => {
+            //         const index = response.wishGames.indexOf(proposerGame)
+            //         if (index > -1) {
+            //             response.ownGames.splice(index, 1)
+            //             provider.patchUser(proposerId, { 'wishGames': response.proposerGame })
+            //         }
+            //     })
+            // })
+
             provider.validExchanges(exchange_id)
                 .then((response) => {
                     if (response) {
@@ -101,6 +126,12 @@ export default {
                             type: 'error'
                         })
                     }
+                }).catch(() => {
+                    this.$fire({
+                        title: 'Erreur',
+                        text: 'Une erreur est survenue',
+                        type: 'error'
+                    })
                 })
         },
         async refreshExhanges() {

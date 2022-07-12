@@ -37,7 +37,13 @@ class User extends Publisher {
           type: 'warning', 
         })
       }
-    });
+    }).catch(() => {
+      VueSimpleAlert.fire({ 
+        title: 'Erreur', 
+        text: 'Veuillez réessayer', 
+        type: 'error', 
+      })
+    })
   }
 
   async patchUser(id, data) {

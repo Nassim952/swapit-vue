@@ -2,7 +2,7 @@
     <div>
         <div class="exchange-el" >
             <div class="game-info">
-                <div class="user-pseudo">{{owner.username}}</div>
+                <div class="user-pseudo">Jeu de {{owner.username}}</div>
                 <div class="game_card">
                     <img :src="coverPreUrl(proposerGame)" width="80" height="80">
                     <div class="text-game">
@@ -12,7 +12,7 @@
             </div>
             <img class="swap-img" src="../../assets/images/swap.png" width="60" height="60"/>
             <div class="game-info">
-                <div class="user-pseudo">{{proposer.username}}</div>
+                <div class="user-pseudo">Jeu de {{proposer.username}}</div>
                 <div class="game_card">
                     <img :src="coverPreUrl(senderGame)" width="80" height="80">
                     <div class="text-game">

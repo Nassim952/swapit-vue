@@ -5,7 +5,7 @@
                 <div class="user-img">
                     <img src="../../assets/images/user.svg" width="80" height="80">
                 </div>
-                <div class="pseudo">{{ user.username }}</div>
+                <div class="pseudo">{{ capitalizeFirstLetter(user.username) }}</div>
             </div>
             <div class="info-user">
                 <div class="header-card">Echanges</div>
@@ -47,6 +47,11 @@ export default {
     computed: {
         exchangeUrl() {
             return "/exchange/" + this.user.id + "/" + this.game.id;
+        }
+    },
+    methods: {
+        capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
         }
     },
 }
