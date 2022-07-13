@@ -1,7 +1,7 @@
 import Publisher from '../Connexion/Publisher'
 class Exchange extends Publisher {
   constructor() {
-    super('https://swapit-api-core.herokuapp.com/', {
+    super('https://swapit-api-vue.herokuapp.com/api-core/', {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token') ?? 'null'
