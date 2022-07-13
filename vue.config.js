@@ -1,6 +1,6 @@
 
 module.exports = {
-    server: {
+    devServer: {
         proxy: {
             '/api-core': {
                 target: 'https://swapit-api-core.herokuapp.com/',
