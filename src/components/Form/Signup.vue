@@ -64,9 +64,10 @@
             email: data.email,
             password: data.password
           }
-        ).then(() => { 
-          window.location.href = '/signin'
-        })
+        )
+        // .then(() => { 
+        //   window.location.href = '/signin'
+        // })
       }
     },
     name: "Register",
