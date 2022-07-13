@@ -2,7 +2,7 @@ import Publisher from '../Connexion/Publisher'
 import { Auth } from './Auth';
 class User extends Publisher {
   constructor() {
-    super('https://swapit-vue.herokuapp.com/api-core/', {
+    super('https://swapit-vue.herokuapp.com/', {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token') ?? 'null'
