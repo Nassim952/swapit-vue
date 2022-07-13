@@ -58,9 +58,10 @@ export default {
           email: data.email,
           password: data.password
         }
-      ).then(() => {
-        window.location.href = '/'
-      });
+      )
+      // .then(() => {
+      //   window.location.href = '/'
+      // });
     },
   },
 }
