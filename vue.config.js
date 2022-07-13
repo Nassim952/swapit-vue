@@ -3,11 +3,11 @@ module.exports = {
     devServer: {
         proxy: {
             '/api-core': {
-                target: 'http://swapit-api-core.herokuapp.com/',
+                target: 'http://localhost:81/',
                 pathRewrite: { '^/api-core': '/' }
             },
             "/api-game": {
-                target: 'http://swapit-api-game.herokuapp.com/',
+                target: 'https://localhost/api',
                 pathRewrite: { '^/api-game': '/' }
             }
         }
