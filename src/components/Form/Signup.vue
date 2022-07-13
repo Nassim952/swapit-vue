@@ -2,8 +2,6 @@
   <div>
     <main>
       <Formik title="Inscription" :onSubmit="onSubmit" :validator="validator" v-slot="{handleSubmit, errors}" :with_label="true" description="Créer votre compte Swapit">
-        <!-- <h1 class="h3 mb-3 fw-normal">Inscription</h1> -->
-
         <div >
           <Field placeholder="Nom d'utilisateur" name="login" type="text"> </Field>
           <Error  v-if="errors.login" :value="errors.login"/>
@@ -26,11 +24,6 @@
           <Error  v-if="errors.password_confirm" :value="errors.password_confirm"/>
         </div>
 
-        <div class="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="remember-me"> Se souvenir de moi
-          </label>
-        </div>
         <Button :onClick='handleSubmit' title="Inscription" type="submit">Inscription</Button>
       </Formik>
     </main>

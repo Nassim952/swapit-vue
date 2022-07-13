@@ -92,7 +92,6 @@ export default {
 .form {
   width: 50%;
   margin: auto auto;
-  margin-bottom: 2rem;
   display: flex;
   align-items: center;
   justify-content: space-around;
