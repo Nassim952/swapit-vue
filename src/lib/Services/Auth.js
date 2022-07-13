@@ -44,7 +44,6 @@ class Auth extends Publisher {
   getToken() {
     return localStorage.getItem('token') ?? null;
   }
-  
 }
 
 export { Auth };
