@@ -2,7 +2,7 @@ import Publisher from '../Connexion/Publisher'
 import jwt_decode from 'jwt-decode'
 class Auth extends Publisher {
   constructor() {
-    super('https://swapit-vue.herokuapp.com/', {
+    super('https://swapit-vue.herokuapp.com/api-core/', {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     });

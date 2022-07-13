@@ -1,16 +1,15 @@
-
 module.exports = {
     devServer: {
         proxy: {
-            'https://swapit-vue.herokuapp.com/': {
+            '/api-core': {
                 target: 'http://swapit-api-core.herokuapp.com/',
                 ws: true,
-                pathRewrite: { '^https://swapit-vue.herokuapp.com/': '/' }
+                pathRewrite: { '^/api-core': '/' }
             },
-            'https://swapit-vue.herokuapp.com/api/': {
+            '/api-game': {
                 target: 'https://swapit-api-game.herokuapp.com/',
                 ws: true,
-                pathRewrite: { '^https://swapit-vue.herokuapp.com/api/': '/' }
+                pathRewrite: { '^/api-game': '/' }
             }
         }
     }
