@@ -1,7 +1,7 @@
 import Publisher from '../Connexion/Publisher'
 class Igdb extends Publisher {
   constructor() {
-    super('https://swapit-vue.herokuapp.com/api-game/api/', {
+    super('https://swapit-vue.herokuapp.com/api/api-game/', {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     });
