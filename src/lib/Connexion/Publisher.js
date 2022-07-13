@@ -39,7 +39,7 @@ class Publisher {
             Array.isArray(ids) ? endpoint.push(this.formatUrlIds(ids)): null;
         }
 
-        return `/${entity}${Array.isArray(ids) ? '.json':'' }${ids && !Array.isArray(ids) ? '/' + ids : ''}${ids && Array.isArray(ids)||properties||filters?'/?':''}${endpoint? endpoint.join('&'):''}`
+        return `https://swapit-vue.herokuapp.com/${entity}${Array.isArray(ids) ? '.json':'' }${ids && !Array.isArray(ids) ? '/' + ids : ''}${ids && Array.isArray(ids)||properties||filters?'/?':''}${endpoint? endpoint.join('&'):''}`
     }
 
     formatUrlIds(ids) {
