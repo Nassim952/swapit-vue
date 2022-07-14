@@ -24,6 +24,17 @@
                     <b-nav-item>
                         <router-link v-if="hidden" to="/signup" class="link-nav p-3">Inscription</router-link>
                     </b-nav-item>
+
+                    <b-nav-item-dropdown>
+                        <template #button-content>
+                            <span class="link-nav p-3">Notifications</span> <span class="badge bg-danger">4</span>
+                        </template>
+                        <b-dropdown-item href="#">1 nouveau message</b-dropdown-item>
+                        <b-dropdown-item href="#">Naruto vous a envoyé un clone</b-dropdown-item>
+                        <b-dropdown-item href="#">Joyeux anniversaire</b-dropdown-item>
+                        <b-dropdown-item href="#">Wesh bien ?</b-dropdown-item>
+                    </b-nav-item-dropdown>
+                    
                     
                     <b-nav-item>
                         <router-link v-if="logged" to="/popularGames"><img class="picto-nav" src="../../assets/images/popularity.png" width="27" height="27"></router-link>
