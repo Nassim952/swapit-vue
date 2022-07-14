@@ -82,6 +82,10 @@ const routes = [
         component: () => import("../components/Admin/UserForm/userForm.vue"),
         meta: { requiresAdmin: true }
     },
+    {
+        path: "/cgu",
+        component: () => import("../views/Reglement.vue")
+    },
 ];
 
 const router = new VueRouter({
