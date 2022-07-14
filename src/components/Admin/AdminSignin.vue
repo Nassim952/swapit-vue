@@ -36,6 +36,8 @@ import Formik from "../../lib/Formik.vue";
 import Field from "../../lib/Field.vue";
 import Error from "../Errors/Error.vue";
 import { User } from "../../lib/Services/User";
+import VueSimpleAlert from "vue-simple-alert";
+
 export default {
   components: {
     Formik,
@@ -58,14 +60,24 @@ export default {
         .then(function () {
           provider.auth.me().then(function (response) {
             if (response?.roles?.includes('ROLE_ADMIN')) {
-              window.location.href = '/admin/'
+              VueSimpleAlert.fire({
+                title: "Connexion réussie",
+                text: "Vous êtes connecté en tant qu'administrateur",
+                type: "success",
+                timer: 3000
+              }).then(() => {
+                window.location.href = "/admin"
+              })
             } else {
-              alert('Vous n\'avez pas les droits pour accéder à cette page')
-              window.location.href = '/'
+              VueSimpleAlert.fire({
+                title: "Accès refusé",
+                text: "Vous n'avez pas les droits pour accéder à cette page",
+                type: "error",
+              })
             }
           })
         }).catch(() => {
-          this.$fire({
+          VueSimpleAlert.fire({
             title: 'Erreur',
             text: 'Une erreur est survenue',
             type: 'error'
