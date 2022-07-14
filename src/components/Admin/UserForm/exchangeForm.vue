@@ -63,8 +63,12 @@ export default {
                         this.receivedExchanges = response;
                     }
                 })
-                .catch(err => {
-                    console.log(err)
+                .catch(() => {
+                    this.$fire({
+                        title: 'Erreur',
+                        text: 'Une erreur est survenue',
+                        type: 'error'
+                    })
                 })
             provider.getSendExchanges(this.$data.user.id)
                 .then(response => {
@@ -72,8 +76,12 @@ export default {
                         this.sentExchanges = response;
                     }
                 })
-                .catch(err => {
-                    console.log(err)
+                .catch(() => {
+                    this.$fire({
+                        title: 'Erreur',
+                        text: 'Une erreur est survenue',
+                        type: 'error'
+                    })
                 })
         },
         async getCurrentUser() {

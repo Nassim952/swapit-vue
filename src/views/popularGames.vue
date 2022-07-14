@@ -45,7 +45,6 @@ export default {
                 delete this.$data.selectedFilters[categorie]
             }
             this.refreshRessource()
-            console.log(this.$data.selectedFilters)
         },
         checkEmptySelectedFilter(categorie = null) {
 
@@ -59,8 +58,6 @@ export default {
             this.refreshRessource()
         },
         added(game) {
-            // this.$data.UserList = [];
-            // console.log(this.$data.UserList)
             return this.$data.UserList.some(e => e === game.id)
         },
         async getUser() {
@@ -74,8 +71,12 @@ export default {
                         this.$data.UserList = data
                     }
                 }
-            }).catch(error => {
-                console.log(error)
+            }).catch(() => {
+                this.$fire({
+                    title: 'Erreur',
+                    text: 'Une erreur est survenue',
+                    type: 'error'
+                })
             })
         },
     },

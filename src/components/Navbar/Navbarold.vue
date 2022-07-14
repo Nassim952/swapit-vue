@@ -91,7 +91,6 @@ export default {
                 delete this.$data.selectedFilters[categorie]
             }
             this.refreshRessource()
-            console.log(this.$data.selectedFilters)
         },
         checkEmptySelectedFilter(categorie = null) {
 

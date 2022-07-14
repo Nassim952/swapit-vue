@@ -37,12 +37,12 @@ export default {
     UserList: [],
   }),
   created() {
-    if (this.$route.params.id){
-            this.selectedFilters.genres=[this.$route.params.id]
+    if (this.$route.params.id) {
+      this.selectedFilters.genres = [this.$route.params.id]
     }
 
-   this.refreshRessource()
-   this.getUser();
+    this.refreshRessource()
+    this.getUser();
   },
   methods: {
     async refreshRessource() {
@@ -63,13 +63,10 @@ export default {
         delete this.$data.selectedFilters[categorie]
       }
       this.refreshRessource()
-      console.log(this.$data.selectedFilters)
     },
     checkEmptySelectedFilter(categorie = null) {
 
       if (categorie) {
-        console.log(this.$data.selectedFilters?.[categorie])
-        console.log(this.$data.selectedFilters?.[categorie]?.length)
         if (this.$data.selectedFilters?.[categorie]) {
           return this.$data.selectedFilters?.[categorie]?.length === 0
         }
@@ -95,8 +92,12 @@ export default {
             this.$data.UserList = data
           }
         }
-      }).catch(error => {
-        console.log(error)
+      }).catch(() => {
+        this.$fire({
+          title: 'Erreur',
+          text: 'Une erreur est survenue',
+          type: 'error'
+        })
       })
     },
   },

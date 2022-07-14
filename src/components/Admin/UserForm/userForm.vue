@@ -70,7 +70,7 @@
 			</div>
 		</div>
 		<div v-if="showExchanges" class="exchange-form">
-			<ExchangeForm/>
+			<ExchangeForm />
 		</div>
 	</div>
 </template>
@@ -116,8 +116,12 @@ export default {
 			provider.postUser(data)
 				.then(() => {
 				})
-				.catch(err => {
-					console.log(err)
+				.catch(() => {
+					this.$fire({
+						title: 'Erreur',
+						text: 'Une erreur est survenue',
+						type: 'error'
+					})
 				})
 		},
 		updateUser() {
@@ -131,8 +135,12 @@ export default {
 			provider.patchUser(this.userData.id, data)
 				.then(() => {
 				})
-				.catch(err => {
-					console.log(err)
+				.catch(() => {
+					this.$fire({
+						title: 'Erreur',
+						text: 'Une erreur est survenue',
+						type: 'error'
+					})
 				})
 		},
 		async getUser() {
@@ -142,8 +150,12 @@ export default {
 					delete response.password;
 					this.userData = response
 				})
-				.catch(err => {
-					console.log(err)
+				.catch(() => {
+					this.$fire({
+						title: 'Erreur',
+						text: 'Une erreur est survenue',
+						type: 'error'
+					})
 				})
 		},
 		saveUser() {

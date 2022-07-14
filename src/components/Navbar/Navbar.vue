@@ -120,7 +120,6 @@
             filters = this.$data.selectedFilters.modes ? filters +`${(this.$data.selectedFilters.modes.map((mode, key) => {
                 return `&genres[${key}]=${mode}` 
             })).join('')}` : '' 
-            console.log(filters)
             if (this.$data.searchQuery) {
 
             fetch(`https://swapit-api-game.herokuapp.com/api/games.json?page=1${filters}&name=${this.searchQuery}`).then(response => response.json()).then(data => {
@@ -130,7 +129,6 @@
                 console.error(err)
             })
         } else {
-            console.log('toto1')
             fetch(`https://swapit-api-game.herokuapp.com/api/games.json?popular${filters}`).then(response => response.json()).then(data => {
             this.$data.resources = data;
         

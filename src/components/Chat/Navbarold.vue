@@ -83,13 +83,10 @@
                 delete  this.$data.selectedFilters[categorie]
             }
             this.refreshRessource()
-            console.log(this.$data.selectedFilters)
         },
         checkEmptySelectedFilter(categorie = null) {
 
             if (categorie) {
-                console.log(this.$data.selectedFilters?.[categorie])
-                console.log(this.$data.selectedFilters?.[categorie]?.length)
                 // if(this.$data.selectedFilters?.[categorie]){
                     return this.$data.selectedFilters?.[categorie]?.length === 0 
                 // }

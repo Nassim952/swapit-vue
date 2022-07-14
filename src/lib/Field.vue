@@ -54,7 +54,6 @@
       handleChange: function (field) {
         // var value = field.value;
         this.$data.value = field.value;
-        console.log("value: "+ field.value)
         
       },
     },

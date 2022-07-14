@@ -12,7 +12,7 @@
             </div>
             <img class="swap-img" src="../../assets/images/swap.png" width="60" height="60" />
             <div class="game-info">
-                <div class="user-pseudo">Jeu de {{proposer.username}}</div>
+                <div class="user-pseudo">Jeu de {{ proposer.username }}</div>
                 <div class="game_card">
                     <img :src="coverPreUrl(senderGame)" width="80" height="80">
                     <div class="text-game">
@@ -22,8 +22,8 @@
             </div>
         </div>
         <div>
-            <button @click="supExchange(exchange.id, 'cancel')" class="btn-delete-exchange"><img src="../../assets/images/bin.png"
-                    height="10" width="10"></button>
+            <button @click="supExchange(exchange.id, 'cancel')" class="btn-delete-exchange"><img
+                    src="../../assets/images/bin.png" height="10" width="10"></button>
         </div>
     </div>
 </template>
@@ -60,8 +60,12 @@ export default {
                         this.proposerGame = response;
                     }
                 })
-                .catch(err => {
-                    console.log(err)
+                .catch(() => {
+                    this.$fire({
+                        title: 'Erreur',
+                        text: 'Une erreur est survenue',
+                        type: 'error'
+                    })
                 })
         },
         getSenderGames(game_id) {
@@ -72,8 +76,12 @@ export default {
                         this.senderGame = response;
                     }
                 })
-                .catch(err => {
-                    console.log(err)
+                .catch(() => {
+                    this.$fire({
+                        title: 'Erreur',
+                        text: 'Une erreur est survenue',
+                        type: 'error'
+                    })
                 })
         },
         getOwner(id) {
@@ -85,8 +93,12 @@ export default {
                         this.owner = response;
                     }
                 })
-                .catch(err => {
-                    console.log(err)
+                .catch(() => {
+                    this.$fire({
+                        title: 'Erreur',
+                        text: 'Une erreur est survenue',
+                        type: 'error'
+                    })
                 })
         },
         getProposer(id) {
@@ -98,8 +110,12 @@ export default {
                         this.proposer = response;
                     }
                 })
-                .catch(err => {
-                    console.log(err)
+                .catch(() => {
+                    this.$fire({
+                        title: 'Erreur',
+                        text: 'Une erreur est survenue',
+                        type: 'error'
+                    })
                 })
         },
         init() {

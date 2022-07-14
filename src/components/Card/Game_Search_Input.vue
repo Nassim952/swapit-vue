@@ -207,7 +207,13 @@ export default {
             })
         }
       })
-        .catch(error => { console.log(error) })
+        .catch(() => {
+          this.$fire({
+            title: 'Erreur',
+            text: 'Une erreur est survenue',
+            type: 'error'
+          })
+        })
 
     },
     resultQuery() {

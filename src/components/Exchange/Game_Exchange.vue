@@ -156,9 +156,6 @@ export default {
           var matchingGames = []
           var unMatchingGames = []
 
-          console.log(currentUserOwnGames)
-          console.log(otherUserWishGames)
-
           otherUserWishGames.forEach(game => {
             if (currentUserOwnGames.includes(game)) {
               matchingGames.push(game)

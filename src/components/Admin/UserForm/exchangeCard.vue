@@ -57,8 +57,12 @@ export default {
                    this.proposerGame = response;
                 }
             })
-            .catch(err=>{
-                console.log(err)
+            .catch(()=>{
+                this.$fire({
+                    title: 'Erreur',
+                    text: 'Une erreur est survenue',
+                    type: 'error'
+                })
             })
         },
          getSenderGames(game_id){
@@ -69,8 +73,12 @@ export default {
                     this.senderGame = response;
                 }
             })
-            .catch(err=>{
-                console.log(err)
+            .catch(()=>{
+                this.$fire({
+                    title: 'Erreur',
+                    text: 'Une erreur est survenue',
+                    type: 'error'
+                })
             })
         },
         getOwner(id){
@@ -82,8 +90,12 @@ export default {
                      this.owner = response;
                 }
             })
-            .catch(err=>{
-                console.log(err)
+            .catch(()=>{
+                this.$fire({
+                    title: 'Erreur',
+                    text: 'Une erreur est survenue',
+                    type: 'error'
+                })
             })
         },
         getProposer(id){
@@ -95,8 +107,12 @@ export default {
                      this.proposer = response;
                 }
             })
-            .catch(err=>{
-                console.log(err)
+            .catch(()=>{
+                this.$fire({
+                    title: 'Erreur',
+                    text: 'Une erreur est survenue',
+                    type: 'error'
+                })
             })
         },
         init(){ 
