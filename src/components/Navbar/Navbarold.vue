@@ -24,8 +24,8 @@
                         width="25" height="20"></router-link>
                 <router-link v-if="logged" to="/wishgameslist"><img class="picto-nav"
                         src="../../assets/images/heart.svg" width="20" height="20"></router-link>
-                <router-link v-if="logged" to="/profile"><img class="picto-nav" src="../../assets/images/user.svg"
-                        width="25" height="20"></router-link>
+                <router-link v-if="logged" to="/profile"><img class="picto-nav" src="../../assets/images/user.svg" width="25"
+                        height="20"></router-link>
                 <button v-if="logged" id="logout-btn" class="logout-btn" @click="logout"><img class="picto-nav"
                         src="../../assets/images/logout.svg" width="20" height="20"></button>
             </div>
@@ -44,6 +44,9 @@
 // import GameLayer from "../Game/GameLayer.vue";
 import SideBar from "../Filter/SideBar.vue";
 import { Igdb } from "../../lib/Services/Igdb";
+// import { User } from "../../lib/Services/User";
+// import jwt_decode from "jwt-decode";
+
 // import User from "../../lib/Services/User.js";
 export default {
     components: {
@@ -74,7 +77,7 @@ export default {
     methods: {
         logout() {
             localStorage.clear();
-            this.$router.push("/");
+            this.$router.push("/signin");
         },
         async refreshRessource() {
             var provider = new Igdb()
@@ -105,6 +108,27 @@ export default {
         updateQuery(value) {
             this.$data.searchQuery = value
             this.refreshRessource()
+        },
+        ProfilePreUrl() {
+            // var provider = new User()
+
+            // if (localStorage.getItem("token")) {
+            //     var decoded = jwt_decode(localStorage.getItem("token"))
+            //     provider.getUsers(null, null, { 'email': decoded.email }).then(response => {
+            //         response = response.shift()
+            //         provider.getReceivedExchanges(response.id).then(response => {
+            //             if (response) {
+            //                 return "../../assets/images/notification.png"
+            //             }
+            //             else {
+            //                 return "../../assets/images/user.svg"
+            //             }
+            //         })
+            //     })
+            // }
+            // else{
+            //     return "../../assets/images/user.svg"
+            // }
         }
     },
     provide() {

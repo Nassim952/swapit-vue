@@ -17,9 +17,11 @@ export default {
   components: {
     Navbar
   },
+  created(){
+  },
   provide() {
     return {
-      router: this.$router
+      router: this.$router,
     };
   }
 };

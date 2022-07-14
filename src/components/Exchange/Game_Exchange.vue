@@ -1,15 +1,17 @@
 <template>
   <div id="Game_Exchange" class="exchange_container">
-    <div>{{ message }}</div>
     <div class="gameExchange">
       <div class="to_exchange user_game_container">
-        <div>Jeux Possedés de {{ user.username }}</div>
+        <div style="margin-bottom: 20px;">
+          <h5>Jeux Possedés de {{ capitalizeFirstLetter(user.username) }}</h5>
+        </div>
         <GamesToExchange :games="gamesToExchange" />
       </div>
       <div class="wish_exchange user_game_container">
-        <div>Jeux Souhaitées de {{ user.username }}</div>
-
-        <GamesWishExchange :games="gamesWish" />
+        <div style="margin-bottom: 20px;">
+          <h5>Jeux Souhaitées de {{ capitalizeFirstLetter(user.username) }}</h5>
+        </div>
+        <GamesWishExchange :matchingGames="matchingGames" :unMatchingGames="unMatchingGames" />
       </div>
     </div>
     <div class="recap_exchange">
@@ -30,7 +32,6 @@ import GamesWishExchange from './Game_Wish_Exchange.vue';
 import GamesToExchange from './Game_To_Exchange.vue';
 import GameCardExchange from './Game_Card_Exchange.vue';
 import Button from '../Buttons/Button.vue';
-import jwt_decode from "jwt-decode";
 import { User } from '../../lib/Services/User';
 import { Igdb } from '../../lib/Services/Igdb';
 import { Exchange } from '../../lib/Services/Exchange';
@@ -50,7 +51,8 @@ export default {
     gamesToExchange: [],
     gamesWish: [],
     user: {},
-    message: "",
+    matchingGames: [],
+    unMatchingGames: [],
   }),
   computed: {
 
@@ -58,7 +60,8 @@ export default {
   created() {
     this.getGamesToExchange();
     this.getGamesWish();
-    this.getGameWishSelected();
+    this.getMatchingGames();
+    // this.getGameWishSelected();
     this.getUser();
   },
   methods: {
@@ -83,23 +86,25 @@ export default {
     getGamesToExchange: async function () {
       var providerUser = new User();
       var providerGame = new Igdb();
-      providerUser.getUser(this.$route.params.userid).then(response => {
-        response.ownGames.forEach(element => {
-          providerGame.getGame(element).then(response => {
-            this.$data.gamesToExchange.push(response);
-          });
-        });
+      providerUser.getUser(this.$route.params.userid).then((response) => {
+        if (response?.ownGames !== []) {
+          providerGame.getGames(response?.ownGames)
+            .then(response => {
+              this.$data.gamesToExchange = response ?? []
+            });
+        }
       });
     },
     getGamesWish: async function () {
       var providerUser = new User();
       var providerGame = new Igdb();
-      providerUser.getUser(this.$route.params.userid).then(response => {
-        response.wishGames.forEach(element => {
-          providerGame.getGame(element).then(response => {
-            this.$data.gamesWish.push(response);
-          });
-        });
+      providerUser.getUser(this.$route.params.userid).then((response) => {
+        if (response?.wishGames !== []) {
+          providerGame.getGames(response?.wishGames)
+            .then(response => {
+              this.$data.gamesWish = response ?? []
+            });
+        }
       });
     },
     getGameWishSelected: async function () {
@@ -116,27 +121,101 @@ export default {
         return game.id
       })).includes(game_id)
     },
+    addGameOwnList(idGame) {
+      var provider = new User();
+      provider.auth.me().then(response => {
+        response.ownGames.push(idGame);
+        provider.patchUser(response.id, { 'ownGames': response.ownGames }).then(() => {
+          this.$fire({
+            title: "Succès",
+            text: "Le jeu a été ajouté à vos jeux possédés !",
+            type: "success"
+          }).then(() => {
+            window.location.reload();
+          })
+        }).catch(() => {
+          this.$fire({
+            title: "Erreur",
+            text: "Une erreur est survenue lors de l'ajout du jeu à vos jeux possédés !",
+            type: "error"
+          })
+        })
+      })
+    },
     gameIsSelected: function (game) {
       return (this.gameToExchangeSelected && this.gameToExchangeSelected.id == game.id) || (this.gameWishSelected && this.gameWishSelected.id == game.id)
+    },
+    getMatchingGames() {
+      var provider = new User()
+      var providerGame = new Igdb()
+
+      provider.auth.me().then(response => {
+        var currentUserOwnGames = response.ownGames
+        provider.getUser(this.$route.params.userid).then(response => {
+          var otherUserWishGames = response.wishGames
+          var matchingGames = []
+          var unMatchingGames = []
+
+          console.log(currentUserOwnGames)
+          console.log(otherUserWishGames)
+
+          otherUserWishGames.forEach(game => {
+            if (currentUserOwnGames.includes(game)) {
+              matchingGames.push(game)
+            } else {
+              unMatchingGames.push(game)
+            }
+          })
+
+          if(matchingGames.length > 0) {
+            providerGame.getGames(matchingGames).then(response => {
+              this.$data.matchingGames = response
+            })
+          }
+
+          if(unMatchingGames.length > 0) {
+            providerGame.getGames(unMatchingGames).then(response => {
+              this.$data.unMatchingGames = response
+            })
+          }
+
+          this.$data.matchingGames = matchingGames
+          this.$data.unMatchingGames = unMatchingGames
+        })
+      })
+    },
+    capitalizeFirstLetter(string) {
+      if(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+      }
     },
     HandleSubmit: async function () {
       var provider = new Exchange();
       var providerUser = new User();
 
-      var token = localStorage.getItem('token');
-      var decoded = jwt_decode(token);
-
-      providerUser.getUsers(null, null, { "email": decoded.email }).then(response => {
+      providerUser.auth.me().then(response => {
         if (response) {
           provider.postExchange({
             owner: "users/" + this.$data.user.id,
-            proposer: "users/" + response[0].id,
+            proposer: "users/" + response.id,
             proposerGame: this.$data.gameToExchangeSelected.id,
             senderGame: this.$data.gameWishSelected.id
           }).then(() => {
-            this.$router.push('/profile');
+            this.$fire({
+              title: "Swap envoyé !",
+              text: "Votre demande de swap a bien été envoyé à " + this.$data.user.username + " !",
+              type: "success"
+            }).then(() => {
+              this.$router.push("/profile");
+            });
           })
         }
+      }).catch(() => {
+        this.$fire({
+          title: "Erreur",
+          text: "Une erreur est survenue lors de l'envoi de votre demande de swap !",
+          type: "error"
+        })
       })
     },
   },
@@ -151,6 +230,7 @@ export default {
       gameIsSelected: this.gameIsSelected,
       gameOwn: this.gameOwn,
       addOwn: this.addOwn,
+      addGameOwnList: this.addGameOwnList,
     }
   },
 };

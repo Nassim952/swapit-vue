@@ -11,8 +11,6 @@ import GameLayer from "../components/Game/GameLayer.vue";
 import { Igdb } from "../lib/Services/Igdb";
 import { User } from "../lib/Services/User";
 
-import jwt_decode from "jwt-decode";
-
 export default {
     components: {
         GameLayer
@@ -67,10 +65,8 @@ export default {
         },
         async getUser() {
             const providerUser = new User();
-            var token = localStorage.getItem('token');
-            var decoded = jwt_decode(token);
 
-            providerUser.getUsers(null, null, { "email": decoded.email }).then(response => {
+            providerUser.auth.me().then(response => {
                 if (response) {
                     response?.ownGames ?? [] + response?.wishGames ?? []
                     var data = response?.ownGames ?? [] + response?.wishGames ?? []

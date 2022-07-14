@@ -2,7 +2,7 @@
   <div class="">
     <main class="form-signin">
       <Formik title="Connexion" :onSubmit="onSubmit" :validator="validator"
-        v-slot="{handleSubmit, errors, with_label }" :with_label="true"
+        v-slot="{ handleSubmit, errors, with_label }" :with_label="true"
         description="Connecter vous à votre compte Swapit">
         <div>
           <Field type="email" name="email" placeholder="name@example.com" :with_label="with_label"
@@ -37,6 +37,7 @@ import Formik from "../../lib/Formik.vue";
 import Field from "../../lib/Field.vue";
 import Error from "../Errors/Error.vue";
 import { Auth } from "../../lib/Services/Auth";
+import VueSimpleAlert from "vue-simple-alert";
 
 export default {
   components: {
@@ -50,6 +51,17 @@ export default {
   computed: {
     validator: () => validator,
   },
+  mounted() {
+    if (localStorage.getItem('reloaded')) {
+      // The page was just reloaded. Clear the value from local storage
+      // so that it will reload the next time this page is visited.
+      localStorage.removeItem('reloaded');
+    } else {
+      // Set a flag so that we know not to reload the page twice.
+      localStorage.setItem('reloaded', '1');
+      location.reload();
+    }
+  },
   methods: {
     onSubmit: async (data) => {
       var provider = new Auth()
@@ -58,10 +70,17 @@ export default {
           email: data.email,
           password: data.password
         }
-      )
-      // .then(() => {
-      //   window.location.href = '/'
-      // });
+      ).then((response) => {
+        if (response == false) {
+          VueSimpleAlert.fire({
+            title: "Erreur",
+            text: "Votre email ou mot de passe est incorrect",
+            type: "error"
+          });
+        } else {
+          window.location.href = "/";
+        }
+      });
     },
   },
 }

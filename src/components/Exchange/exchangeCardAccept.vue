@@ -2,7 +2,7 @@
     <div>
         <div class="exchange-el" >
             <div class="game-info">
-                <div class="user-pseudo">{{owner.username}}</div>
+                <div class="user-pseudo">Jeu de {{owner.username}}</div>
                 <div class="game_card">
                     <img :src="coverPreUrl(proposerGame)" width="80" height="80">
                     <div class="text-game">
@@ -12,7 +12,7 @@
             </div>
             <img class="swap-img" src="../../assets/images/swap.png" width="60" height="60"/>
             <div class="game-info">
-                <div class="user-pseudo">{{proposer.username}}</div>
+                <div class="user-pseudo">Jeu de {{proposer.username}}</div>
                 <div class="game_card">
                     <img :src="coverPreUrl(senderGame)" width="80" height="80">
                     <div class="text-game">
@@ -22,7 +22,7 @@
             </div>
         </div>
         <div>
-            <button @click="supExchange(exchange.id)" class="btn-delete-exchange"><img src="../../assets/images/bin.png" height="10" width="10"></button>
+            <button @click="supExchange(exchange.id, 'refused')" class="btn-delete-exchange"><img src="../../assets/images/bin.png" height="10" width="10"></button>
             <button @click="acceptExchange(exchange.id)" class="btn-accept-exchange"><img src="../../assets/images/check.svg" height="10" width="10"></button>
         </div>
     </div>

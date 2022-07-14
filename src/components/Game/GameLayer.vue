@@ -3,8 +3,10 @@
     <div v-bind:style="backgroundCover" class="card cover-bg" :class="[{ full: full, small: !full }]">
       <div class="bg-opacity">
         <div class="btn-list">
-          <button @click="addOwn(game)"><img v-bind:class="{disable:inList}" class="picto-nav" src="../../assets/images/check.svg" width="45" height="40"></button>
-          <button @click="addWish(game)"><img v-bind:class="{disable:inList}" class="picto-nav" src="../../assets/images/heart.svg" width="45" height="40"></button>
+          <button @click="addOwn(game)"><img v-bind:class="{ disable: inList }" class="picto-nav"
+              src="../../assets/images/check.svg" width="45" height="40"></button>
+          <button @click="addWish(game)"><img v-bind:class="{ disable: inList }" class="picto-nav"
+              src="../../assets/images/heart.svg" width="45" height="40"></button>
         </div>
         <div class="content">
           <div class="card-img">
@@ -23,9 +25,9 @@
         <div class="card-details">
           <div class="card-body">
             <div class="tags">
-              <router-link v-for="(genre, key) in genres" :key="key" :to="'/games/genre/'+ genre.id">
-                <span  id="genres"  class="tag tag-teal">{{ genre.name }}</span>
-              </router-link>             
+              <router-link v-for="(genre, key) in genres" :key="key" :to="'/games/genre/' + genre.id">
+                <span id="genres" class="tag tag-teal">{{ genre.name }}</span>
+              </router-link>
             </div>
             <p>
               {{ game.summary.slice(0, 500) }}
@@ -93,35 +95,107 @@ export default {
     },
   },
   methods: {
-    addOwn: function(game) {
+    addOwn: function (game) {
       const provider = new User();
 
       provider.auth.me().then(response => {
-        if(response) {
+        if (response) {
+          var isExist = false
           var ownGames = response?.ownGames
-          ownGames.push(game.id)
-          provider.patchUser(response.id,  {'ownGames': ownGames}).then(() => {
-          })
+          if (ownGames.length < 1) {
+            ownGames.push(game.id)
+            provider.patchUser(response.id, { 'ownGames': ownGames }).then(() => {
+              this.$fire({
+                title: "Jeu ajouté",
+                text: "Jeu ajouté à votre liste de jeu possédés",
+                type: "success",
+              })
+            })
+          }
+          else{
+            ownGames.forEach(element => {
+              if(element == game.id){
+                isExist = true
+              }
+            });
+            if(isExist == false){
+              ownGames.push(game.id)
+              provider.patchUser(response.id, { 'ownGames': ownGames }).then(() => {
+                this.$fire({
+                  title: "Jeu ajouté",
+                  text: "Jeu ajouté à votre liste de jeu possédés",
+                  type: "success",
+                })
+              })
+            }
+            else{
+              this.$fire({
+                title: "Vous possédez déjà ce jeu",
+                text: "Vous avez déjà ajouté ce jeu à votre liste de jeu possédés",
+                type: "warning",
+              })
+            }
+          }
         }
-
       })
-      .catch(error => {console.log(error)})
+        .catch(() => {
+          this.$alert("Une erreur est survenu, veuillez réessayer", "Erreur", {
+            type: "error",
+          });
+        })
     },
-     addWish: function(game) {
+    addWish: function (game) {
       const provider = new User();
 
       provider.auth.me().then(response => {
-        if(response) {
-          
+        if (response) {
+          var isExist = false
           var wishGames = response?.wishGames
-          wishGames.push(game.id)
-          provider.patchUser(response.id,  {'wishGames': wishGames}).then(() => {
-          })
+          if (wishGames.length < 1) {
+            wishGames.push(game.id)
+            provider.patchUser(response.id, { 'wishGames': wishGames }).then(() => {
+              this.$fire({
+                title: "Jeu ajouté",
+                text: "Jeu ajouté à votre liste de jeu souhaités",
+                type: "success",
+              })
+            })
+          }
+          else{
+            wishGames.forEach(element => {
+              if(element == game.id){
+                isExist = true
+              }
+            });
+            if(isExist == false){
+              wishGames.push(game.id)
+              provider.patchUser(response.id, { 'wishGames': wishGames }).then(() => {
+                this.$fire({
+                  title: "Jeu ajouté",
+                  text: "Jeu ajouté à votre liste de jeu souhaités",
+                  type: "success",
+                })
+              })
+            }
+            else{
+              this.$fire({
+                title: "Vous souahitez déjà ce jeu",
+                text: "Vous avez déjà ajouté ce jeu à votre liste de jeu souhaités",
+                type: "warning",
+              })
+            }
+          }
         }
       })
-      .catch(error => {console.log(error)})
+        .catch(() => {
+          this.$fire({
+            title: "Une erreur est survenu, veuillez réessayer",
+            text: "Erreur",
+            type: "error",
+          });
+        })
     },
-    
+
   },
 };
 
@@ -284,13 +358,13 @@ export default {
   margin-left: 200px;
 }
 
-@media only screen and (max-width: 414px){
-.container .card .card-details {
-  position: absolute;
-  bottom: 1em;
-  display: flex;
-  margin-left: 0px;
-}
+@media only screen and (max-width: 414px) {
+  .container .card .card-details {
+    position: absolute;
+    bottom: 1em;
+    display: flex;
+    margin-left: 0px;
+  }
 }
 
 .container .card .card-details .card-body {
@@ -433,12 +507,12 @@ export default {
   border-radius: 15px;
 }
 
-.disable{
+.disable {
   opacity: 0.2;
   cursor: not-allowed;
 }
 
-button{ 
+button {
   background: none;
   color: inherit;
   border: none;
