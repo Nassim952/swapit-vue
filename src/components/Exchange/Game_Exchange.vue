@@ -185,7 +185,9 @@ export default {
       })
     },
     capitalizeFirstLetter(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1);
+      if(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+      }
     },
     HandleSubmit: async function () {
       var provider = new Exchange();
@@ -201,7 +203,7 @@ export default {
           }).then(() => {
             this.$fire({
               title: "Swap envoyé !",
-              text: "Votre demande de swap a bien été envoyé à " + this.$data.user.username,
+              text: "Votre demande de swap a bien été envoyé à " + this.$data.user.username + " !",
               type: "success"
             }).then(() => {
               this.$router.push("/profile");

@@ -11,8 +11,6 @@ class AuthAdmin extends Publisher {
   async login(data) {
     const response = await this.post('login_check', data);
     if (response?.token) {
-      // seter la var env avec le token
-      //  = response.token;
       return response;
     }
     else {
