@@ -2,7 +2,7 @@ import Publisher from '../Connexion/Publisher'
 
 class AuthAdmin extends Publisher {
   constructor() {
-    super('http://localhost:81/', {
+    super('https://swapit-api-core.herokuapp.com/', {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     });
