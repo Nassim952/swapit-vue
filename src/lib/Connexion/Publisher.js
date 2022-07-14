@@ -1,4 +1,5 @@
 import axios from 'axios'
+import VueSimpleAlert from 'vue-simple-alert'
 
 class Publisher {
     constructor(url, headers) {
@@ -11,7 +12,7 @@ class Publisher {
 
     post = async function (url, data) {
         var response = await this.instance.post(url, data).then(response => { return response.data }).catch(() => {
-            this.$fire({
+            VueSimpleAlert.fire({
                 title: 'Erreur',
                 text: 'Une erreur est survenue',
                 type: 'error'
@@ -22,7 +23,7 @@ class Publisher {
 
     patch = async function (url, data) {
         var response = await this.instance.patch(url, data).then(response => { return response.data }).catch(() => {
-            this.$fire({
+            VueSimpleAlert.fire({
                 title: 'Erreur',
                 text: 'Une erreur est survenue',
                 type: 'error'
@@ -34,7 +35,7 @@ class Publisher {
 
     get = async function (url) {
         var response = await this.instance.get(url).then(response => { return response.data }).catch(() => {
-            this.$fire({
+            VueSimpleAlert.fire({
                 title: 'Erreur',
                 text: 'Une erreur est survenue',
                 type: 'error'
@@ -45,7 +46,7 @@ class Publisher {
 
     delete = async function (url) {
         var response = await this.instance.delete(url).then(response => { return response }).catch(() => {
-            this.$fire({
+            VueSimpleAlert.fire({
                 title: 'Erreur',
                 text: 'Une erreur est survenue',
                 type: 'error'

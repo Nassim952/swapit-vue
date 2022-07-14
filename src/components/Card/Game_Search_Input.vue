@@ -7,8 +7,6 @@
     <div class="game-list-added">
       <GameCardList v-show="aGames" :games="aGames" />
       <div class="button-container">
-        <!-- <Button class="valider" title="Valider" :onClick="HandleSubmit" /> -->
-        <!-- <Button class="valider" title="Valider" :onClick="HandleSubmit" /> -->
         <Button class="vider" title="Vider" :onClick="clearList" />
       </div>
     </div>
@@ -66,7 +64,7 @@ export default {
           provider.getUser(response.id).then(response => { this.$data.aGamesTmp = response?.ownGames ?? [] })
           this.updateCurrentOwnGames()
         } else {
-          provider.getUser().then(response => { this.$data.aGamesTmp = response?.wishGames ?? [] })
+          provider.getUser(response.id).then(response => { this.$data.aGamesTmp = response?.wishGames ?? [] })
           this.updateCurrentWishGames()
         }
       })
@@ -99,15 +97,60 @@ export default {
     },
     add: function (game) {
       if (!this.added(game)) {
-        this.$data.aGamesTmp.push(game.id)
-        this.HandleSubmit()
+        if (this.$data.aGamesTmp.includes(game.id)) {
+          this.$fire({
+            title: "Info",
+            text: "Ce jeu est déjà dans votre liste",
+            type: "info",
+          })
+        }
+        else {
+          this.$data.aGamesTmp.push(game.id)
+          this.HandleSubmit()
+          this.$fire({
+            title: "Succès",
+            text: "Le jeu a été ajouté à votre liste",
+            type: "success",
+          })
+        }
       }
     },
     supp: function (game) {
-      if (this.added(game.id)) {
-        this.$data.aGamesTmp = this.$data.aGamesTmp.filter(e => e.id !== game.id)
-        this.HandleSubmit()
-      }
+      var provider = new User()
+      provider.auth.me().then(response => {
+        if (response) {
+          if (this.$props.route == "own") {
+            response.ownGames.splice(response.ownGames.indexOf(game.id), 1)
+            provider.patchUser(response.id, { "ownGames": response.ownGames })
+            this.$fire({
+              title: "Suppression réussie",
+              text: "Votre jeu a bien été supprimé de votre liste de jeux possédés",
+              type: "success",
+            }).then(() => {
+              window.location.reload()
+            })
+          } else {
+            response.wishGames.splice(response.wishGames.indexOf(game.id), 1)
+            provider.patchUser(response.id, { "wishGames": response.wishGames })
+            this.$fire({
+              title: "Suppression réussie",
+              text: "Votre jeu a bien été supprimé de votre liste de jeux souhaités",
+              type: "success",
+            }).then(() => {
+              window.location.reload()
+            })
+          }
+        }
+        else {
+          this.$fire({
+            title: "Erreur",
+            text: "Une erreur est survenue lors de la suppression de votre jeu",
+            type: "error",
+          }).then(() => {
+            // window.location.reload()
+          })
+        }
+      })
     },
     added: function (game_id) {
       return (this.$data.aGamesTmp.map(game => {
@@ -257,7 +300,7 @@ export default {
 
 .button-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   width: 300px;
 }
 
