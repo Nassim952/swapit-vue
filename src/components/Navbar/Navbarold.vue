@@ -27,7 +27,12 @@
 
                     <b-nav-item-dropdown>
                         <template #button-content>
-                            <span class="link-nav p-3">Notifications</span> <span class="badge bg-danger">4</span>
+                            <span class="link-nav p-2 position-relative">
+                                <b-icon-bell-fill></b-icon-bell-fill>
+                                <span class="position-absolute translate-middle badge rounded-pill bg-danger">
+                                    4
+                                </span>
+                            </span>
                         </template>
                         <b-dropdown-item href="#">1 nouveau message</b-dropdown-item>
                         <b-dropdown-item href="#">Naruto vous a envoyé un clone</b-dropdown-item>
