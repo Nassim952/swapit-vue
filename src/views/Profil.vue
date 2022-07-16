@@ -1,31 +1,51 @@
 <template>
-    <div>
-        <div class="profile-container">
-            <div class="profile-bloc user-info">
-                <div class="profile-img"><img src="../assets/images/Sly.png" alt="profile"></div>
-                <div class="profile-name">{{ capitalizeFirstLetter(user.username) }}</div>
-                <!-- <div class="profile-nbr-swap"><span></span><img src="../assets/images/swap.png" alt="swap"></div> -->
-            </div>
-            <div class="profile-bloc user-ownlist scrollbar" id="style-1">
-                <h3>Liste de jeux possédés</h3>
-                <div class="list-wrapper">
-                    <ProfilGameCard v-for="(game, key) in ownGames" :key="game.id + key" :game="game" class="" />
+<div id="bg">
+    <div  class="position-relative fill">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-lg-12 col-xl-10">
+
+                    <div class="row justify-content-center" style="background-color: white; border-radius: 25px;">
+                        <div class="col-md-3 border-right">
+                            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                                <img src="../assets/images/Sly.png" width="150" alt="profile"><span><div class="profile-name">{{ capitalizeFirstLetter(user.username) }}</div></span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="p-3 py-5">
+                                <div class="profile-bloc user-ownlist scrollbar" id="style-1">
+                                    <h3>Liste de jeux possédés</h3>
+                                    <div class="list-wrapper">
+                                        <ProfilGameCard v-for="(game, key) in ownGames" :key="game.id + key" :game="game" class="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="p-3 py-5">
+                                <div class="profile-bloc user-wishlist scrollbar" id="style-1">
+                                    <h3>Liste de jeux souhaités</h3>
+                                    <div class="list-wrapper">
+                                        <Profil_Game_Card_Wish v-for="(game, key) in wishGames" :key="game.id + key" :game="game"
+                                            class="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="p-3">
+                                <div style="border-radius: 25px;" class="exchange-form">
+                                    <ExchangeForm />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        
                 </div>
             </div>
-            <div class="profile-bloc user-wishlist scrollbar" id="style-1">
-                <h3>Liste de jeux souhaités</h3>
-                <div class="list-wrapper">
-                    <Profil_Game_Card_Wish v-for="(game, key) in wishGames" :key="game.id + key" :game="game"
-                        class="" />
-                </div>
-            </div>
-
-
-        </div>
-        <div class="exchange-form">
-            <ExchangeForm />
         </div>
     </div>
+</div>
 </template>
 
 <script>
@@ -225,7 +245,6 @@ export default {
 }
 
 .user-ownlist {
-    width: 38%;
     background-image: url('../assets/images/check.svg');
     background-size: 100px;
     background-repeat: no-repeat;
@@ -236,7 +255,6 @@ export default {
 }
 
 .user-wishlist {
-    width: 38%;
     background-image: url('../assets/images/heart.svg');
     background-size: 100px;
     background-repeat: no-repeat;
@@ -259,7 +277,60 @@ export default {
 .exchange-form {
     box-shadow: 0 1rem 3rem rgb(0 0 0 / 18%);
     background-color: white;
-    width: 100%;
-    margin-right: 20px;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #BA68C8
+}
+
+.profile-button {
+    background: rgb(99, 39, 120);
+    box-shadow: none;
+    border: none
+}
+
+.profile-button:hover {
+    background: #682773
+}
+
+.profile-button:focus {
+    background: #682773;
+    box-shadow: none
+}
+
+.profile-button:active {
+    background: #682773;
+    box-shadow: none
+}
+
+.back:hover {
+    color: #682773;
+    cursor: pointer
+}
+
+.labels {
+    font-size: 11px
+}
+
+.add-experience:hover {
+    background: #BA68C8;
+    color: #fff;
+    cursor: pointer;
+    border: solid 1px #BA68C8
+}
+
+#bg {
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(255,93,25,1) 0%, rgba(121,209,194,1) 100%);
+}
+.fill {
+    height: calc(100vh - 58px);
+}
+
+@media screen and (max-width: 991px) {
+  #bg {
+    background: white;
+  }
 }
 </style>

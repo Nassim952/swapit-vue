@@ -6,7 +6,7 @@
     </div>
     <div class="game-list-added">
       <GameCardList v-show="aGames" :games="aGames" />
-      <div class="button-container">
+      <div class="button-container d-flex justify-content-center">
         <!-- <Button class="valider" title="Valider" :onClick="HandleSubmit" /> -->
         <!-- <Button class="valider" title="Valider" :onClick="HandleSubmit" /> -->
         <Button class="vider" title="Vider" :onClick="clearList" />
