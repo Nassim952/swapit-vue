@@ -115,6 +115,11 @@ export default {
 			const provider = new User();
 			provider.postUser(data)
 				.then(() => {
+					this.$fire({
+						title: 'Utilisateur créé',
+						text: 'L\'utilisateur a été créé avec succès',
+						type: 'success'
+					})
 				})
 				.catch(() => {
 					this.$fire({
@@ -134,6 +139,11 @@ export default {
 			const provider = new User();
 			provider.patchUser(this.userData.id, data)
 				.then(() => {
+					this.$fire({
+						title: 'Succès',
+						text: 'L\'utilisateur a été modifié',
+						type: 'success'
+					})
 				})
 				.catch(() => {
 					this.$fire({

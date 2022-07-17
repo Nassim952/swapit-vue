@@ -50,10 +50,15 @@ export default {
             provider.delExchange(exchange_id)
                 .then((response) => {
                     if (response) {
-                        this.refreshExhanges();
+                        this.$fire({
+                            title: 'Suppression',
+                            text: 'L\'échange a été supprimé avec succès',
+                            type: 'success'
+                        }).then(() => {
+                            this.refreshExhanges();
+                        })
                     }
                 })
-
         },
         async refreshExhanges() {
             const provider = new User();
