@@ -43,7 +43,7 @@ class Publisher {
     }
 
     formatUrlIds(ids) {
-        return  Array.isArray(ids) ? `${ids ? ids.map(id => `ids[]=${id}`).join('&'):''}`: ids; 
+        return  Array.isArray(ids) ? `${ids ? ids.map(id => `id[]=${id}`).join('&'):''}`: ids; 
     }
 
     formatProperties(properties) {

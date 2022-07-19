@@ -52,7 +52,7 @@ export default {
     validator: () => validator,
   },
   methods: {
-    onSubmit: (data) => {
+    async onSubmit(data) {
       const provider = new User()
       provider.postUser(
         {
@@ -60,7 +60,31 @@ export default {
           email: data.email,
           password: data.password
         }
-      )
+      ).then(response => {
+        if (response) {
+          this.$fire({
+            title: 'Utilisateur créé',
+            text: 'Vous pouvez maintenant vous connecter',
+            type: 'success',
+            timer: 3000
+          }).then(() => {
+            this.$router.push('/signin')
+          })
+        }
+        else {
+          this.$fire({
+            title: 'Erreur lors de la création de l\'utilisateur',
+            text: 'Le mail est peut-être déjà utilisé',
+            type: 'error',
+          })
+        }
+      }).catch(() => {
+        this.$fire({
+          title: 'Erreur lors de la création de l\'utilisateur',
+          text: 'Une erreur est survenue, veuillez réessayer',
+          type: 'error',
+        })
+      })
     }
   },
   name: "Register",

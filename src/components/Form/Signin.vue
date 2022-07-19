@@ -18,12 +18,14 @@
             <!-- <small v-if="errors.password"> {{errors.password}} </small> -->
           </div>
         </div>
-        <div class="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="remember-me"> Se souvenir de moi
-          </label>
+        <div class="wrapper-reset-pwd">
+          <router-link to="/form-request-reset-password">
+            <span title="Mot de passe oublié">Mot de passe oublié</span>
+          </router-link>
         </div>
-        <Button :onClick="handleSubmit" title="Connexion" type="submit">Connexion</Button>
+        <div style="margin-top: 30px;">
+          <Button :onClick="handleSubmit" title="Connexion" type="submit">Connexion</Button>
+        </div>
       </Formik>
     </main>
   </div>
@@ -37,7 +39,6 @@ import Formik from "../../lib/Formik.vue";
 import Field from "../../lib/Field.vue";
 import Error from "../Errors/Error.vue";
 import { Auth } from "../../lib/Services/Auth";
-import VueSimpleAlert from "vue-simple-alert";
 
 export default {
   components: {
@@ -63,7 +64,7 @@ export default {
     }
   },
   methods: {
-    onSubmit: async (data) => {
+    async onSubmit(data) {
       var provider = new Auth()
       provider.login(
         {
@@ -72,13 +73,13 @@ export default {
         }
       ).then((response) => {
         if (response == false) {
-          VueSimpleAlert.fire({
+          this.$fire({
             title: "Erreur",
             text: "Votre email ou mot de passe est incorrect",
             type: "error"
           });
         } else {
-          window.location.href = "/";
+          this.$router.push("/");
         }
       });
     },

@@ -1,6 +1,5 @@
 import Publisher from '../Connexion/Publisher'
 import { Auth } from './Auth';
-import VueSimpleAlert from 'vue-simple-alert';
 class User extends Publisher {
   constructor() {
     super('http://localhost:81/', {
@@ -17,25 +16,8 @@ class User extends Publisher {
   }
 
   async postUser(data) {
-    this.post(this.formatEndPoint('users'), data).then(response => {
-      if(response){
-        VueSimpleAlert.fire({
-          title: 'Utilisateur créé',
-          text: 'Vous pouvez maintenant vous connecter',
-          type: 'success',
-          timer: 3000
-        }).then(() => {
-          window.location.href = "/signin";
-        })
-      }
-      else{
-        VueSimpleAlert.fire({
-          title: 'Erreur lors de la création de l\'utilisateur',
-          text: 'Le mail est peut-être déjà utilisé',
-          type: 'error',
-        })
-      }
-    })
+    const response = await this.post(this.formatEndPoint('users'), data)
+    return response;
   }
 
   async patchUser(id, data) {

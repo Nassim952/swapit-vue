@@ -50,10 +50,10 @@ export default {
       var filters = this.$data.selectedFilters
       filters.page = "1"
       if (this.$data.searchQuery) {
-        filters.name = this.$data.searchQuery
+        filters.slug = this.$data.searchQuery
         provider.getPopulars(null, null, filters).then(response => { this.$data.resources = response })
       } else {
-        filters.name = ""
+        filters.slug = ""
         provider.getGames(null, null, filters).then(response => { this.$data.resources = response })
       }
     },
@@ -63,13 +63,10 @@ export default {
         delete this.$data.selectedFilters[categorie]
       }
       this.refreshRessource()
-      console.log(this.$data.selectedFilters)
     },
     checkEmptySelectedFilter(categorie = null) {
 
       if (categorie) {
-        console.log(this.$data.selectedFilters?.[categorie])
-        console.log(this.$data.selectedFilters?.[categorie]?.length)
         if (this.$data.selectedFilters?.[categorie]) {
           return this.$data.selectedFilters?.[categorie]?.length === 0
         }
