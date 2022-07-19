@@ -3,7 +3,7 @@
   <div class="game_card_list" v-if="myList">
     <div class="game_card" v-for="(game,key) in myList" id="OwnList" :key="key">
       <GameCard :game="game" />
-      <a v-if="added(game.id)" @click="supp(game)" title="arrow icons" class="my-icon">
+      <a @click="supp(game)" title="arrow icons" class="my-icon">
         <img class="icon"
         src="../../assets/icones/delete.png"
         alt="Grapefruit slice atop a pile of other slices">

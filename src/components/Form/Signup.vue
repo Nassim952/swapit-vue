@@ -25,7 +25,6 @@
             <Field name="password_confirm" type="password"> </Field>
             <Error v-if="errors.password_confirm" :value="errors.password_confirm" />
           </div>
-          <Button :onClick='handleSubmit' title="Inscription" type="submit">Inscription</Button>
           <Error v-if="errors.password_confirm" :value="errors.password_confirm" />
         </div>
 

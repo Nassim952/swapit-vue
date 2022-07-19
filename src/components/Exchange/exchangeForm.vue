@@ -93,7 +93,7 @@ export default {
                             text: 'L\'échange a bien été validé',
                             type: 'success'
                         }).then(() => {
-                            // this.refreshExhanges();
+                            this.refreshExhanges();
                         })
                     } else {
                         this.$fire({

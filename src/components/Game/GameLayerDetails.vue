@@ -55,7 +55,7 @@ export default {
     },
     getUsers: async function () {
       var provider = new UserAdmin()
-      provider.getUsers(null, null, { "ownedGames" : this.$route.params.id }).then(response => {
+      provider.getUsers(null, null, { "ownGames" : this.$route.params.id }).then(response => {
         this.$data.users = response
       })
     },

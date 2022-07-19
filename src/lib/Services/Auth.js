@@ -3,7 +3,7 @@ import jwt_decode from 'jwt-decode'
 
 class Auth extends Publisher {
   constructor() {
-    super('http://localhost:8080/api-core/', {
+    super('http://localhost:81/', {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token') ?? 'null'
