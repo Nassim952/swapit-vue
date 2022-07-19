@@ -19,8 +19,6 @@ import Sidebar from "../components/Filter/SideBar.vue";
 import { Igdb } from "../lib/Services/Igdb";
 import { User } from "../lib/Services/User";
 
-import jwt_decode from "jwt-decode";
-
 export default {
   components: {
     Sidebar,
@@ -52,10 +50,10 @@ export default {
       var filters = this.$data.selectedFilters
       filters.page = "1"
       if (this.$data.searchQuery) {
-        filters.name = this.$data.searchQuery
+        filters.slug = this.$data.searchQuery
         provider.getPopulars(null, null, filters).then(response => { this.$data.resources = response })
       } else {
-        filters.name = ""
+        filters.slug = ""
         provider.getGames(null, null, filters).then(response => { this.$data.resources = response })
       }
     },
@@ -65,13 +63,10 @@ export default {
         delete this.$data.selectedFilters[categorie]
       }
       this.refreshRessource()
-      console.log(this.$data.selectedFilters)
     },
     checkEmptySelectedFilter(categorie = null) {
 
       if (categorie) {
-        console.log(this.$data.selectedFilters?.[categorie])
-        console.log(this.$data.selectedFilters?.[categorie]?.length)
         if (this.$data.selectedFilters?.[categorie]) {
           return this.$data.selectedFilters?.[categorie]?.length === 0
         }
@@ -88,10 +83,8 @@ export default {
     },
     async getUser() {
       const providerUser = new User();
-      var token = localStorage.getItem('token');
-      var decoded = jwt_decode(token);
 
-      providerUser.getUsers(null, null, { "email": decoded.email }).then(response => {
+      providerUser.auth.me().then(response => {
         if (response) {
           response?.ownGames ?? []
           var data = response?.ownGames ?? []

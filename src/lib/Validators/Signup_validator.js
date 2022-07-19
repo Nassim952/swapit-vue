@@ -9,7 +9,7 @@ export const SignupSchema = Yup.object().shape({
       .min(2, 'Trop Court!')
       .max(50, 'Trop Long!'), 
     email: Yup.string()
-      .email('Email Invalid')
+      .email('Email Invalide')
       .max(255)
       .required('Email requis'),
     password: Yup.string()
@@ -17,7 +17,7 @@ export const SignupSchema = Yup.object().shape({
       .min(8, '8 chars minimum.')
       .matches(/[a-zA-Z0-9]/, 'Caractères alphanumériques requis'),
     password_confirm: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Les mots de identiques requis')
+      .oneOf([Yup.ref('password'), null], 'MDP non identique')
       .required('Confirmation requise'),
     
   });

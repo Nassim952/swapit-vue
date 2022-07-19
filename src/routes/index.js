@@ -65,7 +65,7 @@ const routes = [
     { 
         path: "/admin",
         component: () => import("../views/Admin.vue"),
-        meta: { requiresAdmin: true }
+        meta: { requiresAuth: true }
     },
     { 
         path: "/admin/login",
@@ -80,8 +80,16 @@ const routes = [
         path: "/user-edit/:id",
         name: "user.edit",
         component: () => import("../components/Admin/UserForm/userForm.vue"),
-        meta: { requiresAdmin: true }
+        meta: { requiresAuth: true }
     },
+    {
+        path: "/form-request-reset-password",
+        component: () => import("../components/Form/FormRequestPassword.vue"),
+    },
+    {
+        path: "/form-reset-password/:token",
+        component: () => import("../components/Form/FormResetPassword.vue"),
+    }
 ];
 
 const router = new VueRouter({
@@ -95,15 +103,6 @@ router.beforeEach((to, from, next) => {
             next();
         } else {
             next("/signin");
-        }
-    } else {
-        next();
-    }
-    if(to.matched.some(record => record.meta.requiresAdmin)) {
-        if (localStorage.getItem("token") && localStorage.getItem("role") == "ROLE_ADMIN,ROLE_USER") {
-            next();
-        } else {
-            next("/admin/login");
         }
     } else {
         next();

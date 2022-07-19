@@ -64,36 +64,36 @@ export default {
       provider.auth.me().then(response => {
         if (this.$props.route == "own") {
           provider.getUser(response.id).then(response => { this.$data.aGamesTmp = response?.ownGames ?? [] })
-          this.updateCurrentOwnGames(response.id)
+          this.updateCurrentOwnGames()
         } else {
           provider.getUser().then(response => { this.$data.aGamesTmp = response?.wishGames ?? [] })
-          this.updateCurrentWishGames(response.id)
+          this.updateCurrentWishGames()
         }
       })
     },
-    updateCurrentOwnGames(idUser) {
+    updateCurrentOwnGames() {
       var provider = new User()
       var providerGame = new Igdb()
-      provider.getUser(idUser).then(response => {
-        if (response) {
-          response.ownGames.forEach(element => {
-            providerGame.getGames(null, null, { "id": element }).then(response => {
-              this.$data.aGames.push(response.shift())
-            })
-          });
+      provider.auth.me().then(response => {
+        if (response && response.ownGames.length > 0) {
+          providerGame.getGames(response.ownGames).then(response => {
+            if (response) {
+              this.$data.aGames = response
+            }
+          })
         }
       })
     },
-    updateCurrentWishGames(idUser) {
+    updateCurrentWishGames() {
       var provider = new User()
       var providerGame = new Igdb()
-      provider.getUser(idUser).then(response => {
-        if (response) {
-          response.wishGames.forEach(element => {
-            providerGame.getGames(null, null, { "id": element }).then(response => {
-              this.$data.aGames.push(response.shift())
-            })
-          });
+      provider.auth.me().then(response => {
+        if (response && response.wishGames.length > 0) {
+          providerGame.getGames(response.wishGames).then(response => {
+            if (response) {
+              this.$data.aGames = response
+            }
+          })
         }
       })
     },
@@ -117,12 +117,12 @@ export default {
     clearList: function () {
       this.$data.aGamesTmp = []
       const provider = new User()
-    
-     provider.auth.me().then(response => {
-        if(this.$props.route == "own"){
+
+      provider.auth.me().then(response => {
+        if (this.$props.route == "own") {
           provider.patchUser(response.id, { 'ownGames': [] }).then(() => {
           })
-        }else{
+        } else {
           provider.patchUser(response.id, { 'wishGames': [] }).then(() => {
           })
         }
@@ -140,22 +140,55 @@ export default {
 
       const provider = new User();
       const providerIgdb = new Igdb()
-    
-      provider.auth.me().then(response => {
-        if (response) {
-          provider.patchUser(response.id, { 'ownGames': this.$data.aGamesTmp })
-            .then(response => {
-              if (response?.ownGames !== []) {
-                providerIgdb.getGames(response?.ownGames)
-                  .then(response => {
-                    this.$data.aGames = response ?? []
-                  });
-              }
-            })
-        }
 
+      provider.auth.me().then(response => {
+        var isExist = false;
+        if (response) {
+          if (this.$data.aGamesTmp.length < 1) {
+            provider.patchUser(response.id, { 'ownGames': this.$data.aGamesTmp })
+              .then((response) => {
+                if (response?.ownGames !== []) {
+                  providerIgdb.getGames(response?.ownGames)
+                    .then(response => {
+                      this.$data.aGames = response ?? []
+                    });
+                }
+              })
+          }
+          else {
+            this.$data.aGamesTmp.forEach(element => {
+              if (response.ownGames == element) {
+                isExist = true;
+              }
+            });
+            if (isExist == false) {
+              provider.patchUser(response.id, { 'ownGames': this.$data.aGamesTmp })
+                .then((response) => {
+                  if (response?.ownGames !== []) {
+                    providerIgdb.getGames(response?.ownGames)
+                      .then(response => {
+                        this.$data.aGames = response ?? []
+                      });
+                  }
+                })
+            }
+            else {
+              this.$fire({
+                title: "Vous possédez déjà ce jeu",
+                text: "Vous ne pouvez pas avoir deux fois le même jeu",
+                type: "info",
+              })
+            }
+          }
+        }
       })
-        .catch(error => { console.log(error) })
+        .catch(() => {
+          this.$fire({
+            title: "Erreur",
+            text: "Une erreur est survenue",
+            type: "error",
+          })
+        })
     },
     async updateWishGames() {
       const provider = new User();

@@ -51,23 +51,63 @@ export default {
         this.getCurrentUser();
     },
     methods: {
-        supExchange(exchange_id) {
+        supExchange(exchange_id, type) {
             const provider = new Exchange();
             provider.refuseExchanges(exchange_id)
                 .then((response) => {
                     if (response) {
-                        this.refreshExhanges();
+                        if (type == 'cancel') {
+                            this.$fire({
+                                title: 'Succès',
+                                text: 'L\'échange a bien été annulé',
+                                type: 'success'
+                            }).then(() => {
+                                this.refreshExhanges();
+                            });
+                        } else {
+                            this.$fire({
+                                title: 'Succès',
+                                text: 'L\'échange a bien été refusé',
+                                type: 'success'
+                            }).then(() => {
+                                this.refreshExhanges();
+                            });
+                        }
+                    } else {
+                        this.$fire({
+                            title: 'Erreur',
+                            text: 'Une erreur est survenue',
+                            type: 'error'
+                        })
                     }
                 })
-
         },
         acceptExchange(exchange_id) {
             const provider = new Exchange();
+
             provider.validExchanges(exchange_id)
                 .then((response) => {
                     if (response) {
-                        this.refreshExhanges();
+                        this.$fire({
+                            title: 'Succès',
+                            text: 'L\'échange a bien été validé',
+                            type: 'success'
+                        }).then(() => {
+                            // this.refreshExhanges();
+                        })
+                    } else {
+                        this.$fire({
+                            title: 'Erreur',
+                            text: 'Une erreur est survenue',
+                            type: 'error'
+                        })
                     }
+                }).catch(() => {
+                    this.$fire({
+                        title: 'Erreur',
+                        text: 'Une erreur est survenue',
+                        type: 'error'
+                    })
                 })
         },
         async refreshExhanges() {
@@ -90,15 +130,15 @@ export default {
                 .catch(err => {
                     console.log(err)
                 })
-            provider.getPendingExchanges(this.$data.user.id)
-                .then(response => {
-                    if (response) {
-                        this.pendingExchanges = response;
-                    }
-                })
-                .catch(err => {
-                    console.log(err)
-                })
+            // provider.getPendingExchanges(this.$data.user.id)
+            //     .then(response => {
+            //         if (response) {
+            //             this.pendingExchanges = response;
+            //         }
+            //     })
+            //     .catch(err => {
+            //         console.log(err)
+            //     })
         },
         async getCurrentUser() {
             var provider = new User()

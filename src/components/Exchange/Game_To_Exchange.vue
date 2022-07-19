@@ -1,5 +1,5 @@
 <template>
-  <div  v-if="this.$props.games" class="game_card_list own_containers_game">
+  <div v-if="this.$props.games" class="game_card_list own_containers_game">
     <div class="game_card_container" v-for="(game,key) in games" id="OwnList" :key="game.title+key">
       <GameCard :game="game" />
       <div v-if="!gameIsSelected(game)" class="add">

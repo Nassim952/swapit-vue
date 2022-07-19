@@ -24,8 +24,9 @@
 
 <script>
 import {Igdb} from "../../lib/Services/Igdb";
-import {User} from "../../lib/Services/User";
+// import {User} from "../../lib/Services/User";
 import UserCard from "./UserCard.vue";
+import { UserAdmin } from "../../lib/Services/UserAdmin";
 
 export default {
   name: "GameLayerDetails",
@@ -53,8 +54,8 @@ export default {
       })
     },
     getUsers: async function () {
-      var provider = new User()
-      provider.getUsers(null, null, { "ownGames" : this.$route.params.id }).then(response => {
+      var provider = new UserAdmin()
+      provider.getUsers(null, null, { "ownedGames" : this.$route.params.id }).then(response => {
         this.$data.users = response
       })
     },
