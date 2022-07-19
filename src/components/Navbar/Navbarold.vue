@@ -1,7 +1,7 @@
 <template>
-    <div class="shadow content-container">
-        <div class="navbar-ctn">
-            <div class="flex-logo">
+    <div>
+        <b-navbar  toggleable="lg" type="light" variant="light">
+            <b-navbar-brand >
                 <router-link to="/">
                     <div class="logo">
                         <img src="../../assets/images/logo.svg" width="60" height="30">
@@ -12,24 +12,53 @@
                     <router-link v-show="logged" to="/games"><img class="picto-nav picto-search"
                             src="../../assets/icones/search.svg" width="30" height="30"></router-link>
                 </div>
-            </div>
-            <div class="picto-ctn">
-                <div class="sign-container">
-                    <router-link v-if="hidden" to="/signin" class="link-nav">Connexion</router-link>
-                    <router-link v-if="hidden" to="/signup" class="link-nav">Inscription</router-link>
-                </div>
-                <router-link v-if="logged" to="/popularGames"><img class="picto-nav"
-                        src="../../assets/images/popularity.png" width="27" height="27"></router-link>
-                <router-link v-if="logged" to="/owngameslist"><img class="picto-nav" src="../../assets/images/check.svg"
-                        width="25" height="20"></router-link>
-                <router-link v-if="logged" to="/wishgameslist"><img class="picto-nav"
-                        src="../../assets/images/heart.svg" width="20" height="20"></router-link>
-                <router-link v-if="logged" to="/profile"><img class="picto-nav" src="../../assets/images/user.svg" width="25"
-                        height="20"></router-link>
-                <button v-if="logged" id="logout-btn" class="logout-btn" @click="logout"><img class="picto-nav"
-                        src="../../assets/images/logout.svg" width="20" height="20"></button>
-            </div>
-        </div>
+            </b-navbar-brand>
+
+            <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+            <b-collapse id="nav-collapse" is-nav>
+                <b-navbar-nav>
+                    <b-nav-item>
+                        <router-link v-if="hidden" to="/signin" class="link-nav p-3">Connexion</router-link>
+                    </b-nav-item>
+                    <b-nav-item>
+                        <router-link v-if="hidden" to="/signup" class="link-nav p-3">Inscription</router-link>
+                    </b-nav-item>
+
+                    <b-nav-item-dropdown>
+                        <template #button-content>
+                            <span class="link-nav p-2 position-relative">
+                                <b-icon-bell-fill></b-icon-bell-fill>
+                                <span class="position-absolute translate-middle badge rounded-pill bg-danger">
+                                    4
+                                </span>
+                            </span>
+                        </template>
+                        <b-dropdown-item href="#">1 nouveau message</b-dropdown-item>
+                        <b-dropdown-item href="#">Naruto vous a envoyé un clone</b-dropdown-item>
+                        <b-dropdown-item href="#">Joyeux anniversaire</b-dropdown-item>
+                        <b-dropdown-item href="#">Wesh bien ?</b-dropdown-item>
+                    </b-nav-item-dropdown>
+                    
+                    
+                    <b-nav-item>
+                        <router-link v-if="logged" to="/popularGames"><img class="picto-nav" src="../../assets/images/popularity.png" width="27" height="27"></router-link>
+                    </b-nav-item>
+                    <b-nav-item>
+                        <router-link v-if="logged" to="/owngameslist"><img class="picto-nav" src="../../assets/images/check.svg" width="25" height="20"></router-link>
+                    </b-nav-item>
+                    <b-nav-item>
+                        <router-link v-if="logged" to="/wishgameslist"><img class="picto-nav" src="../../assets/images/heart.svg" width="20" height="20"></router-link>
+                    </b-nav-item>
+                    <b-nav-item>
+                        <router-link v-if="logged" to="/profile"><img class="picto-nav" src="../../assets/images/user.svg" width="25" height="20"></router-link>
+                    </b-nav-item>
+                    <b-nav-item>
+                        <button v-if="logged" id="logout-btn" class="logout-btn" @click="logout"><img class="picto-nav" src="../../assets/images/logout.svg" width="20" height="20"></button></b-nav-item>
+                </b-navbar-nav>
+            </b-collapse>
+        </b-navbar>
+
         <SideBar v-if="home && actifSearch" />
         <div v-if="home">
             <div v-if="resources">

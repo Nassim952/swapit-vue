@@ -15,34 +15,34 @@ const routes = [
         path: "/games",
         component: () => import("../views/Games.vue"),
         meta: { requiresAuth: true }
-    }, 
+    },
     {
         path: "/games/genre/:id",
         component: () => import("../views/Games.vue"),
         meta: { requiresAuth: true }
-    }, 
-    { 
+    },
+    {
         path: "/owngameslist",
         component: () => import("../views/OwnList.vue"),
         meta: { requiresAuth: true }
-    }, { 
+    }, {
         path: "/wishgameslist",
         component: () => import("../views/WishList.vue"),
         meta: { requiresAuth: true }
-    }, { 
+    }, {
         path: "/subscription",
         component: () => import("../views/Subscription.vue"),
         meta: { requiresAuth: true }
-    }, { 
+    }, {
         path: "/exchange/:userid/:gameid",
         component: () => import("../components/Exchange/Game_Exchange.vue"),
         meta: { requiresAuth: true }
-    }, { 
+    }, {
         path: "/profile",
         component: () => import("../views/Profil.vue"),
         meta: { requiresAuth: true }
     },
-    { 
+    {
         path: "/channel",
         component: () => import("../views/Exchange.vue"),
         meta: { requiresAuth: true }
@@ -58,16 +58,16 @@ const routes = [
         component: () => import("../components/Game/GameLayerDetails.vue"),
         meta: { requiresAuth: true }
     },
-    { 
+    {
         path: '*',
         component: () => import("../views/404.vue")
     },
-    { 
+    {
         path: "/admin",
         component: () => import("../views/Admin.vue"),
         meta: { requiresAuth: true }
     },
-    { 
+    {
         path: "/admin/login",
         component: () => import("../views/AdminSignin.vue")
     },
@@ -89,7 +89,11 @@ const routes = [
     {
         path: "/form-reset-password/:token",
         component: () => import("../components/Form/FormResetPassword.vue"),
-    }
+    },
+    {
+        path: "/cgu",
+        component: () => import("../views/Reglement.vue")
+    },
 ];
 
 const router = new VueRouter({

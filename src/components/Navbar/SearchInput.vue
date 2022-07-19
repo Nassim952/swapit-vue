@@ -26,7 +26,7 @@
     methods: {
       refreshRessource() {
         if (this.$data.searchQuery) {
-          fetch(`https://localhost/api/games.json?properties%5B%5D=name&name=${this.searchQuery}`).then(response => response.json()).then(data => {
+          fetch(`https://swapit-api-game.herokuapp.com/api/games.json?properties%5B%5D=name&name=${this.searchQuery}`).then(response => response.json()).then(data => {
             this.$data.resources = data;
           }).catch(err => {
             console.error(err)

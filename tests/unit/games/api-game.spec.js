@@ -1,9 +1,9 @@
 import request from "supertest";
-const baseurl =  "https://localhost/api";
+const baseurl =  "https://swapit-api-game.herokuapp.com/api";
 
 
 
-// COMPANY
+/* // COMPANY
 describe ('Fetching api route : company', () =>{
     it ('should return 200 status code',async ()=>{
         const response = await request(baseurl).get('/companies')
@@ -29,11 +29,11 @@ describe ('Fetching api route : /api/games', () =>{
         expect (response.statusCode).toBe(200)
         
     });
-})
+}) */
 
 describe ('Fetching api route : /api/games/{id}', () =>{
     it ('should return 200 status code',async ()=>{
-        const response = await request(baseurl).get('/games/1')
+        const response = await request(baseurl).get('/games/79')
         .trustLocalhost()
         expect (response.statusCode).toBe(200)
         
@@ -43,7 +43,7 @@ describe ('Fetching api route : /api/games/{id}', () =>{
 
 describe ('Fetching api route : games/{id}/involved_companies', () =>{
     it ('should return 200 status code',async ()=>{
-        const response = await request(baseurl).get('/games/1/involved_companies')
+        const response = await request(baseurl).get('/games/79/involved_companies')
         .trustLocalhost()
         expect (response.statusCode).toBe(200)
         
@@ -52,7 +52,7 @@ describe ('Fetching api route : games/{id}/involved_companies', () =>{
 
 describe ('Fetching api route : /api/games/{id}/modes', () =>{
     it ('should return 200 status code',async ()=>{
-        const response = await request(baseurl).get('/games/1/modes')
+        const response = await request(baseurl).get('/games/79/modes')
         .trustLocalhost()
         expect (response.statusCode).toBe(200)
         
@@ -62,7 +62,7 @@ describe ('Fetching api route : /api/games/{id}/modes', () =>{
 
 describe ('Fetching api route : /api/games/{id}/platforms', () =>{
     it ('should return 200 status code',async ()=>{
-        const response = await request(baseurl).get('/games/1/platforms')
+        const response = await request(baseurl).get('/games/79/platforms')
         .trustLocalhost()
         expect (response.statusCode).toBe(200)
         
@@ -71,7 +71,7 @@ describe ('Fetching api route : /api/games/{id}/platforms', () =>{
 
 describe ('Fetching api route : /games/{id}/genres', () =>{
     it ('should return 200 status code',async ()=>{
-        const response = await request(baseurl).get('/games/1/genres')
+        const response = await request(baseurl).get('/games/79/genres')
         .trustLocalhost()
         expect (response.statusCode).toBe(200)
         
@@ -91,14 +91,14 @@ describe ('Fetching api route : Genre', () =>{
     });
 })
 
-describe ('Fetching api route : /api/genres/{id}', () =>{
+/* describe ('Fetching api route : /api/genres/{id}', () =>{
     it ('should return 200 status code',async ()=>{
         const response = await request(baseurl).get('/genres/1')
         .trustLocalhost()
         expect (response.statusCode).toBe(200)
         
     });
-})
+}) */
 
 // MODES
 describe ('Fetching api route : /api/modes', () =>{
@@ -128,12 +128,12 @@ describe ('Fetching api route : platforms', () =>{
         
     });
 })
-describe ('Fetching api route : platforms/{id}', () =>{
+/* describe ('Fetching api route : platforms/{id}', () =>{
     it ('should return 200 status code',async ()=>{
         const response = await request(baseurl).get('/platforms/1')
         .trustLocalhost()
         expect (response.statusCode).toBe(200)
         
     });
-})
+}) */
 

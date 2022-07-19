@@ -40,7 +40,7 @@ export default {
          resultQuery() {
           console.info(this.$data.searchQuery)
           if (this.searchQuery) {
-             fetch(`https://localhost/api/games.json?page=1&name=${this.searchQuery}`).then(response => response.json()).then(data => {
+             fetch(`https://swapit-api-game.herokuapp.com/api/games.json?page=1&name=${this.searchQuery}`).then(response => response.json()).then(data => {
               console.info(data)
             this.$data.resources = data;
             
@@ -48,7 +48,7 @@ export default {
             console.error(err)
           })
           } else {
-                fetch(`https://localhost/api/games.json?popular`).then(response => response.json()).then(data => {
+                fetch(`https://swapit-api-game.herokuapp.com/api/games.json?popular`).then(response => response.json()).then(data => {
                 console.info(data)
                 this.$data.resources = data;
             

@@ -21,7 +21,7 @@
   import axios from 'axios'
 
   const instance = axios.create({
-    baseURL: 'http://localhost:81/',
+    baseURL: 'https://swapit-api-core.herokuapp.com/',
     timeout: 1000,
     headers: {
       'accept': 'application/ld+json',
@@ -87,10 +87,10 @@
         resultQuery() {
           console.info(this.$data.searchQuery)
           if (this.searchQuery) {
-             fetch(`https://localhost/api/games.json?page=1&name=${this.searchQuery}`).then(response => response.json()).then(data => {
+             fetch(`https://swapit-api-game.herokuapp.com/api/games.json?page=1&name=${this.searchQuery}`).then(response => response.json()).then(data => {
               // console.info(data[0][])
             this.$data.resources = data;
-            // fetch(`https://localhost/api/games?name=${this.searchQuery}.json`).then(data => {
+            // fetch(`https://swapit-api-game.herokuapp.com/api/games?name=${this.searchQuery}.json`).then(data => {
             //   console.info(data)
             // this.$data.resources = data['hydra:member']
             

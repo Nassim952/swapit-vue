@@ -1,7 +1,7 @@
 <template>
-    <div class="row p-5 no-overflow">
-        <img class="col-lg-6" src="../assets/images/swapit-landing.svg" />
-        <img style="width: 49%" class="col-lg-6 " src="../assets/images/illustration-Manette.png" />
+    <div class="p-5 d-flex align-items-center justify-content-center flex-wrap">
+        <img style="width: 28rem" src="../assets/images/swapit-landing.svg" />
+        <img style="width: 28rem" src="../assets/images/illustration-Manette.png" />
     </div>
 </template>
 
