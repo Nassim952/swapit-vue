@@ -16,15 +16,18 @@
               </div>
           </div>
       </div>
-    <div class="user-card-container">
+    <div v-if="users.length > 0" class="user-card-container">
       <UserCard v-for="(user, key) in users" :key="user.id + key" :user="user" :game="game" />
+    </div>
+    <div v-else>
+      <h3>Aucun utilisateur possède ce jeu...</h3>
     </div>
   </div>
 </template>
 
 <script>
 import {Igdb} from "../../lib/Services/Igdb";
-// import {User} from "../../lib/Services/User";
+import {User} from "../../lib/Services/User";
 import UserCard from "./UserCard.vue";
 import { UserAdmin } from "../../lib/Services/UserAdmin";
 
@@ -37,6 +40,7 @@ export default {
     filters: {},
     game: {},
     users: [],
+    currentUser: {},
   }),
   computed: {
     coverPreUrl: function () {
@@ -56,13 +60,25 @@ export default {
     getUsers: async function () {
       var provider = new UserAdmin()
       provider.getUsers(null, null, { "ownGames" : this.$route.params.id }).then(response => {
+        for(var i = 0; i < response.length; i++) {
+          if(response[i].id == this.$data.currentUser.id) {
+            response.splice(i, 1)
+          }
+        }
         this.$data.users = response
+      })
+    },
+    getCurrentUser: async function () {
+      var provider = new User()
+      provider.auth.me().then(response => {
+        this.$data.currentUser = response
       })
     },
   },
   created() {
     this.getGame();
     this.getUsers();
+    this.getCurrentUser();
   },
 };
 </script>
