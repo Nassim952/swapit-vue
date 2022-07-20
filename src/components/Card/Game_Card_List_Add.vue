@@ -1,7 +1,9 @@
 <template>
   <div class="game_card_list scrollbar" id="style-1" v-if="games">
     <div class="game_card_container" v-for="(game,key) in games" id="OwnList" :key="key">
-      <GameCard :game="game" />
+      <PuSkeleton height="150px" count="10">
+        <GameCard :game="game"/>
+      </PuSkeleton>
       <a v-if="!added(game.id)" @click="add(game)" title="arrow icons" class="my-icon">
         <img class="icon"
         src="../../assets/icones/add.png"

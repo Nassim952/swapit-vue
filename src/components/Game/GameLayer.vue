@@ -49,10 +49,10 @@
 import { Igdb } from "../../lib/Services/Igdb";
 import { User } from "../../lib/Services/User";
 
-
 export default {
   name: "GameLayer",
   components: {
+
   },
   data: () => ({
     filters: {},
@@ -112,13 +112,13 @@ export default {
               })
             })
           }
-          else{
+          else {
             ownGames.forEach(element => {
-              if(element == game.id){
+              if (element == game.id) {
                 isExist = true
               }
             });
-            if(isExist == false){
+            if (isExist == false) {
               ownGames.push(game.id)
               provider.patchUser(response.id, { 'ownGames': ownGames }).then(() => {
                 this.$fire({
@@ -128,7 +128,7 @@ export default {
                 })
               })
             }
-            else{
+            else {
               this.$fire({
                 title: "Vous possédez déjà ce jeu",
                 text: "Vous avez déjà ajouté ce jeu à votre liste de jeu possédés",
@@ -161,13 +161,13 @@ export default {
               })
             })
           }
-          else{
+          else {
             wishGames.forEach(element => {
-              if(element == game.id){
+              if (element == game.id) {
                 isExist = true
               }
             });
-            if(isExist == false){
+            if (isExist == false) {
               wishGames.push(game.id)
               provider.patchUser(response.id, { 'wishGames': wishGames }).then(() => {
                 this.$fire({
@@ -177,7 +177,7 @@ export default {
                 })
               })
             }
-            else{
+            else {
               this.$fire({
                 title: "Vous souahitez déjà ce jeu",
                 text: "Vous avez déjà ajouté ce jeu à votre liste de jeu souhaités",

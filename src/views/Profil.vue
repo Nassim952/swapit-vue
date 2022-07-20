@@ -9,17 +9,19 @@
             <div class="profile-bloc user-ownlist scrollbar" id="style-1">
                 <h3>Liste de jeux possédés</h3>
                 <div class="list-wrapper">
-                    <ProfilGameCard v-for="(game, key) in ownGames" :key="game.id + key" :game="game" class="" />
+                    <PuSkeleton height="150px" :count=6>
+                        <ProfilGameCard v-for="(game, key) in ownGames" :key="game.id + key" :game="game" class="" />
+                    </PuSkeleton>
                 </div>
             </div>
             <div class="profile-bloc user-wishlist scrollbar" id="style-1">
                 <h3>Liste de jeux souhaités</h3>
                 <div class="list-wrapper">
-                    <Profil_Game_Card_Wish v-for="(game, key) in wishGames" :key="game.id + key" :game="game"
-                        class="" />
+                    <PuSkeleton height="150px" :count=6>
+                        <Profil_Game_Card_Wish v-for="(game, key) in wishGames" :key="game.id + key" :game="game" class="" />
+                    </PuSkeleton>
                 </div>
             </div>
-
 
         </div>
         <div class="exchange-form">

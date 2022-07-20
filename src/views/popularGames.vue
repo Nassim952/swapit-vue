@@ -1,7 +1,9 @@
 <template>
     <div v-if="home">
         <div v-if="resources">
-            <GameLayer v-for="(game, key) in resources" :key="game.id + key" :game="game" :inList="added(game)" />
+            <PuSkeleton height="250px" :count=20>
+                <GameLayer v-for="(game, key) in resources" :key="game.id + key" :game="game" :inList="added(game)" />
+            </PuSkeleton>
         </div>
     </div>
 </template>
@@ -13,7 +15,7 @@ import { User } from "../lib/Services/User";
 
 export default {
     components: {
-        GameLayer
+        GameLayer,
     },
     props: {
         home: {

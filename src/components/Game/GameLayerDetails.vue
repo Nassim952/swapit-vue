@@ -1,21 +1,21 @@
 <template>
   <div class="container">
-    <div v-bind:style="backgroundCover" class="container-game-layer">
-        <div class="game-layer">
-            <div class="game-img">
-                    <img v-bind:src="coverPreUrl" width="80" height="80">
-            </div>
-            <div class="info-game">
-                <div class="title-game">{{game.name}}</div>
-                <div class="game-details">
-                    <div class="game-desc">{{game.summary}}</div>
-                    <div class="detail-plus">
-                      <div class="game-rating">{{Math.round(game.aggregatedRating)/10}}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+      <div v-bind:style="backgroundCover" class="container-game-layer">
+          <div class="game-layer">
+              <div class="game-img">
+                      <img v-bind:src="coverPreUrl" width="80" height="80">
+              </div>
+              <div class="info-game">
+                  <div class="title-game">{{game.name}}</div>
+                  <div class="game-details">
+                      <div class="game-desc">{{game.summary}}</div>
+                      <div class="detail-plus">
+                        <div class="game-rating">{{Math.round(game.aggregatedRating)/10}}</div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
     <div class="user-card-container">
       <UserCard v-for="(user, key) in users" :key="user.id + key" :user="user" :game="game" />
     </div>
@@ -55,7 +55,7 @@ export default {
     },
     getUsers: async function () {
       var provider = new UserAdmin()
-      provider.getUsers(null, null, { "owned_games" : this.$route.params.id }).then(response => {
+      provider.getUsers(null, null, { "ownGames" : this.$route.params.id }).then(response => {
         this.$data.users = response
       })
     },

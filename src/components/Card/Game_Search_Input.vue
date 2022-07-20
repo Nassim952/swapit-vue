@@ -262,7 +262,7 @@ export default {
     resultQuery() {
       var provider = new Igdb()
       var query = []
-      query['name'] = this.$data.searchQuery ?? null
+      query['slug'] = this.$data.searchQuery ?? null
       provider.getPopulars(null, null, query).then(response => { this.$data.resources = response })
     },
   },
