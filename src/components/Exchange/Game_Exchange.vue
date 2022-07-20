@@ -33,6 +33,7 @@ import GamesToExchange from './Game_To_Exchange.vue';
 import GameCardExchange from './Game_Card_Exchange.vue';
 import Button from '../Buttons/Button.vue';
 import { User } from '../../lib/Services/User';
+import {UserAdmin} from "../../lib/Services/UserAdmin";
 import { Igdb } from '../../lib/Services/Igdb';
 import { Exchange } from '../../lib/Services/Exchange';
 
@@ -66,7 +67,7 @@ export default {
   },
   methods: {
     getUser: async function () {
-      var provider = new User()
+      var provider = new UserAdmin()
       provider.getUser(this.$route.params.userid).then(response => {
         this.$data.user = response
       })
@@ -84,25 +85,27 @@ export default {
       this.$data.gameWishSelected = null
     },
     getGamesToExchange: async function () {
-      var providerUser = new User();
+      var provider = new UserAdmin();
       var providerGame = new Igdb();
-      providerUser.getUser(this.$route.params.userid).then((response) => {
+      provider.getUser(this.$route.params.userid).then((response) => {
         if (response?.ownGames !== []) {
           providerGame.getGames(response?.ownGames)
             .then(response => {
               this.$data.gamesToExchange = response ?? []
+              console.log(this.$data.gamesToExchange)
             });
         }
       });
     },
     getGamesWish: async function () {
-      var providerUser = new User();
+      var provider = new UserAdmin();
       var providerGame = new Igdb();
-      providerUser.getUser(this.$route.params.userid).then((response) => {
+      provider.getUser(this.$route.params.userid).then((response) => {
         if (response?.wishGames !== []) {
           providerGame.getGames(response?.wishGames)
             .then(response => {
               this.$data.gamesWish = response ?? []
+              console.log(this.$data.gamesWish)
             });
         }
       });
@@ -146,18 +149,16 @@ export default {
       return (this.gameToExchangeSelected && this.gameToExchangeSelected.id == game.id) || (this.gameWishSelected && this.gameWishSelected.id == game.id)
     },
     getMatchingGames() {
-      var provider = new User()
+      var provider = new User();
+      var providerAdmin = new UserAdmin()
       var providerGame = new Igdb()
 
       provider.auth.me().then(response => {
         var currentUserOwnGames = response.ownGames
-        provider.getUser(this.$route.params.userid).then(response => {
+        providerAdmin.getUser(this.$route.params.userid).then(response => {
           var otherUserWishGames = response.wishGames
           var matchingGames = []
           var unMatchingGames = []
-
-          console.log(currentUserOwnGames)
-          console.log(otherUserWishGames)
 
           otherUserWishGames.forEach(game => {
             if (currentUserOwnGames.includes(game)) {

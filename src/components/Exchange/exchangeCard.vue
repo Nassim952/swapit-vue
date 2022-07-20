@@ -30,6 +30,7 @@
 
 <script>
 import { User } from '../../lib/Services/User';
+import { UserAdmin } from '../../lib/Services/UserAdmin';
 import { Igdb } from '../../lib/Services/Igdb';
 
 export default {
@@ -60,9 +61,13 @@ export default {
                         this.proposerGame = response;
                     }
                 })
-                .catch(err => {
-                    console.log(err)
-                })
+                .catch(() => {
+                    this.$fire({
+                        title: 'Erreur',
+                        text: 'Une erreur est survenuen, veuillez réessayer',
+                        type: 'error'
+                    })
+                });
         },
         getSenderGames(game_id) {
             const provider = new Igdb();
@@ -72,12 +77,16 @@ export default {
                         this.senderGame = response;
                     }
                 })
-                .catch(err => {
-                    console.log(err)
-                })
+                .catch(() => {
+                    this.$fire({
+                        title: 'Erreur',
+                        text: 'Une erreur est survenuen, veuillez réessayer',
+                        type: 'error'
+                    })
+                });
         },
         getOwner(id) {
-            const provider = new User();
+            const provider = new UserAdmin();
 
             provider.getUser(id)
                 .then(response => {
@@ -85,22 +94,29 @@ export default {
                         this.owner = response;
                     }
                 })
-                .catch(err => {
-                    console.log(err)
-                })
+                .catch(() => {
+                    this.$fire({
+                        title: 'Erreur',
+                        text: 'Une erreur est survenuen, veuillez réessayer',
+                        type: 'error'
+                    })
+                });
         },
         getProposer(id) {
             const provider = new User();
-
             provider.getUser(id)
                 .then(response => {
                     if (response) {
                         this.proposer = response;
                     }
                 })
-                .catch(err => {
-                    console.log(err)
-                })
+                .catch(() => {
+                    this.$fire({
+                        title: 'Erreur',
+                        text: 'Une erreur est survenuen, veuillez réessayer',
+                        type: 'error'
+                    })
+                });
         },
         init() {
             this.getProposerGame(this.exchange.proposerGame);

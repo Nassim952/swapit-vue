@@ -15,6 +15,11 @@ class UserAdmin extends Publisher {
     return response;
   }
 
+  async getUser(id, properties = null) {
+    const response = await this.get(this.formatEndPoint('users', id, properties));
+    return response;
+  }
+
   async checkEmailIfExist(email) {
     this.getUsers(null, null, { 'email': email }).then(response => {
       response = response.shift();

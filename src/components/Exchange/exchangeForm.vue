@@ -53,34 +53,42 @@ export default {
     methods: {
         supExchange(exchange_id, type) {
             const provider = new Exchange();
-            provider.refuseExchanges(exchange_id)
-                .then((response) => {
-                    if (response) {
-                        if (type == 'cancel') {
-                            this.$fire({
-                                title: 'Succès',
-                                text: 'L\'échange a bien été annulé',
-                                type: 'success'
-                            }).then(() => {
-                                this.refreshExhanges();
-                            });
-                        } else {
-                            this.$fire({
-                                title: 'Succès',
-                                text: 'L\'échange a bien été refusé',
-                                type: 'success'
-                            }).then(() => {
-                                this.refreshExhanges();
-                            });
-                        }
-                    } else {
+            if (type == 'cancel') {
+                provider.cancelExchanges(exchange_id).then(() => {
+                    this.$fire({
+                        title: 'Succès',
+                        text: 'L\'échange a bien été annulé',
+                        type: 'success'
+                    }).then(() => {
+                        this.refreshExhanges();
+                    });
+                }).catch(() => {
+                    this.$fire({
+                        title: 'Erreur',
+                        text: 'Une erreur est survenue lors de l\'annulation de l\'échange',
+                        type: 'error'
+                    });
+                });
+            }
+            else if(type == 'refused') {
+                provider.refuseExchanges(exchange_id)
+                    .then((response) => {
+                        console.log(response);
+                        this.$fire({
+                            title: 'Succès',
+                            text: 'L\'échange a bien été refusé',
+                            type: 'success'
+                        }).then(() => {
+                            this.refreshExhanges();
+                        });
+                    }).catch(() => {
                         this.$fire({
                             title: 'Erreur',
-                            text: 'Une erreur est survenue',
+                            text: 'Une erreur est survenue lors du refus de l\'échange',
                             type: 'error'
-                        })
-                    }
-                })
+                        });
+                    });
+            }
         },
         acceptExchange(exchange_id) {
             const provider = new Exchange();
@@ -118,18 +126,26 @@ export default {
                         this.receivedExchanges = response;
                     }
                 })
-                .catch(err => {
-                    console.log(err)
-                })
+                .catch(() => {
+                    this.$fire({
+                        title: 'Erreur',
+                        text: 'Une erreur est survenue, veuillez réessayer',
+                        type: 'error'
+                    })
+                });
             provider.getSendExchanges(this.$data.user.id)
                 .then(response => {
                     if (response) {
                         this.sentExchanges = response;
                     }
                 })
-                .catch(err => {
-                    console.log(err)
-                })
+                .catch(() => {
+                    this.$fire({
+                        title: 'Erreur',
+                        text: 'Une erreur est survenue, veuillez réessayer',
+                        type: 'error'
+                    })
+                });
             // provider.getPendingExchanges(this.$data.user.id)
             //     .then(response => {
             //         if (response) {
