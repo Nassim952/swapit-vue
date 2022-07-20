@@ -5,7 +5,7 @@
                 <div class="col-lg-12 col-xl-10">
 
                     <div class="row justify-content-center" style="background-color: white; border-radius: 25px;">
-                        <div class="col-md-10 col-lg-6 col-xl-6 order-1 order-lg-1 p-5 overflow-y">
+                        <div class="col-md-10 col-lg-6 col-xl-6 order-1 order-lg-1 p-5">
                             <p class="page-name">Liste de jeux souhaités</p>
                             <GameSearchInput route="wish"/>
                             <UserCard/>

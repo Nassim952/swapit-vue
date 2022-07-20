@@ -16,10 +16,10 @@
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
             <b-collapse id="nav-collapse" is-nav>
-                <b-navbar-nav>
+                <b-navbar-nav class="w-100 d-flex justify-content-between">
                     <b-nav-item>
                         <router-link v-show="logged" to="/games" style="font-size: smaller" class="link-nav p-3">
-                            <img class="picto-search" src="../../assets/icones/search.svg" width="25" height="25"> Rechercher
+                            <img class="picto-search" src="../../assets/icones/search.svg" width="25" height="25"> <span class="nav-item-mobile">Rechercher</span>
                         </router-link>
                     </b-nav-item>
                     <b-nav-item>
@@ -29,31 +29,33 @@
                         <router-link v-if="hidden" to="/signup" class="link-nav p-3">Inscription</router-link>
                     </b-nav-item>
                     
-                    <b-nav-item>
-                        <router-link v-if="logged" to="/popularGames" style="font-size: smaller" class="link-nav p-3">
-                            <img src="../../assets/images/popularity.png" width="25" height="25"> Populaires
-                        </router-link>
-                    </b-nav-item>
-                    <b-nav-item>
-                        <router-link v-if="logged" to="/owngameslist" style="font-size: smaller" class="link-nav p-3">
-                            <img src="../../assets/images/check.svg" width="25" height="25"> Ownlist
-                        </router-link>
-                    </b-nav-item>
-                    <b-nav-item>
-                        <router-link v-if="logged" to="/wishgameslist" style="font-size: smaller" class="link-nav p-3">
-                            <img src="../../assets/images/heart.svg" width="25" height="25"> Wishlist
-                        </router-link>
-                    </b-nav-item>
-                    <b-nav-item>
-                        <router-link v-if="logged" to="/profile" style="font-size: smaller" class="link-nav p-3">
-                            <img src="../../assets/images/user.svg" width="25" height="25"> Profil
-                        </router-link>
-                    </b-nav-item>
-                    <b-nav-item>
-                        <button v-if="logged" id="logout-btn" style="font-size: smaller" class="logout-btn link-nav px-3" @click="logout">
-                            <img src="../../assets/images/logout.svg" width="25" height="25"> Déconnexion
-                        </button>
-                    </b-nav-item>
+                    <b-navbar-nav>
+                        <b-nav-item>
+                            <router-link v-if="logged" to="/popularGames" style="font-size: smaller" class="link-nav p-3">
+                                <img src="../../assets/images/popularity.png" width="25" height="25"> <span class="nav-item-mobile">Populaires</span>
+                            </router-link>
+                        </b-nav-item>
+                        <b-nav-item>
+                            <router-link v-if="logged" to="/owngameslist" style="font-size: smaller" class="link-nav p-3">
+                                <img src="../../assets/images/check.svg" width="25" height="25"> <span class="nav-item-mobile">Ownlist</span>
+                            </router-link>
+                        </b-nav-item>
+                        <b-nav-item>
+                            <router-link v-if="logged" to="/wishgameslist" style="font-size: smaller" class="link-nav p-3">
+                                <img src="../../assets/images/heart.svg" width="25" height="25"> <span class="nav-item-mobile">Wishlist</span>
+                            </router-link>
+                        </b-nav-item>
+                        <b-nav-item>
+                            <router-link v-if="logged" to="/profile" style="font-size: smaller" class="link-nav p-3">
+                                <img src="../../assets/images/user.svg" width="25" height="25"> <span class="nav-item-mobile">Profil</span>
+                            </router-link>
+                        </b-nav-item>
+                        <b-nav-item>
+                            <button v-if="logged" id="logout-btn" style="font-size: smaller" class="logout-btn link-nav px-3" @click="logout">
+                                <img src="../../assets/images/logout.svg" width="25" height="25"> <span class="nav-item-mobile">Déconnexion</span>
+                            </button>
+                        </b-nav-item>
+                    </b-navbar-nav>
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
@@ -216,5 +218,15 @@ export default {
     box-shadow: inset 0 0 0 40px #FB5D19;
     color: white;
     border-radius: 7px;
+}
+
+.nav-item-mobile {
+    margin-left: 5px;
+}
+
+@media screen and (min-width: 993px) {
+    .nav-item-mobile {
+        display: none;
+    }
 }
 </style>

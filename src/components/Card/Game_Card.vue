@@ -1,9 +1,16 @@
 <template>
-  <div class="game_card">
+  <!-- <div class="game_card">
     <img v-bind:src="coverPreUrl" class="icon">
     <div class="container">
       <div>{{ game.name }}</div>
       <p>{{ game.description }}</p>
+    </div>
+  </div> -->
+
+  <div class="card game_card">
+    <img v-bind:src="coverPreUrl" class="icon">
+    <div class="card-body text-center">
+      <p class="m-0" style="font-size: 0.7rem;">{{ game.name }}</p>
     </div>
   </div>
 </template>
@@ -33,14 +40,10 @@ export default {
 
 <style scoped>
 .game_card {
-  margin: auto;
-  display: flex;
-  flex-direction: column;
   background-color: rgba(41, 100, 124, 0.2);
-  width: 8rem;
-  height: 18rem;
-  overflow: hidden;
+  width: 7rem;
   border-radius: 1rem;
+  overflow: hidden;
 }
 
 .icon-wrapper {
@@ -50,5 +53,9 @@ export default {
 .icon {
   width: 100%;
   height: auto
+}
+
+.card-body {
+  padding: 5px
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
-  <div class="game_card_list scrollbar" id="style-1" v-if="games">
+  <div class="game_card_list scrollbar p-2" id="style-1" v-if="games">
     <div class="game_card_container" v-for="(game,key) in games" id="OwnList" :key="key">
       <GameCard :game="game" />
       <a v-if="!added(game.id)" @click="add(game)" title="arrow icons" class="my-icon">
-        <img class="icon"
+        <img class="icon" style="cursor: pointer;"
         src="../../assets/icones/add.png"
         alt="Grapefruit slice atop a pile of other slices">
         </a>
@@ -39,16 +39,9 @@ export default {
 <style scoped>
 
 .game_card_list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: center;
-  margin: auto;
-  width: 55%;
-  height: 350px;
+  height: 150px;
   box-shadow: lightgrey 0px 15px 10px 1px;
   border-radius: 2rem;
-  padding: 2rem;
 }
 
 .scrollbar

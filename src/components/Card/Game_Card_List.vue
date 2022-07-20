@@ -1,7 +1,7 @@
 <template>
   <div >
-  <div class="game_card_list" v-if="myList">
-    <div class="game_card" v-for="(game,key) in myList" id="OwnList" :key="key">
+  <div class="d-flex" v-if="myList">
+    <div v-for="(game,key) in myList" id="OwnList" :key="key">
       <GameCard :game="game" />
       <a v-if="added(game.id)" @click="supp(game)" title="arrow icons" class="my-icon">
         <img class="icon"
@@ -89,10 +89,7 @@ export default {
     width: 1rem;
     height: 1rem;
 }
-.game_card{
-  margin:2rem;
-  display: flex;
-}
+
 .my-icon {
   position: absolute;
 }

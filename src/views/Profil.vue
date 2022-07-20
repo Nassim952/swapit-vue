@@ -1,51 +1,55 @@
 <template>
-<div id="bg">
-    <div  class="position-relative fill">
-        <div class="container h-100">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-lg-12 col-xl-10">
+    <div class="row m-auto">
+        <div class="col">
+            <div class="row">
+                <div class="col-md">
+                    <div class="row text-center" style="background-color: rgb(255, 93, 25, 0.1)">
+                        <div class="w-100">
+                            <img src="../assets/images/Sly.png" width="150" alt="profile">
+                        </div>
+                        <div class="profile-name w-100">{{ capitalizeFirstLetter(user.username) }}</div>
+                        <div class="p-3 w-100"><b-icon icon="camera" font-scale="1" style="margin-right: 5px;"></b-icon><a href="#" class="link-nav" style="font-size: smaller;">Changer d'avatar</a></div>
+                    </div>
 
-                    <div class="row justify-content-center" style="background-color: white; border-radius: 25px;">
-                        <div class="col-md-3 border-right">
-                            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                                <img src="../assets/images/Sly.png" width="150" alt="profile"><span><div class="profile-name">{{ capitalizeFirstLetter(user.username) }}</div></span>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="p-3 py-5">
-                                <div class="profile-bloc user-ownlist scrollbar" id="style-1">
-                                    <h3>Liste de jeux possédés</h3>
-                                    <div class="list-wrapper">
-                                        <ProfilGameCard v-for="(game, key) in ownGames" :key="game.id + key" :game="game" class="" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="p-3 py-5">
-                                <div class="profile-bloc user-wishlist scrollbar" id="style-1">
-                                    <h3>Liste de jeux souhaités</h3>
-                                    <div class="list-wrapper">
-                                        <Profil_Game_Card_Wish v-for="(game, key) in wishGames" :key="game.id + key" :game="game"
-                                            class="" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="p-3">
-                                <div style="border-radius: 25px;" class="exchange-form">
-                                    <ExchangeForm />
-                                </div>
+                    <div class="row text-center p-4">
+                        <ul class="list-group" style="list-style: none;"><h5 style="color: rgba(41, 100, 124);" class="p-2">Informations utilisateurs</h5>
+                            <li class="p-1">brown.chris@example.fr</li>
+                            <li class="p-1">Brown</li>
+                            <li class="p-1">Chris</li>
+                            <li class="p-1">50 Rue des vrais</li>
+                            <li class="p-1">94320</li>
+                        </ul>
+                        <div class="pt-3 w-100"><b-icon icon="pencil" font-scale="1" style="margin-right: 5px;"></b-icon><a href="#" class="link-nav" style="font-size: smaller;">Editer</a></div>
+                    </div>
+
+                    <div class="row d-flex justify-content-center">
+                        <ExchangeForm />
+                    </div>
+                </div>
+
+                <div class="col-md">
+                    <div class="row">
+                        <div class="p-3 user-ownlist">
+                            <h5 class="m-auto" style="color: rgba(41, 100, 124);">Liste de jeux possédés</h5>
+                            <div id="style-1" class="list-wrapper d-flex scrollbar p-2">
+                                <ProfilGameCard v-for="(game, key) in ownGames" :key="game.id + key" :game="game" class="" />
                             </div>
                         </div>
                     </div>
-                        
+
+                    <div class="row">
+                        <div class="p-3 user-wishlist" >
+                            <h5 class="m-auto" style="color: rgba(41, 100, 124);">Liste de jeux souhaités</h5>
+                            <div id="style-1" class="list-wrapper scrollbar d-flex p-2">
+                                <Profil_Game_Card_Wish v-for="(game, key) in wishGames" :key="game.id + key" :game="game"
+                                    class="" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </template>
 
 <script>
@@ -169,6 +173,15 @@ export default {
 </script>
 
 <style>
+.link-nav {
+    text-decoration: none;
+    color: rgba(41, 100, 124);
+}
+.link-nav:hover {
+    color: #FB5D19;
+    transition: color 0.2s;
+}
+
 .list-wrapper {
     width: -webkit-fill-available;
     margin-top: 30px;
@@ -180,13 +193,6 @@ export default {
     background-color: #fafafa;
     justify-content: space-between;
     height: 800px;
-}
-
-.profile-bloc {
-    background-color: rgb(255, 255, 255);
-    border-radius: 15px;
-    padding: 30px;
-    overflow: hidden;
 }
 
 .user-info {
@@ -203,7 +209,7 @@ export default {
 
 .profile-name {
     color: rgb(255, 94, 0);
-    font-size: 32px;
+    font-size: 20px;
 }
 
 .profile-nbr-swap img {
@@ -223,8 +229,7 @@ export default {
 
 .scrollbar {
     background: #F5F5F5;
-    overflow-y: scroll;
-    margin-bottom: 25px;
+    overflow-x: auto;
 }
 
 #style-1::-webkit-scrollbar-track {
@@ -246,26 +251,20 @@ export default {
 
 .user-ownlist {
     background-image: url('../assets/images/check.svg');
-    background-size: 100px;
+    background-size: 70px;
     background-repeat: no-repeat;
     background-position: 90% 2%;
     display: flex;
     flex-wrap: wrap;
-    overflow-y: scroll;
 }
 
 .user-wishlist {
     background-image: url('../assets/images/heart.svg');
-    background-size: 100px;
+    background-size: 65px;
     background-repeat: no-repeat;
     background-position: 90% 2%;
     display: flex;
     flex-wrap: wrap;
-    overflow-y: scroll;
-}
-
-.profile-bloc>h3 {
-    color: rgba(41, 100, 124);
 }
 
 .profile-list-container {

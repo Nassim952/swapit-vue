@@ -1,16 +1,19 @@
 <template>
   <div class="gameSearch-container">
-    <div id="Game_Search" class="gameSearch">
-      <input class="search-input" v-model="searchQuery" @input="resultQuery">
-      <GameCardListAdd v-show="searchQuery" :games="resources" />
-    </div>
-    <div class="game-list-added">
+    <!-- <div class="game-list-added">
       <GameCardList v-show="aGames" :games="aGames" />
       <div class="button-container d-flex justify-content-center">
-        <!-- <Button class="valider" title="Valider" :onClick="HandleSubmit" /> -->
-        <!-- <Button class="valider" title="Valider" :onClick="HandleSubmit" /> -->
         <Button class="vider" title="Vider" :onClick="clearList" />
       </div>
+    </div> -->
+
+    <div id="style-1" class="list-wrapper d-flex scrollbar p-2">
+      <GameCardList v-show="aGames" :games="aGames" />
+    </div>
+
+    <div id="Game_Search" class="gameSearch">
+      <input class="search-input w-100" v-model="searchQuery" @input="resultQuery" placeholder="Rechercher un jeu à ajouter">
+      <GameCardListAdd v-show="searchQuery" :games="resources" />
     </div>
   </div>
 </template>
@@ -277,8 +280,25 @@ export default {
   /* border-radius: 1rem; */
 }
 
-/* .vider:hover{
-  background-color: rgb(252, 101, 0);
-  transition: background-color 0.25s ease;
-} */
+.scrollbar {
+    background: #fafafa;
+    overflow-x: auto;
+}
+
+#style-1::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+#style-1::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+#style-1::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(255, 93, 25, 1);
+    background-color: rgba(255, 93, 25, 1);
+}
 </style>
