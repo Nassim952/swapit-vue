@@ -8,7 +8,7 @@
       <span class="focus-border"></span>
     </div>
     <div v-if="resources">
-      <Game v-for="(game, key) in resources" :key="game.id + key" :game="game" :inList="added(game)" />
+      <Game v-for="(game, key) in resources" :key="game.id + key" :game="game" :inWishList="added(game)" :inOwnList="added(game)" />
     </div>
   </b-container>
 </template>

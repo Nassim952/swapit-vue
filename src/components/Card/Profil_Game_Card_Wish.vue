@@ -3,7 +3,7 @@
     <div class="cover-game-card">
       <router-link :to="'/showGame/' + game.id">
         <div class="cover-wrap">
-          <img style="width: 100px; border-radius: 10px;" v-bind:src="coverPreUrl" alt="cover">
+          <img style="width: 100px; border-radius: 10px;" v-bind:src="coverPreUrl" alt="cover" loading="lazy">
         </div>
       </router-link>
       <div class="game-card-info-wrapper">
