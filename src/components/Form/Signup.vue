@@ -77,12 +77,12 @@ export default {
           password: data.password
         }
       ).then(response => {
+        console.log(response)
         if (response) {
           this.$fire({
             title: 'Utilisateur créé',
-            text: 'Vous pouvez maintenant vous connecter',
+            text: 'Veuillez vérifier votre boîte mail pour confirmer votre compte',
             type: 'success',
-            timer: 3000
           }).then(() => {
             this.$router.push('/signin')
           })

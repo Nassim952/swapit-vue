@@ -1,5 +1,6 @@
 import Publisher from '../Connexion/Publisher'
 import { Auth } from './Auth';
+import { UserAdmin } from './UserAdmin';
 class User extends Publisher {
   constructor() {
     super('http://localhost:81/', {
@@ -16,7 +17,9 @@ class User extends Publisher {
   }
 
   async postUser(data) {
-    const response = await this.post(this.formatEndPoint('users'), data)
+    const response = await this.post(this.formatEndPoint('users'), data);
+    const provider = new UserAdmin();
+    provider.sendMailConfirmation(response.id);
     return response;
   }
 

@@ -29,7 +29,7 @@ class UserAdmin extends Publisher {
       else {
         VueSimpleAlert.fire({
           title: 'Erreur',
-          text: 'Cet email n\'existe pas !',
+          text: 'Cet email n\'est pas enregistré sue ce site, nous vous invitons à créer un compte avec :)',
           type: 'error',
         })
       }
@@ -70,6 +70,16 @@ class UserAdmin extends Publisher {
 
   async setTokenResetPasswordToNull(id) {
     const response = await this.patch(`${'users'}/${id}/set-token-reset-password-to-null`, {});
+    return response;
+  }
+
+  async setMailConfirmedToTrue(id) {
+    const response = await this.patch(`${'users'}/${id}/set-mail-confirmed-to-true`, {});
+    return response;
+  }
+
+  async sendMailConfirmation(id) {
+    const response = await this.patch(`${'users'}/${id}/send-mail-for-confirmation`, {});
     return response;
   }
 }

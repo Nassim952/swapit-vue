@@ -7,7 +7,7 @@
           <!-- <a v-if="gameOwn(game.id)" @click="setWishSelected(game)" title="arrow icons" class="my-icon">
             <img class="icon" src="../../assets/icones/add.png">
           </a> -->
-          <a @click="addOwn(game)" title="arrow icons" class="my-icon">
+          <a @click="addOwn(game)" title="Ajouter à l'échange" class="my-icon">
             <img class="icon" src="../../assets/icones/add.png">
           </a>
         </div>
@@ -17,7 +17,7 @@
       <div class="game_card_container" v-for="(game, key)  in unMatchingGames" id="OwnList" :key="game.title + key">
         <GameCard :game="game" />
         <div v-if="!gameIsSelected(game)" class="addOwn">
-          <a @click="addGameOwnList(game.id)" title="arrow icons" class="my-icon">
+          <a @click="addGameOwnList(game.id)" title="Ajouter ce jeu dans ma liste" class="my-icon">
             <img class="icon" src="../../assets/images/check.svg">
           </a>
         </div>

@@ -94,6 +94,10 @@ const routes = [
         path: "/cgu",
         component: () => import("../views/Reglement.vue")
     },
+    {
+        path: "/mail-confirmation/:id",
+        component: () => import("../components/Form/MailConfirmation.vue"),
+    }
 ];
 
 const router = new VueRouter({
