@@ -2,23 +2,17 @@
     <div class="row m-auto">
         <div class="col">
             <div class="row">
-                <div class="col-md">
-                    <div class="row text-center" style="background-color: rgb(255, 93, 25, 0.1)">
+                <div class="col-md m-lg-5">
+                    <div class="row text-center user-info bg-light mb-4">
                         <div class="w-100">
                             <img src="../assets/images/Sly.png" width="150" alt="profile">
                         </div>
                         <div class="profile-name w-100">{{ capitalizeFirstLetter(user.username) }}</div>
-                        <div class="p-3 w-100"><b-icon icon="camera" font-scale="1" style="margin-right: 5px;"></b-icon><a href="#" class="link-nav" style="font-size: smaller;">Changer d'avatar</a></div>
-                    </div>
-
-                    <div class="row text-center p-4">
-                        <ul class="list-group" style="list-style: none;"><h5 style="color: rgba(41, 100, 124);" class="p-2">Informations utilisateurs</h5>
-                            <li class="p-1">brown.chris@example.fr</li>
-                            <li class="p-1">Brown</li>
-                            <li class="p-1">Chris</li>
-                            <li class="p-1">50 Rue des vrais</li>
-                            <li class="p-1">94320</li>
-                        </ul>
+                        <div class="list-group">
+                            <h5>Informations utilisateurs</h5>
+                            <span>{{ user.email }}</span>
+                            <span>{{ user.receivedExchanges.length + user.sendExchanges.length }} Swap</span>
+                        </div>
                         <div class="pt-3 w-100"><b-icon icon="pencil" font-scale="1" style="margin-right: 5px;"></b-icon><a href="#" class="link-nav" style="font-size: smaller;">Editer</a></div>
                     </div>
 
@@ -28,7 +22,7 @@
                 </div>
 
                 <div class="col-md">
-                    <div class="row">
+                    <div class="row mt-5">
                         <div class="p-3 user-ownlist">
                             <h5 class="m-auto" style="color: rgba(41, 100, 124);">Liste de jeux possédés</h5>
                             <div id="style-1" class="list-wrapper d-flex scrollbar p-2">
@@ -37,7 +31,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row mt-5">
                         <div class="p-3 user-wishlist" >
                             <h5 class="m-auto" style="color: rgba(41, 100, 124);">Liste de jeux souhaités</h5>
                             <div id="style-1" class="list-wrapper scrollbar d-flex p-2">
@@ -196,11 +190,8 @@ export default {
 }
 
 .user-info {
-    width: 18%;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    padding: 100px 0px;
+    border-radius: 20px;
+    padding: 30px 0px; 
 }
 
 .profile-img img {
@@ -325,6 +316,10 @@ export default {
 }
 .fill {
     height: calc(100vh - 58px);
+}
+
+.list-group h5{
+    color: #29657C;
 }
 
 @media screen and (max-width: 991px) {
