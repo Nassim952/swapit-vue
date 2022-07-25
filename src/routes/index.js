@@ -94,6 +94,10 @@ const routes = [
         path: "/cgu",
         component: () => import("../views/Reglement.vue")
     },
+    {
+        path: "/chat",
+        component: () => import("../components/Chat/Game_chat.vue")
+    },
 ];
 
 const router = new VueRouter({
