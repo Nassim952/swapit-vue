@@ -86,6 +86,10 @@ const routes = [
         path: "/cgu",
         component: () => import("../views/Reglement.vue")
     },
+    {
+        path: "/contact",
+        component: () => import("../views/Contact.vue")
+    },
 ];
 
 const router = new VueRouter({

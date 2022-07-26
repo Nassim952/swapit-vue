@@ -5,17 +5,19 @@
       <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500&display=swap" rel="stylesheet">
       <Navbar/>
       <router-view />
+      <Foot/>
     </div> 
 </template>
 
 
 <script>
 import Navbar from "./components/Navbar/Navbarold.vue";
+import Foot from "./components/Navbar/Footer.vue";
 
 export default {
   name: "App",
   components: {
-    Navbar
+    Navbar, Foot
   },
   provide() {
     return {
