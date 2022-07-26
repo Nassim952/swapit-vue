@@ -19,7 +19,7 @@
                 </div>
             </div>
             
-            <div class="row">
+            <div class="row mb-4">
                 <div class="card" style="background-color: #7AD1C2;">
                     <div class="card-body text-align-center">
                         <h5 style="text-align: center;">Demandes envoyées :</h5>
@@ -36,6 +36,80 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="card" style="background-color: #29647c;">
+                    <div class="card-body text-align-center">
+                        <h5 style="text-align: center;">Historique des demandes :</h5>
+
+                        <ul v-if="sentExchanges.length" class="list-group list-group-flush" style="overflow-y: visible;">
+                            <li class="list-group-item" v-for="(exchange, key) in sentExchanges" :key="key + exchange.id + 114">
+                                <ExchangeCardAccept v-if="exchange.confirmed == null" :exchange="exchange" />
+                            </li>
+                        </ul>
+
+                        <ul v-else>
+                            <li class="list-group-item">L'historique est vide</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="row">
+                <div class="card" style="background-color: #29647c;">
+                    <div class="card-body text-align-center">
+                        <h5 style="text-align: center;">Test front :</h5>
+
+                        <ul class="list-group list-group-flush scrollbar">
+                            <li class="list-group-item">
+                                Babinks!
+                            </li>
+                            <li class="list-group-item">
+                                Babinks!
+                            </li>
+                            <li class="list-group-item">
+                                Babinks!
+                            </li>
+                            <li class="list-group-item">
+                                Babinks!
+                            </li>
+                            <li class="list-group-item">
+                                Babinks!
+                            </li>
+                            <li class="list-group-item">
+                                Babinks!
+                            </li>
+                            <li class="list-group-item">
+                                Babinks!
+                            </li>
+                            <li class="list-group-item">
+                                Babinks!
+                            </li>
+                            <li class="list-group-item">
+                                Babinks!
+                            </li>
+                            <li class="list-group-item">
+                                Babinks!
+                            </li>
+                            <li class="list-group-item">
+                                Babinks!
+                            </li>
+                            <li class="list-group-item">
+                                Babinks!
+                            </li>
+                            <li class="list-group-item">
+                                Babinks!
+                            </li>
+                            <li class="list-group-item">
+                                Babinks!
+                            </li>
+                            <li class="list-group-item">
+                                Babinks!
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -264,5 +338,27 @@ h4 {
 
 h5 {
     color: white;
+}
+
+.scrollbar {
+    background: #fafafa;
+    overflow-x: auto;
+}
+
+#style-1::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+#style-1::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+#style-1::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(255, 93, 25, 1);
+    background-color: rgba(255, 93, 25, 1);
 }
 </style>
