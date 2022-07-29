@@ -1,5 +1,5 @@
 <template>
-    <footer class="footer mt-auto bg-light fixed-bottom">
+    <footer class="footer mt-auto bg-light fixed-bottom p-1">
         <div class="container d-flex justify-content-between">
             <span class="text-muted">© Swapit 2022</span>
             <div>

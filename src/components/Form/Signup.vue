@@ -30,6 +30,7 @@
           name="checkbox-1"
           value="Accepté !"
           unchecked-value="Non accepté !"
+          class="p-2"
         >
           <router-link to="/cgu" target='_blank' style="font-size: x-small;">Conditions Générales d'Utilisations</router-link>
         </b-form-checkbox>
