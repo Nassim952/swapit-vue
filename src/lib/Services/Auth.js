@@ -1,6 +1,5 @@
 import Publisher from '../Connexion/Publisher'
 import jwt_decode from 'jwt-decode'
-import VueSimpleAlert from 'vue-simple-alert'
 class Auth extends Publisher {
   constructor() {
     super('http://localhost:81/', {
@@ -13,7 +12,6 @@ class Auth extends Publisher {
     const response = await this.post('login_check', data);
     if (response?.token) {
       var decoded = jwt_decode(response.token);
-      console.log(decoded);
       if (decoded.mail_confirmed == true ||decoded.mail_confirmed == null) {
         localStorage.setItem('token', response.token);
 
@@ -24,11 +22,6 @@ class Auth extends Publisher {
         return response;
       }
       else {
-        VueSimpleAlert.fire({
-          title: 'Email non confirmé',
-          text: 'Veuillez confirmer votre email avant de vous connecter !',
-          type: 'warning',
-        })
         return false;
       }
     }

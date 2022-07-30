@@ -75,7 +75,7 @@ export default {
         if (response == false) {
           this.$fire({
             title: "Erreur",
-            text: "Votre email ou mot de passe est incorrect",
+            text: "Identifiants incorrectes. Note: Pensez à vérifier que votre compte est activé.",
             type: "error"
           });
         } else {

@@ -31,6 +31,7 @@
     "vue-skeletor": "^1.0.6",
     "vue-spinner": "^1.0.4",
     "vue-spinners": "^1.0.2",
+    "vuejs-loading-screen": "^1.10.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {

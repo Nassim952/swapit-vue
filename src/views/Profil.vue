@@ -9,17 +9,27 @@
             <div class="profile-bloc user-ownlist scrollbar" id="style-1">
                 <h3>Liste de jeux possédés</h3>
                 <div class="list-wrapper">
-                    <PuSkeleton height="150px" :count=6>
-                        <ProfilGameCard v-for="(game, key) in ownGames" :key="game.id + key" :game="game" class="" />
-                    </PuSkeleton>
+                    <!-- <div v-if="ownGames.length > 0"> -->
+                        <PuSkeleton height="150px" :count=6>
+                            <ProfilGameCard v-for="(game, key) in ownGames" :key="game.id + key" :game="game" class="" />
+                        </PuSkeleton>
+                    <!-- </div> -->
+                    <!-- <div v-else> -->
+                        <!-- <h3>Vous n'avez ajouté aucun jeu a votre liste...</h3> -->
+                    <!-- </div> -->
                 </div>
             </div>
             <div class="profile-bloc user-wishlist scrollbar" id="style-1">
                 <h3>Liste de jeux souhaités</h3>
                 <div class="list-wrapper">
-                    <PuSkeleton height="150px" :count=6>
-                        <Profil_Game_Card_Wish v-for="(game, key) in wishGames" :key="game.id + key" :game="game" class="" />
-                    </PuSkeleton>
+                    <!-- <div v-if="wishGames.length > 0"> -->
+                        <PuSkeleton height="150px" :count=6>
+                            <Profil_Game_Card_Wish v-for="(game, key) in wishGames" :key="game.id + key" :game="game" class="" />
+                        </PuSkeleton>
+                    <!-- </div> -->
+                    <!-- <div v-else>
+                        <h3>Vous n'avez ajouté aucun jeu a votre liste...</h3>
+                    </div> -->
                 </div>
             </div>
 

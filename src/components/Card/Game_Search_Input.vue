@@ -164,9 +164,23 @@ export default {
       provider.auth.me().then(response => {
         if (this.$props.route == "own") {
           provider.patchUser(response.id, { 'ownGames': [] }).then(() => {
+            this.$fire({
+              title: "Succès",
+              text: "Votre liste de jeux possédés a été vidée",
+              type: "success",
+            }).then(() => {
+              window.location.reload()
+            })
           })
         } else {
           provider.patchUser(response.id, { 'wishGames': [] }).then(() => {
+            this.$fire({
+              title: "Succès",
+              text: "Votre liste de jeux souhaités a été vidée",
+              type: "success",
+            }).then(() => {
+              window.location.reload()
+            })
           })
         }
       })
