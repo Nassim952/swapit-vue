@@ -1,40 +1,33 @@
 <template>
-    <div class="row">
-        <div class="col">
-            <div class="row mb-4">
-                <div class="card" style="background-color: #FF5D19;">
-                    <div class="card-body text-align-center">
-                        <h5 style="text-align: center;">Demandes reçu :</h5>
+    <div class="row mb-2">
+        <div class="exchange-el-card" style="background-color: #FF5D19;">
+            <div class="card-body text-align-center">
+                <h5 style="text-align: center;">Demandes reçu :</h5>
 
-                        <ul v-if="receivedExchanges.length" class="list-group list-group-flush" style="overflow-y: visible;">
-                            <li class="list-group-item" v-for="(exchange, key) in receivedExchanges" :key="key + exchange.id + 114">
-                                <ExchangeCardAccept v-if="exchange.confirmed == null" :exchange="exchange" />
-                            </li>
-                        </ul>
-                        
-                        <ul v-else>
-                            <li class="list-group-item">L'utilisateur n'a reçu aucune demande d'échange</li>
-                        </ul>
-                    </div>
-                </div>
+                <ul v-if="receivedExchanges.length" class="list-group list-group-flush" style="overflow-y: visible;">
+                    <li class="list-group-item" v-for="(exchange, key) in receivedExchanges" :key="key + exchange.id + 114">
+                        <ExchangeCardAccept v-if="exchange.confirmed == null" :exchange="exchange" />
+                    </li>
+                </ul>
+                
+                <ul v-else>
+                    <li class="list-group-item">L'utilisateur n'a reçu aucune demande d'échange</li>
+                </ul>
             </div>
-            
-            <div class="row">
-                <div class="card" style="background-color: #7AD1C2;">
-                    <div class="card-body text-align-center">
-                        <h5 style="text-align: center;">Demandes envoyées :</h5>
+        </div>      
+        <div class="exchange-el-card" style="background-color: #7AD1C2;">
+            <div class="card-body text-align-center">
+                <h5 style="text-align: center;">Demandes envoyées :</h5>
 
-                        <ul v-if="sentExchanges.length" class="list-group list-group-flush" style="overflow-y: visible;">
-                            <li class="list-group-item" v-for="(exchange, key) in sentExchanges" :key="key + exchange.id + 114">
-                                <ExchangeCardAccept v-if="exchange.confirmed == null" :exchange="exchange" />
-                            </li>
-                        </ul>
+                <ul v-if="sentExchanges.length" class="list-group list-group-flush" style="overflow-y: visible;">
+                    <li class="list-group-item" v-for="(exchange, key) in sentExchanges" :key="key + exchange.id + 114">
+                        <ExchangeCardAccept v-if="exchange.confirmed == null" :exchange="exchange" />
+                    </li>
+                </ul>
 
-                        <ul v-else>
-                            <li class="list-group-item">L'utilisateur n'a envoyé aucune demande d'échange</li>
-                        </ul>
-                    </div>
-                </div>
+                <ul v-else>
+                    <li class="list-group-item">L'utilisateur n'a envoyé aucune demande d'échange</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -264,5 +257,8 @@ h4 {
 
 h5 {
     color: white;
+}
+.exchange-el-card{
+    margin: 2rem 0;
 }
 </style>

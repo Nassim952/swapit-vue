@@ -1,8 +1,8 @@
 <template>
     <div class="row m-auto">
         <div class="col">
-            <div class="row">
-                <div class="col-md m-lg-5">
+            <div class="row justify-content-between">
+                <div class="col-xl-4  m-lg-5">
                     <div class="row text-center user-info bg-light mb-4">
                         <div class="w-100">
                             <img src="../assets/images/Sly.png" width="150" alt="profile">
@@ -15,33 +15,33 @@
                         </div>
                         <div class="pt-3 w-100"><b-icon icon="pencil" font-scale="1" style="margin-right: 5px;"></b-icon><a href="#" class="link-nav" style="font-size: smaller;">Editer</a></div>
                     </div>
-
-                    <div class="row d-flex justify-content-center">
-                        <ExchangeForm />
-                    </div>
                 </div>
-
-                <div class="col-md">
-                    <div class="row mt-5">
+                <div class="col-xl-6 m-lg-5 d-flex justify-content-center">
+                    <ExchangeForm />
+                </div>
+            </div>
+            <div class="col-md list-container">
+                    <hr>
+                    <div class="row mt-5 user-list-container">
                         <div class="p-3 user-ownlist">
-                            <h5 class="m-auto" style="color: rgba(41, 100, 124);">Liste de jeux possédés</h5>
-                            <div id="style-1" class="list-wrapper d-flex scrollbar p-2">
+                            <h5 class="m-auto" style="color: rgba(41, 100, 124);">Liste de jeux possédés : {{ownGames.length}}</h5>
+                            <div class="d-flex list-list">
                                 <ProfilGameCard v-for="(game, key) in ownGames" :key="game.id + key" :game="game" class="" />
                             </div>
                         </div>
+                        <span v-if="!ownGames.length" class="no-game-list">Vous ne possédés actuellement aucun jeux</span>
                     </div>
-
-                    <div class="row mt-5">
+                    <hr>
+                    <div class="row mt-5 user-list-container">
                         <div class="p-3 user-wishlist" >
-                            <h5 class="m-auto" style="color: rgba(41, 100, 124);">Liste de jeux souhaités</h5>
-                            <div id="style-1" class="list-wrapper scrollbar d-flex p-2">
-                                <Profil_Game_Card_Wish v-for="(game, key) in wishGames" :key="game.id + key" :game="game"
-                                    class="" />
+                            <h5 class="m-auto" style="color: rgba(41, 100, 124);">Liste de jeux souhaités : {{ownGames.length}}</h5>
+                            <div class="d-flex list-list">
+                                <Profil_Game_Card_Wish v-for="(game, key) in wishGames" :key="game.id + key" :game="game" class="" />
                             </div>
                         </div>
+                        <span v-if="!ownGames.length" class="no-game-list">Vous ne souhaités actuellement aucun jeux</span>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 </template>
@@ -242,7 +242,7 @@ export default {
 
 .user-ownlist {
     background-image: url('../assets/images/check.svg');
-    background-size: 70px;
+    background-size: 40px;
     background-repeat: no-repeat;
     background-position: 90% 2%;
     display: flex;
@@ -251,11 +251,26 @@ export default {
 
 .user-wishlist {
     background-image: url('../assets/images/heart.svg');
-    background-size: 65px;
+    background-size: 40px;
     background-repeat: no-repeat;
     background-position: 90% 2%;
     display: flex;
     flex-wrap: wrap;
+}
+.user-list-container{
+    padding: 2rem;
+    margin: 2rem;
+}
+
+hr{
+    border: none;
+    border-top: 10px solid #d1d1d1;
+    color: #F5F5F5;
+    overflow: visible;
+    height: 5px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .profile-list-container {
@@ -321,7 +336,17 @@ export default {
 .list-group h5{
     color: #29657C;
 }
-
+.list-container{
+    width: 100%;
+}
+.list-list{
+    display: flex;
+    flex-wrap: wrap;
+}
+.no-game-list{
+    color: lightgrey;
+    text-align: center;
+}
 @media screen and (max-width: 991px) {
   #bg {
     background: white;

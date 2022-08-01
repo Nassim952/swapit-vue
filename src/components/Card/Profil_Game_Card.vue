@@ -18,7 +18,7 @@
     </div>
   </div> -->
 
-  <div class="card game_card">
+  <div class="game_card">
     <router-link :to="'/showGame/' + game.id">
       <img v-bind:src="coverPreUrl" class="icon">
     </router-link>
@@ -29,7 +29,6 @@
     <div class="card-footer text-center">
       <button @click="supGame(game.id, 'own')" class="btn-delete-exchange"><img src="../../assets/images/bin.png" height="10" width="10"></button>
     </div>
-  </div>
 </template>
 
 <script>
@@ -76,7 +75,6 @@ export default {
 .cover-game-card {
   display: flex;
   align-items: center;
-  background-color: #D4E0E5;
   padding: 20px;
   border-radius: 15px;
 }
@@ -124,14 +122,15 @@ export default {
 }
 
 .btn-delete-exchange {
-    background-color: rgb(252, 87, 87);
-    border: none;
-    border-radius: 10px 10px 10px 10px;
-    color: white;
-    transition: all 0.3s ease;
-    right: 20px;
-    margin-top: -155px;
-    padding: 3px 10px;
+  background-color: rgb(252, 87, 87);
+  border: none;
+  border-radius: 10px 10px 10px 10px;
+  color: white;
+  transition: all 0.3s ease;
+  padding: 3px 10px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }
 
 .btn-delete-exchange:hover {
@@ -139,10 +138,11 @@ export default {
 }
 
 .game_card {
-  background-color: rgba(41, 100, 124, 0.2);
   width: 7rem;
   border-radius: 1rem;
   overflow: hidden;
+  margin: 1rem;
+  box-shadow: 0px 1px 10px lightgray;
 }
 
 .icon-wrapper {
@@ -160,5 +160,11 @@ export default {
 
 .card-footer {
   padding: 5px
+}
+
+@media screen and (max-width: 991px) {
+  .game_card{
+    width: 15rem;
+  }
 }
 </style>

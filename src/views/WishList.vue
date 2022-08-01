@@ -1,23 +1,8 @@
 <template>
-    <div id="bg" class="position-relative fill">
-        <div class="container h-100">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-lg-12 col-xl-10">
-
-                    <div class="row justify-content-center" style="background-color: white; border-radius: 25px;">
-                        <div class="col-md-10 col-lg-6 col-xl-6 order-1 order-lg-1 p-5">
-                            <p class="page-name">Liste de jeux souhaités</p>
-                            <GameSearchInput route="wish"/>
-                            <UserCard/>
-                        </div>
-
-                        <div class="col-md-10 col-lg-6 col-xl-6 d-flex justify-content-center align-items-center order-2 order-lg-2 manettes" style="border-radius: 25px;">
-                            <img style="width: 16rem" src="../assets/images/heart.svg" class="img-fluid" alt="Sample image">
-                        </div>
-                    </div>
-                        
-                </div>
-            </div>
+    <div class="own-list-container">
+        <div class="col-md-10 col-lg-12 col-xl-12 order-1 order-lg-1 p-5">
+            <p class="page-name">Liste de jeux souhaités</p>
+            <GameSearchInput route="wish"/>
         </div>
     </div>
 </template>

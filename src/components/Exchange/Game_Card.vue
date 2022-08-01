@@ -1,9 +1,8 @@
 <template>
-  <div class="game_card">
-    <img v-bind:src="coverPreUrl" class="icon">
-    <div class="container">
+  <div class="game_card_search">
+    <img v-bind:src="coverPreUrl" class="cover_card_search">
+    <div class="game_name_card_search">
       <div>{{game.name}}</div>
-      <p>{{game.description}}</p>
     </div>
   </div>
 </template>
@@ -33,20 +32,24 @@ export default {
 
 <style scoped>
 
-.game_card{
+.game_card_search{
   margin: auto;
   display: flex;
-  background-color: rgba(41, 100, 124, 0.2);
   width: 20rem;
   height: 4rem;
   overflow: hidden;
-  border-radius: 1rem 0 0 1rem;
 }
 .icon-wrapper {
   margin: auto;
 }
-.icon {
+.cover_card_search {
     width: auto;
     height: 100%;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+.game_name_card_search{
+  align-self: center;
+
 }
 </style>

@@ -1,19 +1,14 @@
 <template>
   <div class="gameSearch-container">
-    <!-- <div class="game-list-added">
+    <div id="Game_Search" class="gameSearch">
+      <input class="search-input-list w-100" v-model="searchQuery" @input="resultQuery" placeholder="Rechercher un jeu à ajouter">
+      <GameCardListAdd v-show="searchQuery" :games="resources" />
+    </div>
+    <div class="ownlist-container">
       <GameCardList v-show="aGames" :games="aGames" />
-      <div class="button-container d-flex justify-content-center">
+      <div class="button-container">
         <Button class="vider" title="Vider" :onClick="clearList" />
       </div>
-    </div> -->
-
-    <div id="style-1" class="list-wrapper d-flex scrollbar p-2">
-      <GameCardList v-show="aGames" :games="aGames" />
-    </div>
-
-    <div id="Game_Search" class="gameSearch">
-      <input class="search-input w-100" v-model="searchQuery" @input="resultQuery" placeholder="Rechercher un jeu à ajouter">
-      <GameCardListAdd v-show="searchQuery" :games="resources" />
     </div>
   </div>
 </template>
@@ -238,9 +233,8 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 35%;
   height: 100%;
-  background-color: #fafafa;
   padding: 2rem;
 }
 
@@ -280,25 +274,24 @@ export default {
   /* border-radius: 1rem; */
 }
 
-.scrollbar {
-    background: #fafafa;
-    overflow-x: auto;
+.gameSearch-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-
-#style-1::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    background-color: #F5F5F5;
+.ownlist-container{
+  width: 78%;
+  min-height: 800px;
 }
-
-#style-1::-webkit-scrollbar {
-    width: 12px;
-    background-color: #F5F5F5;
+.search-input-list {
+  border: none;
+  border-bottom: solid 2px #FB5D19;
+  outline: none;
+  padding: 10px 20px;
 }
-
-#style-1::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(255, 93, 25, 1);
-    background-color: rgba(255, 93, 25, 1);
+.search-input-list:focus {
+  border-radius: 10px;
+  border: solid 2px #FB5D19;
+  transition: border 0.15s ease-in;
 }
 </style>
