@@ -12,10 +12,18 @@
     <div v-if="resources">
       <Game v-for="(game, key) in resources" :key="game.id + key" :game="game" :inList="added(game)" />
       <div class="pagination">
-        <span v-for="(game, index) in resources" :key="index" :game="game">
-          <button class="button-pagination" :class="{'active': index + 1 == page}"
-            v-on:click="changePage(index + 1)">{{ index + 1 }}</button>
-        </span>
+        <div v-if="searchQuery == null">
+          <span v-for="index in resources.length" :key="index">
+            <button class="button-pagination" :class="{'active': index == page}"
+              v-on:click="changePage(index)">{{ index }}</button>
+          </span>
+        </div>
+        <div v-else>
+          <span v-for="index in 1" :key="index">
+            <button class="button-pagination" :class="{'active': index == page}"
+              v-on:click="changePage(index)">{{ index }}</button>
+          </span>
+        </div>
       </div>
     </div>
   </b-container>
@@ -65,16 +73,27 @@ export default {
       
       if (this.$data.searchQuery) {
         filters.page = 1
+        filters.perPage = this.$data.perPage
         filters.slug = this.$data.searchQuery
         provider.getPopulars(null, null, filters).then(response => {
-          this.$data.resources = response
-          this.$isLoading(false)
+          if(response.length > 0) {
+            this.$data.resources = response
+            this.$isLoading(false)
+          } else {
+            this.$isLoading(false)
+            this.$fire({
+              title: "Aucun résultat",
+              text: "Aucun résultat ne correspond à votre recherche",
+              type: "info",
+            })
+          }
         })
       } else {
         filters.page = this.$data.page
         filters.slug = ""
-        filters.perPage = 10
+        filters.perPage = this.$data.perPage
         provider.getGames(null, null, filters).then(response => {
+          console.log(response)
           this.$data.resources = response
           this.$isLoading(false)
         })
@@ -328,6 +347,7 @@ input[type="text"] {
 .button-pagination {
   margin-right: 10px;
   margin-bottom: 10px;
+  border-radius: 5px;
 }
 
 .active {
