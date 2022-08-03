@@ -19,14 +19,16 @@
             <div class="card-body text-align-center">
                 <h5 style="text-align: center;">Demandes envoyées :</h5>
 
-                <ul v-if="sentExchanges.length" class="list-group list-group-flush" style="overflow-y: visible;">
-                    <li class="list-group-item" v-for="(exchange, key) in sentExchanges" :key="key + exchange.id + 114">
-                        <ExchangeCard v-if="exchange.confirmed == null" :exchange="exchange" />
+                <ul class="list-group list-group-flush" style="overflow-y: visible;">
+                    <li class="list-group-item" >
+                        <div v-for="(exchange, key) in sentExchanges" :key="key + exchange.id + 114">
+                            <ExchangeCard v-if="exchange.confirmed == null" :exchange="exchange" />
+                        </div>
                     </li>
                 </ul>
 
-                <ul v-else>
-                    <li class="list-group-item">L'utilisateur n'a envoyé aucune demande d'échange</li>
+                <ul>
+                    
                 </ul>
             </div>
         </div>
@@ -156,7 +158,7 @@ export default {
                         type: 'error'
                     })
                 });
-            // provider.getPendingExchanges(this.$data.user.id)
+            // provider.getExchange(this.$data.user.id, {'confirmed': 'pending'})
             //     .then(response => {
             //         if (response) {
             //             this.pendingExchanges = response;

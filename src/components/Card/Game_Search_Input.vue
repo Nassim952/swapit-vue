@@ -56,9 +56,8 @@ export default {
   },
   methods: {
     async refreshRessource() {
+      
       const provider = new User()
-
-
       provider.auth.me().then(response => {
         if (this.$props.route == "own") {
           provider.getUser(response.id).then(response => { this.$data.aGamesTmp = response?.ownGames ?? [] })
@@ -70,6 +69,7 @@ export default {
       })
     },
     updateCurrentOwnGames() {
+      this.$isLoading(true)
       var provider = new User()
       var providerGame = new Igdb()
       provider.auth.me().then(response => {
@@ -77,12 +77,14 @@ export default {
           providerGame.getGames(response.ownGames).then(response => {
             if (response) {
               this.$data.aGames = response
+              this.$isLoading(false) 
             }
           })
         }
       })
     },
     updateCurrentWishGames() {
+      this.$isLoading(true)
       var provider = new User()
       var providerGame = new Igdb()
       provider.auth.me().then(response => {
@@ -90,6 +92,7 @@ export default {
           providerGame.getGames(response.wishGames).then(response => {
             if (response) {
               this.$data.aGames = response
+              this.$isLoading(false) 
             }
           })
         }

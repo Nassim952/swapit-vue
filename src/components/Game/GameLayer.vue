@@ -3,14 +3,14 @@
     <div v-bind:style="backgroundCover" class="card cover-bg" :class="[{ full: full, small: !full }]">
       <div class="bg-opacity">
         <div class="btn-list">
-          <button @click="addOwn(game)"><img v-bind:class="{ disable: inList }" class="picto-nav"
+          <button @click="addOwn(game)"><img v-bind:class="{ disableOwn: inOwnList }" class="picto-nav"
               src="../../assets/images/check.svg" width="45" height="40"></button>
-          <button @click="addWish(game)"><img v-bind:class="{ disable: inList }" class="picto-nav"
+          <button @click="addWish(game)"><img v-bind:class="{ disableWish: inWishList }" class="picto-nav"
               src="../../assets/images/heart.svg" width="45" height="40"></button>
         </div>
         <div class="content">
           <div class="card-img">
-            <img v-bind:src="coverPreUrl" width="80" height="80">
+            <img v-bind:src="coverPreUrl" width="80" height="80" loading="lazy">
           </div>
           <div class="card-title">
             <div class="card-title-text">
@@ -69,7 +69,11 @@ export default {
       type: Boolean,
       default: true,
     },
-    inList: {
+    inWishList: {
+      type: Boolean,
+      default: true,
+    },
+    inOwnList: {
       type: Boolean,
       default: true,
     },
@@ -507,7 +511,12 @@ export default {
   border-radius: 15px;
 }
 
-.disable {
+.disableOwn {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+.disableWish {
   opacity: 0.2;
   cursor: not-allowed;
 }
@@ -532,5 +541,11 @@ button {
   .container .card:hover .content {
     opacity: 0;
   }
+}
+.disable-message{
+  display: none;
+}
+.disable:hover + .disable-message{
+  display: block;
 }
 </style>

@@ -10,18 +10,20 @@
     </div>
     <!-- <div class="loader" v-if="loading"></div> -->
     <div v-if="resources">
-      <Game v-for="(game, key) in resources" :key="game.id + key" :game="game" :inList="added(game)" />
+      <Game v-for="(game, key) in resources" :key="game.id + key" :game="game" :inWishList="addedWish(game)" :inOwnList="addedOwn(game)" />
       <div class="pagination">
         <div v-if="searchQuery == null">
           <span v-for="index in resources.length" :key="index">
-            <button class="button-pagination" :class="{'active': index == page}"
-              v-on:click="changePage(index)">{{ index }}</button>
+            <button class="button-pagination" :class="{ 'active': index == page }" v-on:click="changePage(index)">{{
+                index
+            }}</button>
           </span>
         </div>
         <div v-else>
           <span v-for="index in 1" :key="index">
-            <button class="button-pagination" :class="{'active': index == page}"
-              v-on:click="changePage(index)">{{ index }}</button>
+            <button class="button-pagination" :class="{ 'active': index == page }" v-on:click="changePage(index)">{{
+                index
+            }}</button>
           </span>
         </div>
       </div>
@@ -56,6 +58,8 @@ export default {
     loading: false,
     perPage: 10,
     page: 1,
+    UserWishList: [],
+    UserOwnList: [],
   }),
   created() {
     if (this.$route.params.id) {
@@ -70,13 +74,13 @@ export default {
       this.$isLoading(true)
       var provider = new Igdb()
       var filters = this.$data.selectedFilters
-      
+
       if (this.$data.searchQuery) {
         filters.page = 1
         filters.perPage = this.$data.perPage
         filters.slug = this.$data.searchQuery
         provider.getPopulars(null, null, filters).then(response => {
-          if(response.length > 0) {
+          if (response.length > 0) {
             this.$data.resources = response
             this.$isLoading(false)
           } else {
@@ -93,11 +97,20 @@ export default {
         filters.slug = ""
         filters.perPage = this.$data.perPage
         provider.getGames(null, null, filters).then(response => {
-          console.log(response)
           this.$data.resources = response
           this.$isLoading(false)
         })
       }
+    },
+    addedWish(game) {
+      // this.$data.UserList = [];
+      // console.log(this.$data.UserList)
+      return this.$data.UserWishList.some(e => e === game.id)
+    },
+    addedOwn(game) {
+      // this.$data.UserList = [];
+      // console.log(this.$data.UserList)
+      return this.$data.UserOwnList.some(e => e === game.id)
     },
     updateFilters(filters, categorie) {
       this.$data.selectedFilters[categorie] = filters;
@@ -125,7 +138,7 @@ export default {
     },
     changePage(page) {
       this.$data.page = page;
-      window.scrollTo(0,0);
+      window.scrollTo(0, 0);
       this.refreshRessource();
     },
     async getUser() {
