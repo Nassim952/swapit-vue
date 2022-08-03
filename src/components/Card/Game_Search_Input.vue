@@ -1,10 +1,10 @@
 <template>
   <div class="gameSearch-container">
     <div id="Game_Search" class="gameSearch">
-      <input class="search-input" v-model="searchQuery" @input="resultQuery">
+      <input class="search-input-list w-100" v-model="searchQuery" @input="resultQuery" placeholder="Rechercher un jeu à ajouter">
       <GameCardListAdd v-show="searchQuery" :games="resources" />
     </div>
-    <div class="game-list-added">
+    <div class="ownlist-container">
       <GameCardList v-show="aGames" :games="aGames" />
       <div class="button-container">
         <Button class="vider" title="Vider" :onClick="clearList" />
@@ -298,9 +298,8 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 35%;
   height: 100%;
-  background-color: #fafafa;
   padding: 2rem;
 }
 
@@ -315,7 +314,7 @@ export default {
 .button-container {
   display: flex;
   justify-content: center;
-  width: 300px;
+  margin-top: 50px;
 }
 
 .valider {
@@ -340,8 +339,24 @@ export default {
   /* border-radius: 1rem; */
 }
 
-/* .vider:hover{
-  background-color: rgb(252, 101, 0);
-  transition: background-color 0.25s ease;
-} */
+.gameSearch-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ownlist-container{
+  width: 78%;
+  min-height: 800px;
+}
+.search-input-list {
+  border: none;
+  border-bottom: solid 2px #FB5D19;
+  outline: none;
+  padding: 10px 20px;
+}
+.search-input-list:focus {
+  border-radius: 10px;
+  border: solid 2px #FB5D19;
+  transition: border 0.15s ease-in;
+}
 </style>

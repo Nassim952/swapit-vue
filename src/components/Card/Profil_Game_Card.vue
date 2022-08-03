@@ -1,5 +1,5 @@
 <template>
-  <div class="profil-game-card-container">
+  <!-- <div class="profil-game-card-container">
     <div class="cover-game-card">
       <router-link :to="'/showGame/' + game.id">
         <div class="cover-wrap">
@@ -15,6 +15,19 @@
       <div class="btn-supp-wrapper">
         <button @click="supGame(game.id, 'own')" class="btn-delete-exchange"><img src="../../assets/images/bin.png" height="10" width="10"></button>
       </div>
+    </div>
+  </div> -->
+
+  <div class="game_card">
+    <router-link :to="'/showGame/' + game.id">
+      <img v-bind:src="coverPreUrl" class="icon">
+    </router-link>
+    <div class="card-body text-center">
+      <p class="m-0" style="font-size: 0.7rem;">{{ game.name }}</p>
+      <span v-for="(genre, key) in genres.slice(0, 1)" id="genres" :key="key" class="tag tag-teal" style="font-size: 0.6rem;">{{ genre.name }}</span>
+    </div>
+    <div class="card-footer text-center">
+      <button @click="supGame(game.id, 'own')" class="btn-delete-exchange"><img src="../../assets/images/bin.png" height="10" width="10"></button>
     </div>
   </div>
 </template>
@@ -63,7 +76,6 @@ export default {
 .cover-game-card {
   display: flex;
   align-items: center;
-  background-color: #D4E0E5;
   padding: 20px;
   border-radius: 15px;
 }
@@ -111,17 +123,49 @@ export default {
 }
 
 .btn-delete-exchange {
-    background-color: rgb(252, 87, 87);
-    border: none;
-    border-radius: 10px 10px 10px 10px;
-    color: white;
-    transition: all 0.3s ease;
-    right: 20px;
-    margin-top: -155px;
-    padding: 3px 10px;
+  background-color: rgb(252, 87, 87);
+  border: none;
+  border-radius: 10px 10px 10px 10px;
+  color: white;
+  transition: all 0.3s ease;
+  padding: 3px 10px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }
 
 .btn-delete-exchange:hover {
     background-color: rgb(173, 0, 0);
+}
+
+.game_card {
+  width: 7rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin: 1rem;
+  box-shadow: 0px 1px 10px lightgray;
+}
+
+.icon-wrapper {
+  margin: auto;
+}
+
+.icon {
+  width: 100%;
+  height: auto
+}
+
+.card-body {
+  padding: 5px
+}
+
+.card-footer {
+  padding: 5px
+}
+
+@media screen and (max-width: 991px) {
+  .game_card{
+    width: 15rem;
+  }
 }
 </style>

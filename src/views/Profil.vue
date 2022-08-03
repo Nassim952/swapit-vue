@@ -1,41 +1,46 @@
 <template>
-    <div>
-        <div class="profile-container">
-            <div class="profile-bloc user-info">
-                <div class="profile-img"><img src="../assets/images/Sly.png" alt="profile"></div>
-                <div class="profile-name">{{ capitalizeFirstLetter(user.username) }}</div>
-                <!-- <div class="profile-nbr-swap"><span></span><img src="../assets/images/swap.png" alt="swap"></div> -->
-            </div>
-            <div class="profile-bloc user-ownlist scrollbar" id="style-1">
-                <h3>Liste de jeux possédés</h3>
-                <div class="list-wrapper">
-                    <!-- <div v-if="ownGames.length > 0"> -->
-                        <PuSkeleton height="150px" :count=6>
-                            <ProfilGameCard v-for="(game, key) in ownGames" :key="game.id + key" :game="game" class="" />
-                        </PuSkeleton>
-                    <!-- </div> -->
-                    <!-- <div v-else> -->
-                        <!-- <h3>Vous n'avez ajouté aucun jeu a votre liste...</h3> -->
-                    <!-- </div> -->
+    <div class="row m-auto">
+        <div class="col">
+            <div class="row justify-content-between">
+                <div class="col-xl-4  m-lg-5">
+                    <div class="row text-center user-info bg-light mb-4">
+                        <div class="w-100">
+                            <img src="../assets/images/Sly.png" width="150" alt="profile">
+                        </div>
+                        <div class="profile-name w-100">{{ capitalizeFirstLetter(user.username) }}</div>
+                        <div class="list-group">
+                            <h5>Informations utilisateurs</h5>
+                            <span>{{ user.email }}</span>
+                        </div>
+                        <div class="pt-3 w-100"><b-icon icon="pencil" font-scale="1" style="margin-right: 5px;"></b-icon><a href="#" class="link-nav" style="font-size: smaller;">Editer</a></div>
+                    </div>
+                </div>
+                <div class="col-xl-6 m-lg-5 d-flex justify-content-center">
+                    <ExchangeForm />
                 </div>
             </div>
-            <div class="profile-bloc user-wishlist scrollbar" id="style-1">
-                <h3>Liste de jeux souhaités</h3>
-                <div class="list-wrapper">
-                    <!-- <div v-if="wishGames.length > 0"> -->
-                        <PuSkeleton height="150px" :count=6>
-                            <Profil_Game_Card_Wish v-for="(game, key) in wishGames" :key="game.id + key" :game="game" class="" />
-                        </PuSkeleton>
-                    <!-- </div> -->
-                    <!-- <div v-else>
-                        <h3>Vous n'avez ajouté aucun jeu a votre liste...</h3>
-                    </div> -->
+            <div class="col-md list-container">
+                    <hr>
+                    <div class="row mt-5 user-list-container">
+                        <div class="p-3 user-ownlist">
+                            <h5 class="m-auto" style="color: rgba(41, 100, 124);">Liste de jeux possédés : {{ownGames.length}}</h5>
+                            <div class="d-flex list-list">
+                                <ProfilGameCard v-for="(game, key) in ownGames" :key="game.id + key" :game="game" class="" />
+                            </div>
+                        </div>
+                        <span v-if="!ownGames.length" class="no-game-list">Vous ne possédez actuellement aucun jeux</span>
+                    </div>
+                    <hr>
+                    <div class="row mt-5 user-list-container">
+                        <div class="p-3 user-wishlist" >
+                            <h5 class="m-auto" style="color: rgba(41, 100, 124);">Liste de jeux souhaités : {{wishGames.length}}</h5>
+                            <div class="d-flex list-list">
+                                <Profil_Game_Card_Wish v-for="(game, key) in wishGames" :key="game.id + key" :game="game" class="" />
+                            </div>
+                        </div>
+                        <span v-if="!ownGames.length" class="no-game-list">Vous ne souhaitez actuellement aucun jeux</span>
+                    </div>
                 </div>
-            </div>
-
-        </div>
-        <div class="exchange-form">
-            <ExchangeForm />
         </div>
     </div>
 </template>
@@ -161,6 +166,15 @@ export default {
 </script>
 
 <style>
+.link-nav {
+    text-decoration: none;
+    color: rgba(41, 100, 124);
+}
+.link-nav:hover {
+    color: #FB5D19;
+    transition: color 0.2s;
+}
+
 .list-wrapper {
     width: -webkit-fill-available;
     margin-top: 30px;
@@ -174,19 +188,9 @@ export default {
     height: 800px;
 }
 
-.profile-bloc {
-    background-color: rgb(255, 255, 255);
-    border-radius: 15px;
-    padding: 30px;
-    overflow: hidden;
-}
-
 .user-info {
-    width: 18%;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    padding: 100px 0px;
+    border-radius: 20px;
+    padding: 30px 0px; 
 }
 
 .profile-img img {
@@ -195,7 +199,7 @@ export default {
 
 .profile-name {
     color: rgb(255, 94, 0);
-    font-size: 32px;
+    font-size: 20px;
 }
 
 .profile-nbr-swap img {
@@ -215,8 +219,7 @@ export default {
 
 .scrollbar {
     background: #F5F5F5;
-    overflow-y: scroll;
-    margin-bottom: 25px;
+    overflow-x: auto;
 }
 
 #style-1::-webkit-scrollbar-track {
@@ -237,29 +240,36 @@ export default {
 }
 
 .user-ownlist {
-    width: 38%;
     background-image: url('../assets/images/check.svg');
-    background-size: 100px;
+    background-size: 40px;
     background-repeat: no-repeat;
     background-position: 90% 2%;
     display: flex;
     flex-wrap: wrap;
-    overflow-y: scroll;
 }
 
 .user-wishlist {
-    width: 38%;
     background-image: url('../assets/images/heart.svg');
-    background-size: 100px;
+    background-size: 40px;
     background-repeat: no-repeat;
     background-position: 90% 2%;
     display: flex;
     flex-wrap: wrap;
-    overflow-y: scroll;
+}
+.user-list-container{
+    padding: 2rem;
+    margin: 2rem;
 }
 
-.profile-bloc>h3 {
-    color: rgba(41, 100, 124);
+hr{
+    border: none;
+    border-top: 10px solid #d1d1d1;
+    color: #F5F5F5;
+    overflow: visible;
+    height: 5px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .profile-list-container {
@@ -271,7 +281,74 @@ export default {
 .exchange-form {
     box-shadow: 0 1rem 3rem rgb(0 0 0 / 18%);
     background-color: white;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #BA68C8
+}
+
+.profile-button {
+    background: rgb(99, 39, 120);
+    box-shadow: none;
+    border: none
+}
+
+.profile-button:hover {
+    background: #682773
+}
+
+.profile-button:focus {
+    background: #682773;
+    box-shadow: none
+}
+
+.profile-button:active {
+    background: #682773;
+    box-shadow: none
+}
+
+.back:hover {
+    color: #682773;
+    cursor: pointer
+}
+
+.labels {
+    font-size: 11px
+}
+
+.add-experience:hover {
+    background: #BA68C8;
+    color: #fff;
+    cursor: pointer;
+    border: solid 1px #BA68C8
+}
+
+#bg {
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(255,93,25,1) 0%, rgba(121,209,194,1) 100%);
+}
+.fill {
+    height: calc(100vh - 58px);
+}
+
+.list-group h5{
+    color: #29657C;
+}
+.list-container{
     width: 100%;
-    margin-right: 20px;
+}
+.list-list{
+    display: flex;
+    flex-wrap: wrap;
+}
+.no-game-list{
+    color: lightgrey;
+    text-align: center;
+}
+@media screen and (max-width: 991px) {
+  #bg {
+    background: white;
+  }
 }
 </style>
