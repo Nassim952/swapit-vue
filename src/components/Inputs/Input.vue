@@ -62,7 +62,7 @@ export default {
 <style scoped>;
  .input-container {
 	position:relative;
-	margin-bottom:25px;
+	margin-bottom:10px;
 }
 .noActive {
 	position:absolute;

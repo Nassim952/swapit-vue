@@ -97,6 +97,10 @@ const routes = [
     {
         path: "/mail-confirmation/:id",
         component: () => import("../components/Form/MailConfirmation.vue"),
+    },
+    {
+        path: "/contact",
+        component: () => import("../views/Contact.vue"),
     }
 ];
 

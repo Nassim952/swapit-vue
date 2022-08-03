@@ -28,10 +28,15 @@
           <Error v-if="errors.password_confirm" :value="errors.password_confirm" />
         </div>
 
-        <b-form-checkbox id="checkbox-1" v-model="status" name="checkbox-1" value="Accepté !"
-          unchecked-value="Non accepté !">
-          <router-link to="/cgu" target='_blank' style="font-size: x-small;">Conditions Générales d'Utilisations
-          </router-link>
+        <b-form-checkbox
+          id="checkbox-1"
+          v-model="status"
+          name="checkbox-1"
+          value="Accepté !"
+          unchecked-value="Non accepté !"
+          class="p-2"
+        >
+          <router-link to="/cgu" target='_blank' style="font-size: x-small;">Conditions Générales d'Utilisations</router-link>
         </b-form-checkbox>
 
         <div style="font-size: xx-small; margin-bottom: 1.5rem;">Je les ai lu & les accepte : <strong>{{ status
