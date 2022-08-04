@@ -11,7 +11,7 @@
                 </ul>
                 
                 <ul v-else>
-                    <li class="list-group-item">L'utilisateur n'a reçu aucune demande d'échange</li>
+                    <li class="list-group-item">Vous n'avez reçu aucune demande d'échange</li>
                 </ul>
             </div>
         </div>      
@@ -28,7 +28,7 @@
                 </ul>
 
                 <ul>
-                    
+                    <li class="list-group-item">Vous n'avez envoyé aucune demande d'échange</li>
                 </ul>
             </div>
         </div>

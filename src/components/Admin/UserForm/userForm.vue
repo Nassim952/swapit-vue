@@ -130,9 +130,18 @@ export default {
 			const provider = new User();
 			provider.patchUser(this.userData.id, data)
 				.then(() => {
+					this.$fire({
+						title: 'Utilisateur modifié',
+						message: 'L\'utilisateur a bien été modifié',
+						type: 'success'
+					})
 				})
-				.catch(err => {
-					console.log(err)
+				.catch(() => {
+					this.$fire({
+						title: 'Erreur',
+						text: 'Une erreur est survenue, veuillez réessayer plus tard',
+						type: 'error'
+					})
 				})
 		},
 		async getUser() {

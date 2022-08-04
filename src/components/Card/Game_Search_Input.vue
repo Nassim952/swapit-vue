@@ -80,6 +80,8 @@ export default {
               this.$isLoading(false) 
             }
           })
+        }else{
+          this.$isLoading(false)
         }
       })
     },
@@ -95,6 +97,8 @@ export default {
               this.$isLoading(false) 
             }
           })
+        }else{
+          this.$isLoading(false)
         }
       })
     },
