@@ -12,15 +12,15 @@
         </div>
         <div>
           <div>
-            <Field type="password" name="password" :with_label="with_label" placeholder="toto"
+            <Field type="password" name="mot de passe" :with_label="with_label" placeholder="toto"
               :error="errors.password" />
             <Error v-if="errors.password" :value="errors.password" />
             <!-- <small v-if="errors.password"> {{errors.password}} </small> -->
           </div>
         </div>
         <div class="wrapper-reset-pwd">
-          <router-link to="/form-request-reset-password">
-            <span title="Mot de passe oublié">Mot de passe oublié</span>
+          <router-link class="mdpo" to="/form-request-reset-password">
+            <span title="Mot de passe oublié">Mot de passe oublié ?</span>
           </router-link>
         </div>
         <div style="margin-top: 30px;">
@@ -100,6 +100,11 @@ export default {
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
+}
+
+.mdpo{
+  color: rgb(251, 93, 25);
+  font-size: 10px;
 }
 
 @media (min-width: 768px) {

@@ -39,4 +39,7 @@ a{
 body{
   font-family: 'Montserrat Alternates', sans-serif !important; 
 }
+main{
+  min-height: 800px;
+}
 </style>

@@ -1,10 +1,10 @@
 <template>
-  <div class="game_card_search">
-    <img v-bind:src="coverPreUrl" class="cover_card_search">
-    <div class="game_name_card_search">
-      <div>{{game.name}}</div>
+    <div class="game_card_search">
+      <img v-bind:src="coverPreUrl" class="cover_card_search">
+      <div class="game_name_card_search">
+        <div>{{game.name}}</div>
+      </div>
     </div>
-  </div>
 </template>
 
 <script>

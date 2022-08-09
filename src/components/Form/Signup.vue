@@ -17,12 +17,12 @@
           </div>
 
           <div>
-            <Field name="password" placeholder="Mot de passe" type="password"> </Field>
+            <Field name="mot de passe" placeholder="Mot de passe" type="password"> </Field>
             <Error v-if="errors.password" :value="errors.password" />
           </div>
 
           <div>
-            <Field name="password_confirm" type="password"> </Field>
+            <Field name="confirmation de mot de passe" type="password"> </Field>
             <Error v-if="errors.password_confirm" :value="errors.password_confirm" />
           </div>
           <Error v-if="errors.password_confirm" :value="errors.password_confirm" />
@@ -36,7 +36,7 @@
           unchecked-value="Non accepté !"
           class="p-2"
         >
-          <router-link to="/cgu" target='_blank' style="font-size: x-small;">Conditions Générales d'Utilisations</router-link>
+          <router-link to="/cgu" target='_blank' class="cgu" style="font-size: x-small;">CGU</router-link>
         </b-form-checkbox>
 
         <div style="font-size: xx-small; margin-bottom: 1.5rem;">Je les ai lu & les accepte : <strong>{{ status
@@ -113,6 +113,11 @@ export default {
 </script>
 
 <style scoped>
+.cgu{
+    vertical-align: text-bottom;
+    margin-left: 10px;
+    color: rgb(251, 93, 25);
+}
 @media screen and (max-width: 991px) {
   #inscription {
     margin-bottom: 2rem;

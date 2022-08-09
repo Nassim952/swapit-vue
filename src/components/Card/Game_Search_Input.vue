@@ -366,4 +366,15 @@ export default {
   border: solid 2px #FB5D19;
   transition: border 0.15s ease-in;
 }
+@media screen and (max-width: 991px) {
+  .gameSearch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 120%;
+  height: 100%;
+  padding: 2rem;
+}
+}
 </style>

@@ -1,11 +1,10 @@
 <template>
-  <div class="game_card_list scrollbar" id="style-1" v-if="games">
-    <div class="game_card_container" v-for="(game,key) in games" id="OwnList" :key="key">
-      <PuSkeleton height="150px" count="10">
-        <GameCard :game="game"/>
-      </PuSkeleton>
-      <a v-if="!added(game.id)" @click="add(game)" title="arrow icons" class="my-icon">
-        <img class="icon"
+  <div class="game_card_list_result" v-if="games">
+    <div class=title-result>Résultats</div>
+    <div class="game_card_result_container" v-for="(game,key) in games" id="OwnList" :key="key">
+      <GameCard :game="game" />
+      <a v-if="!added(game.id)" @click="add(game)" class="btn-add-list">
+        <img class="img-btn-add-list" style=""
         src="../../assets/icones/add.png"
         alt="Ajouter à ma liste">
         </a>

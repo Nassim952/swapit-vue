@@ -2,12 +2,10 @@
   <div >
   <div class="ownlist-list" v-if="myList">
     <div v-for="(game,key) in myList" id="OwnList" class="own-element" :key="key">
-      <GameCard :game="game" />
-      <a @click="supp(game)" title="arrow icons" class="my-icon">
-        <img class="icon"
-        src="../../assets/icones/delete.png"
-        alt="Grapefruit slice atop a pile of other slices">
+      <a @click="supp(game)" title="arrow icons" class="my-icon dlt-game">
+        <img class="icon" src="../../assets/images/bin.png" height="10" width="10" alt="supprimer ce jeu">
       </a>
+      <GameCard :game="game" />
     </div>
   </div>
   <div v-else>
@@ -99,5 +97,22 @@ export default {
 }
 .own-element{
   margin: 30px 15px;
+}
+.dlt-game{
+  background-color: rgb(252, 87, 87);
+  border: none;
+  border-radius: 10px 10px 10px 10px;
+  color: white;
+  transition: all 0.3s ease;
+  padding: 3px 10px;
+  position: absolute;
+  margin-top: 5px;
+  margin-right: 5px;
+  margin-left: 85px;
+  cursor: pointer;
+}
+.dlt-game:hover{
+  background-color: rgb(185, 54, 54);
+  color: white;
 }
 </style>
