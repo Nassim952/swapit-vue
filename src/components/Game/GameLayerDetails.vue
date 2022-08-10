@@ -19,7 +19,7 @@
     <div v-if="users.length > 0" class="user-card-container">
       <UserCard v-for="(user, key) in users" :key="user.id + key" :user="user" :game="game" />
     </div>
-    <div v-else>
+    <div v-else class="no-result">
       <h3>Aucun utilisateur possède ce jeu...</h3>
     </div>
   </div>
@@ -100,6 +100,10 @@ export default {
     width: -webkit-fill-available;
     justify-content: space-evenly;
     align-items: center;
+}
+.no-result{
+  min-height: 800px;
+  padding: 100px;
 }
 .game-layer {
     display: flex;

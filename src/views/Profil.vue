@@ -246,6 +246,8 @@ export default {
     background-position: 90% 2%;
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
 }
 
 .user-wishlist {
@@ -255,6 +257,8 @@ export default {
     background-position: 90% 2%;
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
 }
 .user-list-container{
     padding: 2rem;
@@ -341,6 +345,7 @@ hr{
 .list-list{
     display: flex;
     flex-wrap: wrap;
+    margin-top: 40px;
 }
 .no-game-list{
     color: lightgrey;

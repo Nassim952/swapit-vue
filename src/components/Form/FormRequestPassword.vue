@@ -2,7 +2,7 @@
     <div>
         <main class="form-request-password">
             <Formik title="Réinitialiser votre mot de passe" :onSubmit="onSubmit" :validator="validator"
-                v-slot="{ handleSubmit, errors, with_label }" :with_label="true" description="Tapez votre adresse mail">
+                v-slot="{ handleSubmit, errors, with_label }" :with_label="true" description="Entrez votre adresse mail">
                 <div>
                     <Field type="email" name="email" placeholder="name@example.com" :with_label="with_label" :error="errors.email" />
                     <Error v-if="errors.email" :value="errors.email" />
@@ -68,7 +68,9 @@ export default {
     -moz-user-select: none;
     user-select: none;
 }
-
+.form-request-password {
+    margin-top: 100px;
+}
 @media (min-width: 768px) {
     .bd-placeholder-img-lg {
         font-size: 3.5rem;

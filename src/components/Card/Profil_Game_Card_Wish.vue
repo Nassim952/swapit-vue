@@ -20,16 +20,14 @@
     </div>
   </div> -->
 
-  <div class="card game_card">
+  <div class="game_card">
+    <button @click="supGame(game.id, 'wish')" class="btn-delete-exchange"><img src="../../assets/images/bin.png" height="10" width="10"></button>
     <router-link :to="'/showGame/' + game.id">
       <img v-bind:src="coverPreUrl" class="icon">
     </router-link>
     <div class="card-body text-center">
       <p class="m-0" style="font-size: 0.7rem;">{{ game.name }}</p>
       <span v-for="(genre, key) in genres.slice(0, 1)" id="genres" :key="key" class="tag tag-teal" style="font-size: 0.6rem;">{{ genre.name }}</span>
-    </div>
-    <div class="card-footer text-center">
-      <button @click="supGame(game.id, 'wish')" class="btn-delete-exchange"><img src="../../assets/images/bin.png" height="10" width="10"></button>
     </div>
   </div>
 </template>
@@ -78,12 +76,11 @@ export default {
 .cover-game-card {
   display: flex;
   align-items: center;
-  background-color: #D4E0E5;
   padding: 20px;
   border-radius: 15px;
 }
 
-.btn-supp-wrapper {
+.btn-supp-wrapper{
   margin-top: 105px;
 }
 
@@ -131,20 +128,23 @@ export default {
   border-radius: 10px 10px 10px 10px;
   color: white;
   transition: all 0.3s ease;
-  right: 20px;
-  margin-top: -155px;
   padding: 3px 10px;
+  position: absolute;
+  margin-top: 5px;
+  margin-right: 5px;
+  margin-left: 75px;
 }
 
 .btn-delete-exchange:hover {
-  background-color: rgb(173, 0, 0);
+    background-color: rgb(173, 0, 0);
 }
 
 .game_card {
-  background-color: rgba(41, 100, 124, 0.2);
   width: 7rem;
   border-radius: 1rem;
   overflow: hidden;
+  margin: 1rem;
+  box-shadow: 0px 1px 10px lightgray;
 }
 
 .icon-wrapper {
@@ -162,5 +162,24 @@ export default {
 
 .card-footer {
   padding: 5px
+}
+
+@media screen and (max-width: 990px) {
+  .game_card{
+    width: 15rem;
+  }
+
+  .btn-delete-exchange {
+    background-color: rgb(252, 87, 87);
+    border: none;
+    border-radius: 10px 10px 10px 10px;
+    color: white;
+    transition: all 0.3s ease;
+    padding: 3px 10px;
+    position: absolute;
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-left: 205px;
+  }
 }
 </style>

@@ -361,10 +361,14 @@ input[type="text"] {
   margin-right: 10px;
   margin-bottom: 10px;
   border-radius: 5px;
+  background-color: white;
+  border: 2px solid #FB5D19;
+  color: #FB5D19;
 }
 
 .active {
   background-color: #FB5D19;
   color: #fff;
+  border: none;
 }
 </style>
