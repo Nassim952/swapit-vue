@@ -16,12 +16,12 @@
               </div>
           </div>
       </div>
-    <div v-if="users.length > 0" class="user-card-container">
+    <div class="user-card-container">
       <UserCard v-for="(user, key) in users" :key="user.id + key" :user="user" :game="game" />
     </div>
-    <div v-else class="no-result">
+    <!-- <div v-else class="no-result">
       <h3>Aucun utilisateur possède ce jeu...</h3>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -30,11 +30,14 @@ import {Igdb} from "../../lib/Services/Igdb";
 import {User} from "../../lib/Services/User";
 import UserCard from "./UserCard.vue";
 import { UserAdmin } from "../../lib/Services/UserAdmin";
+// import Button from '../Buttons/Button.vue';
+// import { Channel } from "../../lib/Services/Channel";
 
 export default {
   name: "GameLayerDetails",
   components: {
     UserCard,
+    // Button,
   },
   data: () => ({
     filters: {},
@@ -72,12 +75,13 @@ export default {
       var provider = new User()
       provider.auth.me().then(response => {
         this.$data.currentUser = response
+      }).then(() => {
+        this.getUsers()
       })
     },
   },
   created() {
     this.getGame();
-    this.getUsers();
     this.getCurrentUser();
   },
 };
@@ -171,5 +175,11 @@ export default {
   align-self: center;
   font-size: 36px;
   color: rgba(255, 93, 25, 1);
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

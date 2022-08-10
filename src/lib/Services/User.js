@@ -52,6 +52,21 @@ class User extends Publisher {
     const response = await this.patch(`${'users'}/${id}/send-mail-for-contact`, {})
     return response;
   }
+
+  async getChannels(id) {
+    const response = await this.get(`${'users'}/${id}/channels`, {});
+    return response;
+  }
+
+  async getNotifications(id) {
+    const response = await this.get(`${'users'}/${id}/notifications`, {});
+    return response;
+  }
+
+  async delNotification(id) {
+    const response = await this.delete(this.formatEndPoint('notifications', id));
+    return response;
+  }
 }
 
 export { User };

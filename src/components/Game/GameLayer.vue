@@ -18,14 +18,14 @@
               <span class="rating">{{ Math.round(game.aggregated_rating) / 10 }}</span>
             </div>
             <div class="card-platforms-tags">
-              <span v-for="(platform, key) in platforms" id="platforms" :key="key">{{ platform.name }}</span>
+              <span v-for="(platform, key) in game.platforms" id="platforms" :key="key">{{ platform.name }}</span>
             </div>
           </div>
         </div>
         <div class="card-details">
           <div class="card-body">
             <div class="tags">
-              <router-link v-for="(genre, key) in genres" :key="key" :to="'/games/genre/' + genre.id">
+              <router-link v-for="(genre, key) in game.genres" :key="key" :to="'/games/genre/' + genre.id">
                 <span id="genres" class="tag tag-teal">{{ genre.name }}</span>
               </router-link>
             </div>
@@ -46,19 +46,16 @@
 
 <script>
 // import GameLayerDetails from './GameLayerDetails.vue';
-import { Igdb } from "../../lib/Services/Igdb";
+// import { Igdb } from "../../lib/Services/Igdb";
 import { User } from "../../lib/Services/User";
 
 export default {
   name: "GameLayer",
   components: {
-
   },
   data: () => ({
     filters: {},
     showDetails: false,
-    genres: [],
-    platforms: [],
   }),
   props: {
     game: {
@@ -77,15 +74,6 @@ export default {
       type: Boolean,
       default: true,
     },
-  },
-  created() {
-    if (this.$props.game) {
-      var provider = new Igdb()
-      var genres = this.$props.game.genres.map(genre => genre.replace(/\/api\/genres\//g, '')) ?? null
-      var platforms = this.$props.game.platforms.map(platform => platform.replace(/\/api\/platforms\//g, '')) ?? null
-      provider.getGenres(genres).then(response => { this.$data.genres = response })
-      provider.getPlatforms(platforms).then(response => { this.$data.platforms = response })
-    }
   },
   computed: {
     coverPreUrl: function () {
@@ -541,11 +529,5 @@ button {
   .container .card:hover .content {
     opacity: 0;
   }
-}
-.disable-message{
-  display: none;
-}
-.disable:hover + .disable-message{
-  display: block;
 }
 </style>

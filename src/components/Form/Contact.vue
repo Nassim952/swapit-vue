@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     async onSubmit(data) {
-
+      console.log(data);
       const provider = new User()
       provider.sendMailContact(this.$data.user.id).then(() => {
         this.$fire({

@@ -12,7 +12,7 @@
         </div>
         <div>
           <div>
-            <Field type="password" name="mot de passe" :with_label="with_label" placeholder="toto"
+            <Field type="password" name="password" :with_label="with_label" placeholder="toto"
               :error="errors.password" />
             <Error v-if="errors.password" :value="errors.password" />
             <!-- <small v-if="errors.password"> {{errors.password}} </small> -->

@@ -14,14 +14,17 @@
             </div>
             <div class="info-user">
                 <div class="header-card">Jeux possédés</div>
-                <div class="nbr-card border-side">{{user.ownGames.length}}</div>
+                <div class="nbr-card border-side">{{ user.ownGames.length }}</div>
                 <div><img src="../../assets/images/check.svg" width="30" height="30"></div>
             </div>
             <div class="info-user">
                 <div class="header-card">Jeux souhaités</div>
-                <div class="nbr-card">{{user.wishGames.length}}</div>
+                <div class="nbr-card">{{ user.wishGames.length }}</div>
                 <div><img src="../../assets/images/heart.svg" width="30" height="30"></div>
             </div>
+        </div>
+        <div class="btn-swap">
+            <span class="btn button_slide slide_left" @click="createChannel">Messages</span>
         </div>
         <div class="btn-swap">
             <router-link v-bind:to="exchangeUrl">
@@ -32,7 +35,9 @@
 </template>
 
 <script>
-
+import { Channel } from "../../lib/Services/Channel";
+import { User } from "../../lib/Services/User";
+import { UserAdmin } from "../../lib/Services/UserAdmin";
 export default {
     props: {
         user: {
@@ -51,16 +56,53 @@ export default {
     },
     methods: {
         capitalizeFirstLetter(string) {
-            if(string) {
+            if (string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
             }
+        },
+        createChannel: async function () {
+            var provider = new Channel()
+            var user = new User()
+            var userAdmin = new UserAdmin()
+
+            user.auth.me().then(user => {
+                userAdmin.getChannels(null, null, {
+                    'subscribers': [
+                        '/users/' + this.user.id,
+                        '/users/' + user.id
+                    ]
+                }).then((channel) => {
+                    if (channel) {
+                        console.log("channel exist")
+                        // this.$router.push("/chat/" + channel.id);
+                    } else {
+                        console.log("No channel found");
+                        provider.postChannel(null, null, {
+                            'subscribers': [
+                                '/users/' + this.user.id,
+                            ]
+                        }).then((channel) => {
+                            if (channel) {
+                                console.log("channel created")
+                                // this.$router.push("/chat/" + channel.id);
+                            }
+                        });
+                    }
+                })
+            }).catch(() => {
+                this.$fire({
+                    title: "Erreur",
+                    text: "Vous devez être connecté pour accéder à cette fonctionnalité",
+                    type: "error",
+                })
+            })
         }
     },
 }
 </script>
 
 <style>
-.container-card{
+.container-card {
     margin-top: 50px;
 }
 

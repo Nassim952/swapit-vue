@@ -43,8 +43,8 @@ const routes = [
         meta: { requiresAuth: true }
     },
     {
-        path: "/channel",
-        component: () => import("../views/Exchange.vue"),
+        path: "/chat/:id",
+        component: () => import("../views/Chat.vue"),
         meta: { requiresAuth: true }
     },
     {
@@ -102,7 +102,7 @@ const routes = [
         path: "/contact",
         component: () => import("../components/Form/Contact.vue"),
         meta: { requiresAuth: true }
-    }
+    },
 ];
 
 const router = new VueRouter({
