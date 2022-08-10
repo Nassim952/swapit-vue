@@ -82,6 +82,7 @@ class UserAdmin extends Publisher {
     const response = await this.patch(`${'users'}/${id}/send-mail-for-confirmation`, {});
     return response;
   }
+
 }
 
 export { UserAdmin };

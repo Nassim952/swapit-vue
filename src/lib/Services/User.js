@@ -47,6 +47,11 @@ class User extends Publisher {
     const response = await this.get(`${'users'}/${id}/send_exchanges`, {});
     return response;
   }
+
+  async sendMailContact(id) {
+    const response = await this.patch(`${'users'}/${id}/send-mail-for-contact`, {})
+    return response;
+  }
 }
 
 export { User };
