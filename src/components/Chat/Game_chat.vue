@@ -10,81 +10,48 @@
           <div class="col-md-4 border-right list-panel">
             <div class="search-box">
                 <div class="input-wrapper">
-                  <input placeholder="Search here" type="text">
+                  <input placeholder="Search here" type="text" v-model="search">
                 </div>
             </div>
-            <div class="friend-drawer friend-drawer--onhover">
+            <div class="friend-drawer friend-drawer--onhover" v-for="channel in filtredRooms" :key="'channel_'+ channel.id" @click="updateChannel(channel)">
                 <div class="text">
-                  <h6>Robo Cop</h6>
-                  <p class="text-muted">Hey, you're arrested!</p>
+                  <h6><a>{{getChannelName(channel)}}</a></h6>
+                  <p class="text-muted" v-if="channel.lastMessage">{{channel.lastMessage.author.username + ': ' + channel.lastMessage.content}}</p>
                 </div>
-                <span class="time text-muted small">13:21</span>
+                <span class="time text-muted small" v-if="channel.lastMessage">{{channel.lastMessage.createdDate}}</span>
             </div>
             <hr>
           </div>
           <div class="col-md-8">
             <div class="settings-tray">
                 <div class="">
-                  <div class="text">
-                      <span>Robo Cop</span>
+                  <div class="text" v-if="Object.keys(currentChannel).length == 0">
+                       <span>Chat</span>
+                  </div>
+                  <div v-else>
+                      <span>{{getChannelName(currentChannel)}}</span>
                   </div>
                 </div>
             </div>
-            <div class="chat-panel">
-                <div class="row no-gutters">
-                  <div class="col-md-3">
-                      <div class="chat-bubble chat-bubble--left">
-                        Hello dude!
-                      </div>
-                  </div>
-                </div>
-                <div class="row no-gutters">
-                  <div class="col-md-3 offset-md-9">
-                      <div class="chat-bubble chat-bubble--right">
-                        Hello dude!
-                      </div>
-                  </div>
-                </div>
-                <div class="row no-gutters">
-                  <div class="col-md-3 offset-md-9">
-                      <div class="chat-bubble chat-bubble--right">
-                        Hello dude!
-                      </div>
-                  </div>
-                </div>
-                <div class="row no-gutters">
-                  <div class="col-md-3">
-                      <div class="chat-bubble chat-bubble--left">
-                        Hello dude!
-                      </div>
-                  </div>
-                </div>
-                <div class="row no-gutters">
-                  <div class="col-md-3">
-                      <div class="chat-bubble chat-bubble--left">
-                        Hello dude!
-                      </div>
-                  </div>
-                </div>
-                <div class="row no-gutters">
-                  <div class="col-md-3">
-                      <div class="chat-bubble chat-bubble--left">
-                        Hello dude!
-                      </div>
-                  </div>
-                </div>
-                <div class="row no-gutters">
-                  <div class="col-md-3 offset-md-9">
-                      <div class="chat-bubble chat-bubble--right">
-                        Hello dude!
+            <div class="chat-panel" >
+                <div class="row no-gutters" v-for="(message,key) in currentChannel.messages" :key="currentChannel.id + message.id+message.createdDate+key">
+                  <div class="col-md-3" :class="{ 'offset-md-9': message.author.id == currentUser.id}">
+                      <div :class="{ 'chat-bubble--left': message.author.id != currentUser.id, 'chat-bubble--right' : message.author.id == currentUser.id}" class="chat-bubble">
+                        {{message.content}}
+                        <small class="text-muted">
+                          {{message.author.content}}
+                        </small>
+                        <small class="text-muted">
+                           {{timeConverter(message.createdDate)}}
+                        </small>
                       </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-12">
                       <div class="chat-box-tray">
-                        <input type="text" placeholder="Message">
-                        <button class="btn-send"><img src="../../assets/icones/envoyer.png" height="33" width="33"/></button>
+                        <input type="text" placeholder="Message" v-model="message.content" v-on:keyup.enter="submit()">
+                        <button class="btn-send"><img src="../../assets/icones/envoyer.png" height="33" width="33" @click="submit()" /></button>
                       </div>
                   </div>
                 </div>
@@ -96,22 +63,165 @@
 </template>
 
 <script>
-import ChatWindow from "vue-advanced-chat";
-import "vue-advanced-chat/dist/vue-advanced-chat.css";
+    // import SideBar from "../Filter/SideBar.vue";
+    import {User} from "../../lib/Services/User";
+    import {Channel} from "../../lib/Services/Channel";
+    import Pusher from 'pusher-js';
+    //  import formatDateMixin from '../mixins/formatDateMixin.js';
 
 export default {
   components: {
-    ChatWindow,
   },
-  data() {
-    return {
+  props: {
+    channelId: {
+      type: String,
+      required: false,
+      default: null,
+    },
+  },
+  data: () => ({
+      provider: new Channel(),
+      pusher: null,
+      search: '',
       rooms: [],
       messages: [],
-      currentUserId: 1234,
-    };
+      message: {
+        content: "",
+        channel: "",
+        author: "",
+      },
+      lastMessage: null,
+      currentChannel: {},
+      currentUser: null
+    }),
+  created() {
+   
+    if(this.$props.channelId) {
+      this.getChannel(this.$props.channelId);
+    }
+    this.init();
+    console.log('props channel',this.$props.channel);
+     if(this.$props.channel?.id) {
+       console.log('props channel',this.channel);
+      this.updateChannel(this.$props.channel);
+    }
+  },
+  methods: {
+    async refreshChannels() {
+      var provider = new User()
+          provider.getChannels(this.currentUser.id).then((response) => {
+            this.rooms = response;              
+      }).catch(function(error) {
+        console.log(error);
+      });
+    },
+
+    async submit() {
+      if(this.currentChannel?.id && this.message.content && this.canSendMessage() ) {
+        this.provider.postMessage(this.message).then((response) => {
+          if (response) {
+            this.lastMessage = response;
+            this.message.content = "";
+          }
+        }).catch(function(error) {
+          console.log(error);
+        });
+      }
+    },
+
+    initPusher() {
+      if(this.pusher == null) {
+          this.pusher = new Pusher('498f9f1d1a87ee7c6ee2', {
+            cluster: 'eu',
+            forceTLS: true
+          });
+        }
+    },
+    refreshMessages() {
+      this.initPusher();
+      if(this.currentChannel?.id) {
+        this.currentChannel.room = this.pusher.subscribe('channel_' + this.currentChannel.id);
+        this.currentChannel.room.bind('message', (message) => {
+          this.currentChannel.messages.push(message);
+        });
+      }
+    },
+    updateChannel(channel) {
+      this.provider.getChannel(channel.id).then((response) => {
+        this.currentChannel = response;
+        this.message.channel = '/channels/'+channel.id;
+        this.refreshMessages();
+      }).catch(function(error) {
+        console.log(error);
+      });
+    },
+    getChannelName(channel) {
+      console.log(channel);
+      console.log(this.currentUser.username);
+      return channel.name.replace(this.currentUser.username,'');
+    },
+    canSendMessage() {
+      if(this.message.content) {
+          if(!this.lastMessage) {
+            return true;
+          }
+          else if(new Date (this.lastMessage.createdDate) < new Date().getTime() - 8000 || this.lastMessage?.content != this.message.content) {
+            return true;
+          }
+       }
+      return false;
+    },
+    async init(){
+            var provider = new User()
+       provider.auth.me().then((user) => {
+        if(user) 
+        {
+          this.currentUser = user;
+          this.message.author='/users/'+user.id;
+          this.refreshChannels();
+          this.refreshMessages();
+        }  
+      }).catch(function(error) {
+        console.log(error);
+      });
+    },
+    async getChannel(chennelId) {
+      this.provider.getChannel(chennelId).then((response) => {
+        if (response) {
+          this.channel = response;
+          this.updateChannel(this.channel);
+        }
+      }).catch(function(error) {
+        console.log(error);
+      });
+    },
+
+    timeConverter(UNIX_timestamp){
+      UNIX_timestamp = Date.parse(UNIX_timestamp);
+      var a = new Date(UNIX_timestamp);
+      var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var month = months[a.getMonth()];
+      var date = a.getDate();
+      var hour = a.getHours();
+      var min = a.getMinutes();
+      var today = new Date();
+      var time = new Date(date) < new Date(today.getDate()) ? date + ' ' + month + ' ' + hour + ':' + min : hour + ':' + min  ;
+      return time;
+    },
+  },
+  computed: {
+    filtredRooms() {
+      if(this.search) {
+        return this.rooms.filter((room) => {
+          return  this.getChannelName(room).toLowerCase().includes(this.search.toLowerCase());
+        });
+      }
+      return this.rooms;
+    },
   },
 };
 </script>
+
 
 <style scoped>
 

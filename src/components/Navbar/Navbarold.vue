@@ -25,20 +25,34 @@
                         <router-link v-if="hidden" to="/signup" class="link-nav p-3">Inscription</router-link>
                     </b-nav-item>
 
-                    <b-nav-item-dropdown>
+                    <b-nav-item-dropdown  v-if="notifications.length">
                         <template #button-content>
                             <span class="link-nav p-2 position-relative">
                                 <b-icon-bell-fill></b-icon-bell-fill>
                                 <span class="position-absolute translate-middle badge rounded-pill bg-danger">
-                                    4
+                                    {{notifications.length}}
                                 </span>
                             </span>
                         </template>
-                        <b-dropdown-item href="#">1 nouveau message</b-dropdown-item>
-                        <b-dropdown-item href="#">Naruto vous a envoyé un clone</b-dropdown-item>
-                        <b-dropdown-item href="#">Joyeux anniversaire</b-dropdown-item>
-                        <b-dropdown-item href="#">Wesh bien ?</b-dropdown-item>
+                        <b-dropdown-item v-for="notification in notifications" :key="notification.id"  href="#">
+                            <span v-if="notification.refTable == 'Exchange'">{{ notification.refTable }}</span>
+                            <span v-if="notification.refTable == 'Message'">
+                                <router-link :to="'/chat/' + notification.idTable"  @click.native="deleteNotification(notification)">
+                                  {{notification.description}}  
+                                </router-link>
+                            </span>
+                        </b-dropdown-item>
                     </b-nav-item-dropdown>
+                    <div v-else >
+                         <template >
+                            <span class="link-nav p-2 position-relative">
+                                <b-icon-bell-fill></b-icon-bell-fill>
+                                <span class="position-absolute translate-middle badge rounded-pill bg-danger">
+                                    {{notifications.length}}
+                                </span>
+                            </span>
+                        </template>
+                    </div>
                     
                     
                     <b-nav-item>
@@ -73,6 +87,7 @@
 // import GameLayer from "../Game/GameLayer.vue";
 import SideBar from "../Filter/SideBar.vue";
 import { Igdb } from "../../lib/Services/Igdb";
+import { User } from "../../lib/Services/User";
 // import { User } from "../../lib/Services/User";
 // import jwt_decode from "jwt-decode";
 
@@ -96,12 +111,14 @@ export default {
         actifSearch: false,
         logged: false,
         hidden: true,
+        notifications:[]
     }),
     created() {
         if (localStorage.getItem("token")) {
             this.$data.logged = true
             this.$data.hidden = false
         }
+        this.getNotifications()
     },
     methods: {
         logout() {
@@ -128,15 +145,40 @@ export default {
                 // if(this.$data.selectedFilters?.[categorie]){
                 return this.$data.selectedFilters?.[categorie]?.length === 0
                 // }
-
             } else if (!this.$data.selectedFilters) {
                 return true
             }
-
         },
         updateQuery(value) {
             this.$data.searchQuery = value
             this.refreshRessource()
+        },
+        async getNotifications() {
+            var provider = new User()
+            provider.auth.me().then(response => {
+                if(response){
+                    provider.getNotifications(response.id).then(response => {
+                        if(response){
+                            this.$data.notifications = response
+                            console.log(this.$data.notifications)
+                        }
+                    })
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+        async deleteNotification(notification) {
+            var provider = new User()
+            provider.delNotification(notification.id).then(response => {
+                if(response){
+                    console.log(response)
+                    this.getNotifications()
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
         },
         ProfilePreUrl() {
             // var provider = new User()

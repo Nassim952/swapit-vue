@@ -72,6 +72,11 @@ class UserAdmin extends Publisher {
     const response = await this.patch(`${'users'}/${id}/set-token-reset-password-to-null`, {});
     return response;
   }
+
+  async getChannels(ids = null, properties = null) {
+    const response = await this.get(this.formatEndPoint('channels',ids, properties));
+    return response;
+  }
 }
 
 export { UserAdmin };

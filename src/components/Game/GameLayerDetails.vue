@@ -8,14 +8,20 @@
             <div class="info-game">
                 <div class="title-game">{{game.name}}</div>
                 <div class="game-details">
-                    <div class="game-desc">{{game.summary}}</div>
                     <div class="detail-plus">
                       <div class="game-rating">{{Math.round(game.aggregatedRating)/10}}</div>
                     </div>
+                    <button class="btn-swap" @click="showDetails = !showDetails" v-if="!showDetails">details</button>
                 </div>
             </div>
         </div>
     </div>
+    <!-- <div class="game-desc">{{game.summary}}</div> -->
+   <transition name="fade">
+      <div class="game-desc" v-if="showDetails">{{game.summary}}
+        <a class="btn-swap"  @click="showDetails = !showDetails">hide</a>
+      </div>
+    </transition>
     <div class="user-card-container">
       <UserCard v-for="(user, key) in users" :key="user.id + key" :user="user" :game="game" />
     </div>
@@ -27,16 +33,20 @@ import {Igdb} from "../../lib/Services/Igdb";
 // import {User} from "../../lib/Services/User";
 import UserCard from "./UserCard.vue";
 import { UserAdmin } from "../../lib/Services/UserAdmin";
+// import Button from '../Buttons/Button.vue';
+// import { Channel } from "../../lib/Services/Channel";
 
 export default {
   name: "GameLayerDetails",
   components: {
     UserCard,
+    // Button,
   },
   data: () => ({
     filters: {},
     game: {},
     users: [],
+    showDetails: false,
   }),
   computed: {
     coverPreUrl: function () {
@@ -51,6 +61,7 @@ export default {
       var provider = new Igdb()
       provider.getGame(this.$route.params.id).then(response => {
         this.$data.game = response
+        console.log(response)
       })
     },
     getUsers: async function () {
@@ -151,5 +162,11 @@ export default {
   align-self: center;
   font-size: 36px;
   color: rgba(255, 93, 25, 1);
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

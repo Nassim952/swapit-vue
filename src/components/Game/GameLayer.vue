@@ -1,52 +1,54 @@
 <template>
   <div class="container">
-    <div v-bind:style="backgroundCover" class="card cover-bg" :class="[{ full: full, small: !full }]">
-      <div class="bg-opacity">
-        <div class="btn-list">
-          <button @click="addOwn(game)"><img v-bind:class="{ disable: inList }" class="picto-nav"
-              src="../../assets/images/check.svg" width="45" height="40"></button>
-          <button @click="addWish(game)"><img v-bind:class="{ disable: inList }" class="picto-nav"
-              src="../../assets/images/heart.svg" width="45" height="40"></button>
-        </div>
-        <div class="content">
-          <div class="card-img">
-            <img v-bind:src="coverPreUrl" width="80" height="80">
+    <transition name="fade">
+      <div v-bind:style="backgroundCover" class="card cover-bg" :class="[{ full: full, small: !full }]">
+        <div class="bg-opacity">
+          <div class="btn-list">
+            <button @click="addOwn(game)"><img v-bind:class="{ disable: inList }" class="picto-nav"
+                src="../../assets/images/check.svg" width="45" height="40"></button>
+            <button @click="addWish(game)"><img v-bind:class="{ disable: inList }" class="picto-nav"
+                src="../../assets/images/heart.svg" width="45" height="40"></button>
           </div>
-          <div class="card-title">
-            <div class="card-title-text">
-              <h3>{{ game.name }}</h3>
-              <span class="rating">{{ Math.round(game.aggregated_rating) / 10 }}</span>
+          <div class="content">
+            <div class="card-img">
+              <img v-bind:src="coverPreUrl" width="80" height="80">
             </div>
-            <div class="card-platforms-tags">
-              <span v-for="(platform, key) in platforms" id="platforms" :key="key">{{ platform.name }}</span>
+            <div class="card-title">
+              <div class="card-title-text">
+                <h3>{{ game.name }}</h3>
+                <span class="rating">{{ Math.round(game.aggregated_rating) / 10 }}</span>
+              </div>
+              <div class="card-platforms-tags">
+                <span v-for="(platform, key) in game.platforms" id="platforms" :key="game.name+platform.name+key">{{ platform.slug }}</span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="card-details">
-          <div class="card-body">
-            <div class="tags">
-              <router-link v-for="(genre, key) in genres" :key="key" :to="'/games/genre/' + genre.id">
-                <span id="genres" class="tag tag-teal">{{ genre.name }}</span>
-              </router-link>
-            </div>
-            <p>
-              {{ game.summary.slice(0, 500) }}
-            </p>
-            <div class="btn-wrapper">
-              <router-link v-bind:to="showGameUrl">
-                <span class="btn button_slide slide_left">Swaper</span>
-              </router-link>
+          <div class="card-details">
+            <div class="card-body">
+              <div class="tags">
+                <router-link v-for="(genre, key) in game.genres" :key="game.name+genre.name+key" :to="'/games/genre/' + genre.id">
+                  <span id="genres" class="tag tag-teal">{{ genre.name }}</span>
+                </router-link>
+              </div>
+              <p>
+                {{ game.summary.slice(0, 500) }}
+              </p>
+              <div class="btn-wrapper">
+                <router-link v-bind:to="showGameUrl">
+                  <span class="btn button_slide slide_left">Swaper</span>
+                </router-link>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
 <script>
 // import GameLayerDetails from './GameLayerDetails.vue';
-import { Igdb } from "../../lib/Services/Igdb";
+// import { Igdb } from "../../lib/Services/Igdb";
 import { User } from "../../lib/Services/User";
 
 
@@ -57,8 +59,6 @@ export default {
   data: () => ({
     filters: {},
     showDetails: false,
-    genres: [],
-    platforms: [],
   }),
   props: {
     game: {
@@ -73,15 +73,6 @@ export default {
       type: Boolean,
       default: true,
     },
-  },
-  created() {
-    if (this.$props.game) {
-      var provider = new Igdb()
-      var genres = this.$props.game.genres.map(genre => genre.replace(/\/api\/genres\//g, '')) ?? null
-      var platforms = this.$props.game.platforms.map(platform => platform.replace(/\/api\/platforms\//g, '')) ?? null
-      provider.getGenres(genres).then(response => { this.$data.genres = response })
-      provider.getPlatforms(platforms).then(response => { this.$data.platforms = response })
-    }
   },
   computed: {
     coverPreUrl: function () {
@@ -532,5 +523,13 @@ button {
   .container .card:hover .content {
     opacity: 0;
   }
+
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .7s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 }
 </style>

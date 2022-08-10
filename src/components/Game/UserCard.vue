@@ -24,6 +24,9 @@
             </div>
         </div>
         <div class="btn-swap">
+                <span class="btn button_slide slide_left" @click="createChannel">Messages</span>
+        </div>
+         <div class="btn-swap">
             <router-link v-bind:to="exchangeUrl">
                 <span class="btn button_slide slide_left">Swaper</span>
             </router-link>
@@ -32,7 +35,9 @@
 </template>
 
 <script>
-
+import { Channel } from "../../lib/Services/Channel";
+import { User } from "../../lib/Services/User";
+import { UserAdmin } from "../../lib/Services/UserAdmin";
 export default {
     props: {
         user: {
@@ -54,6 +59,47 @@ export default {
             if(string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
             }
+        },
+        createChannel: async function () {
+            var provider = new Channel()
+            var user = new User()
+            var userAdmin = new UserAdmin()
+
+            userAdmin.getChannels(null,null,{'subscribers': [
+                    '/users/' + this.user.id,
+                    '/users/' + user.id
+                ]}).then(function (channel) {
+                    if(channel) {
+                        window.location.href = "/channel/" + channel.id;
+                    } else {
+                        provider.postChannel(null,null,{'subscribers': [
+                            '/users/' + this.user.id,
+                        ]}).then(function (channel) {
+                            window.location.href = "/channel/" + channel.id;
+                        });
+                    }
+                }).catch(function(error) {
+                console.log(error);
+            });
+            // user.auth.me().then(function (user) { 
+            //     provider.getChannel(null,null,{'subscribers': [
+            //         '/users/' + this.user.id,
+            //         '/users/' + user.id
+            //     ]}).then(function (channel) {
+            //         if(channel) {
+            //             window.location.href = "/channel/" + channel.id;
+            //         } else {
+            //             provider.postChannel(null,null,{'subscribers': [
+            //                 '/users/' + this.user.id,
+            //             ]}).then(function (channel) {
+            //                 window.location.href = "/channel/" + channel.id;
+            //             });
+            //         }
+            //     })
+            // }).catch(function (error) {
+            //     console.log(error)
+            // })
+
         }
     },
 }
