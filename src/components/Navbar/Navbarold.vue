@@ -11,54 +11,54 @@
                 
             </b-navbar-brand>
 
-            
-
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav class="w-100 d-flex justify-content-between">
-                    <b-nav-item>
-                        <router-link v-show="logged" to="/games" style="font-size: smaller" class="link-nav p-3">
-                            <img class="picto-search" src="../../assets/icones/search.svg" width="25" height="25"> <span class="nav-item-mobile">Rechercher</span>
-                        </router-link>
-                    </b-nav-item>
-                    <b-nav-item>
-                        <router-link v-if="hidden" to="/signin" class="link-nav p-3">Connexion</router-link>
-                    </b-nav-item>
-                    <b-nav-item>
-                        <router-link v-if="hidden" to="/signup" class="link-nav p-3">Inscription</router-link>
-                    </b-nav-item>
-                    <div v-if="logged">
-                        <b-nav-item-dropdown  v-if="notifications.length">
-                            <template #button-content>
-                                <span class="link-nav p-2 position-relative">
-                                    <b-icon-bell-fill></b-icon-bell-fill>
-                                    <span class="position-absolute translate-middle badge rounded-pill bg-danger">
-                                        {{notifications.length}}
+                    <b-navbar-nav>
+                        <b-nav-item>
+                            <router-link v-show="logged" to="/games" style="font-size: smaller" class="link-nav p-3">
+                                <img class="picto-search" src="../../assets/icones/search.svg" width="25" height="25"> <span class="nav-item-mobile">Rechercher</span>
+                            </router-link>
+                        </b-nav-item>
+                        <b-nav-item>
+                            <router-link v-if="hidden" to="/signin" class="link-nav p-3">Connexion</router-link>
+                        </b-nav-item>
+                        <b-nav-item>
+                            <router-link v-if="hidden" to="/signup" class="link-nav p-3">Inscription</router-link>
+                        </b-nav-item>
+                        <b-nav-item class="d-flex align-items-center" v-if="logged">
+                            <b-nav-item-dropdown v-if="notifications.length">
+                                <template #button-content>
+                                    <span class="link-nav p-3 position-relative">
+                                        <b-icon-bell-fill></b-icon-bell-fill>
+                                        <span class="position-absolute translate-middle badge rounded-pill bg-danger">
+                                            {{notifications.length}}
+                                        </span>
                                     </span>
-                                </span>
-                            </template>
-                            <b-dropdown-item v-for="notification in notifications" :key="notification.id"  href="#">
-                                <span v-if="notification.refTable == 'Exchange'">{{ notification.refTable }}</span>
-                                <span v-if="notification.refTable == 'Message'">
-                                    <router-link :to="'/chat/' + notification.idTable"  @click.native="deleteNotification(notification)">
-                                    {{notification.description}}  
-                                    </router-link>
-                                </span>
-                            </b-dropdown-item>
-                        </b-nav-item-dropdown>
-                        <div v-else >
-                            <template >
-                                <span class="link-nav p-2 position-relative">
-                                    <b-icon-bell-fill></b-icon-bell-fill>
-                                    <span class="position-absolute translate-middle badge rounded-pill bg-danger">
-                                        {{notifications.length}}
+                                </template>
+                                <b-dropdown-item v-for="notification in notifications" :key="notification.id"  href="#">
+                                    <span v-if="notification.refTable == 'Exchange'">{{ notification.refTable }}</span>
+                                    <span v-if="notification.refTable == 'Message'">
+                                        <router-link :to="'/chat/' + notification.idTable"  @click.native="deleteNotification(notification)">
+                                        {{notification.description}}  
+                                        </router-link>
                                     </span>
-                                </span>
-                            </template>
-                        </div>
-                    </div>
-                    
+                                </b-dropdown-item>
+                            </b-nav-item-dropdown>
+                            <div v-else >
+                                <template >
+                                    <span class="link-nav position-relative p-3">
+                                        <b-icon-bell-fill></b-icon-bell-fill>
+                                        <span class="position-absolute translate-middle badge rounded-pill bg-danger">
+                                            {{notifications.length}}
+                                        </span>
+                                    </span>
+                                </template>
+                            </div>
+                        </b-nav-item>
+                    </b-navbar-nav>
+
                     <b-navbar-nav>
                         <b-nav-item>
                             <router-link v-if="logged" to="/popularGames" style="font-size: smaller" class="link-nav p-3">

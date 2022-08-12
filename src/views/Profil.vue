@@ -1,5 +1,10 @@
 <template>
     <div class="row m-auto">
+        <transition name="modal">
+            <modal v-if="isOpenModal" :data="modalData"> 
+            </modal>
+        </transition>
+
         <div class="col">
             <div class="row justify-content-between">
                 <div class="col-xl-4  m-lg-5">
@@ -12,7 +17,10 @@
                             <h5>Informations utilisateurs</h5>
                             <span>{{ user.email }}</span>
                         </div>
-                        <div class="pt-3 w-100"><b-icon icon="pencil" font-scale="1" style="margin-right: 5px;"></b-icon><a href="#" class="link-nav" style="font-size: smaller;">Editer</a></div>
+                        <div class="pt-3 w-100">
+                            <b-icon icon="pencil" font-scale="1" style="margin-right: 5px;"></b-icon>
+                            <button @click="openModal(data)" class="link-nav" style="font-size: smaller; border: none; background: none;">Editer</button>
+                        </div>
                     </div>
                 </div>
                 <div class="col-xl-6 m-lg-5 d-flex justify-content-center">
@@ -47,22 +55,26 @@
 
 <script>
 import ProfilGameCard from "../components/Card/Profil_Game_Card.vue";
-import { Igdb } from '../lib/Services/Igdb'
-import { User } from '../lib/Services/User'
-import ExchangeForm from '../components/Exchange/exchangeForm.vue'
+import { Igdb } from '../lib/Services/Igdb';
+import { User } from '../lib/Services/User';
+import ExchangeForm from '../components/Exchange/exchangeForm.vue';
 import Profil_Game_Card_Wish from "../components/Card/Profil_Game_Card_Wish.vue";
+import Modal from '../components/Modals/Modal.vue';
 
 export default {
     components: {
         ProfilGameCard,
         ExchangeForm,
-        Profil_Game_Card_Wish
+        Profil_Game_Card_Wish,
+        Modal
     },
     data() {
         return {
             ownGames: [],
             wishGames: [],
             user: {},
+            isOpenModal: false,
+            modalData: {},
         }
     },
     created() {
@@ -155,13 +167,23 @@ export default {
             if(string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
             }
+        },
+        openModal(data) {
+            // this.modalData = user;
+            this.modalData={...data}
+            this.isOpenModal = true;
+        },
+        closeModal() {
+            this.isOpenModal = false;
         }
     },
     provide() {
         return {
             supGame: this.supGame,
+            openModal: this.openModal,
+            closeModal: this.closeModal
         }
-    }
+    },
 }
 </script>
 
