@@ -64,6 +64,8 @@ export default {
 .game_card_container {
   display: flex;
   margin-bottom: 1rem;
+  background-color: aliceblue;
+  border-radius: 15px;
 }
 .add{
   height: 4rem;

@@ -92,7 +92,6 @@ export default {
           providerGame.getGames(response?.ownGames)
             .then(response => {
               this.$data.gamesToExchange = response ?? []
-              console.log(this.$data.gamesToExchange)
             });
         }
       });
@@ -105,7 +104,6 @@ export default {
           providerGame.getGames(response?.wishGames)
             .then(response => {
               this.$data.gamesWish = response ?? []
-              console.log(this.$data.gamesWish)
             });
         }
       });
