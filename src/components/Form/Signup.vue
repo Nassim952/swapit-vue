@@ -82,7 +82,6 @@ export default {
           password: data.password
         }
       ).then(response => {
-        console.log(response)
         if (response) {
           this.$fire({
             title: 'Utilisateur créé',

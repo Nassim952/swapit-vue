@@ -12,10 +12,11 @@
                         <div class="w-100">
                             <img src="../assets/images/Sly.png" width="150" alt="profile">
                         </div>
-                        <div class="profile-name w-100">{{ capitalizeFirstLetter(user.username) }}</div>
+                        <h5>Informations utilisateurs</h5>
+                        <div class="profile-name w-100">Username : {{ capitalizeFirstLetter(user.username) }}</div>
                         <div class="list-group">
-                            <h5>Informations utilisateurs</h5>
-                            <span>{{ user.email }}</span>
+                            
+                            <span>Mail : {{ user.email }}</span>
                         </div>
                         <div class="pt-3 w-100">
                             <b-icon icon="pencil" font-scale="1" style="margin-right: 5px;"></b-icon>
