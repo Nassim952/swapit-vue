@@ -39,33 +39,39 @@ class User extends Publisher {
   }
 
   async getReceivedExchanges(id) {
-    const response = await this.get(`${'users'}/${id}/received_exchanges`, {});
+    const response = await this.get(`users/${id}/received_exchanges`, {});
     return response;
   }
 
   async getSendExchanges(id) {
-    const response = await this.get(`${'users'}/${id}/send_exchanges`, {});
+    const response = await this.get(`users/${id}/send_exchanges`, {});
     return response;
   }
 
   async sendMailContact(id) {
-    const response = await this.patch(`${'users'}/${id}/send-mail-for-contact`, {})
+    const response = await this.patch(`users/${id}/send-mail-for-contact`, {})
     return response;
   }
 
   async getChannels(id) {
-    const response = await this.get(`${'users'}/${id}/channels`, {});
+    const response = await this.get(`users/${id}/channels`, {});
     return response;
   }
 
   async getNotifications(id) {
-    const response = await this.get(`${'users'}/${id}/notifications`, {});
+    const response = await this.get(`users/${id}/notifications`, {});
+    return response;
+  }
+
+  async getChannelNotification(idChannel) {
+    const response = await this.get(`channels/${idChannel}/channel-notification`, {});
     return response;
   }
 
   async delNotification(id) {
-    const response = await this.delete(this.formatEndPoint('notifications', id));
-    return response;
+    // const response = await this.delete(this.formatEndPoint('notifications', id));
+    // return response;
+    return id;
   }
 }
 

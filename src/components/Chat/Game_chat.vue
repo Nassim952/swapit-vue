@@ -18,7 +18,8 @@
                   <h6><a>{{getChannelName(channel)}}</a></h6>
                   <p class="text-muted" v-if="channel.lastMessage">{{channel.lastMessage.author.username + ': ' + channel.lastMessage.content}}</p>
                 </div>
-                <span class="time text-muted small" v-if="channel.lastMessage">{{channel.lastMessage.createdDate}}</span>
+                <span class="time text-muted small" v-if="channel.lastMessage">{{timeConverter(channel.lastMessage.createdDate)}}</span>
+                <span class="time text-muted small" v-if="channel.hasNotification">noti</span>
             </div>
             <hr>
           </div>
@@ -108,7 +109,23 @@ export default {
     async refreshChannels() {
       var provider = new User()
           provider.getChannels(this.currentUser.id).then((response) => {
-            this.rooms = response;              
+            this.rooms = response.map((channel) => {
+              channel.pusher = this.pusher;
+              channel.room = channel.pusher.subscribe('channel_' + channel.id);
+              channel.room.bind('message', (message) => {
+                channel.lastMessage = message;
+                if(this.currentChannel.id != channel.id) {
+                  channel.hasNotification = true;
+                  console.log(channel.hasNotification);
+                }
+                else {
+                  this.currentChannel.messages.push(message);
+                  channel.hasNotification = false;
+                } 
+              });
+              console.log(channel);
+                return channel;
+            });              
       }).catch(function(error) {
         console.log(error);
       });
@@ -137,25 +154,25 @@ export default {
     },
     refreshMessages() {
       this.initPusher();
-      if(this.currentChannel?.id) {
-        this.currentChannel.room = this.pusher.subscribe('channel_' + this.currentChannel.id);
-        this.currentChannel.room.bind('message', (message) => {
-          this.currentChannel.messages.push(message);
-        });
-      }
+      // if(this.currentChannel?.id) {
+      //   this.currentChannel.room = this.pusher.subscribe('channel_' + this.currentChannel.id);
+      //   this.currentChannel.room.bind('message', (message) => {
+      //     this.currentChannel.messages.push(message);
+      //   });
+      // }
     },
     updateChannel(channel) {
       this.provider.getChannel(channel.id).then((response) => {
         this.currentChannel = response;
         this.message.channel = '/channels/'+channel.id;
         this.refreshMessages();
+      }).then(() => {
+       channel.hasNotification = false;
       }).catch(function(error) {
         console.log(error);
       });
     },
     getChannelName(channel) {
-      console.log(channel);
-      console.log(this.currentUser.username);
       return channel.name.replace(this.currentUser.username,'');
     },
     canSendMessage() {
@@ -183,8 +200,8 @@ export default {
         console.log(error);
       });
     },
-    async getChannel(chennelId) {
-      this.provider.getChannel(chennelId).then((response) => {
+    async getChannel(channelId) {
+      this.provider.getChannel(channelId).then((response) => {
         if (response) {
           this.channel = response;
           this.updateChannel(this.channel);
@@ -193,7 +210,6 @@ export default {
         console.log(error);
       });
     },
-
     timeConverter(UNIX_timestamp){
       UNIX_timestamp = Date.parse(UNIX_timestamp);
       var a = new Date(UNIX_timestamp);
@@ -216,7 +232,7 @@ export default {
       }
       return this.rooms;
     },
-  },
+  }
 };
 </script>
 
