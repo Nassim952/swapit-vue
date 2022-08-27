@@ -16,7 +16,7 @@
             <div class="friend-drawer friend-drawer--onhover" v-for="channel in filtredRooms" :key="'channel_'+ channel.id" @click="updateChannel(channel)">
                 <div class="text">
                   <h6><a>{{getChannelName(channel)}}</a></h6>
-                  <p class="text-muted" v-if="channel.lastMessage">{{channel.lastMessage.author.username + ': ' + channel.lastMessage.content}}</p>
+                  <span class="text-muted" v-if="channel.lastMessage">{{channel.lastMessage.author.username + ': ' + channel.lastMessage.content}}</span>
                 </div>
                 <span class="time text-muted small" v-if="channel.lastMessage">{{timeConverter(channel.lastMessage.createdDate)}}</span>
                 <span class="time text-muted small" v-if="channel.hasNotification">noti</span>
@@ -173,6 +173,7 @@ export default {
       });
     },
     getChannelName(channel) {
+      console.log(this.currentUser)
       return channel.name.replace(this.currentUser.username,'');
     },
     canSendMessage() {
