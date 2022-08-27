@@ -14,7 +14,8 @@ export default {
     methods: {
         checkIfMailIsConfirmed() {
             const provider = new UserAdmin()
-            provider.getUser(this.$route.params.id).then(response => {
+            var id_user = atob(this.$route.params.id)
+            provider.getUser(id_user).then(response => {
                 if (response.isMailConfirmed == false) {
                     provider.setMailConfirmedToTrue(this.$route.params.id).then(response => {
                         if (response) {

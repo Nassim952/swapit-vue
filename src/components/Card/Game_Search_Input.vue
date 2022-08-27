@@ -50,6 +50,7 @@ export default {
   }),
   created() {
     this.refreshRessource()
+    
   },
   computed: {
 
@@ -67,6 +68,7 @@ export default {
           this.updateCurrentWishGames()
         }
       })
+      
     },
     updateCurrentOwnGames() {
       this.$isLoading(true)
@@ -103,6 +105,7 @@ export default {
       })
     },
     add: function (game) {
+      console.log(game.id)
       if (!this.added(game)) {
         if (this.$data.aGamesTmp.includes(game.id)) {
           this.$fire({
@@ -206,51 +209,23 @@ export default {
       const providerIgdb = new Igdb()
 
       provider.auth.me().then(response => {
-        var isExist = false;
         if (response) {
-          if (this.$data.aGamesTmp.length < 1) {
-            provider.patchUser(response.id, { 'ownGames': this.$data.aGamesTmp })
-              .then((response) => {
-                if (response?.ownGames !== []) {
-                  providerIgdb.getGames(response?.ownGames)
-                    .then(response => {
-                      this.$data.aGames = response ?? []
-                    });
-                }
-              })
-          }
-          else {
-            this.$data.aGamesTmp.forEach(element => {
-              if (response.ownGames == element) {
-                isExist = true;
+          provider.patchUser(response.id, { 'ownGames': this.$data.aGamesTmp })
+            .then(response => {
+              if (response?.ownGames) {
+                providerIgdb.getGames(response?.ownGames)
+                  .then(response => {
+                    this.$data.aGames = response ?? []
+                  });
               }
-            });
-            if (isExist == false) {
-              provider.patchUser(response.id, { 'ownGames': this.$data.aGamesTmp })
-                .then((response) => {
-                  if (response?.ownGames !== []) {
-                    providerIgdb.getGames(response?.ownGames)
-                      .then(response => {
-                        this.$data.aGames = response ?? []
-                      });
-                  }
-                })
-            }
-            else {
-              this.$fire({
-                title: "Vous possédez déjà ce jeu",
-                text: "Vous ne pouvez pas avoir deux fois le même jeu",
-                type: "info",
-              })
-            }
-          }
+            })
         }
       })
         .catch(() => {
           this.$fire({
-            title: "Erreur",
-            text: "Une erreur est survenue",
-            type: "error",
+            title: 'Erreur',
+            text: 'Une erreur est survenue',
+            type: 'error'
           })
         })
     },

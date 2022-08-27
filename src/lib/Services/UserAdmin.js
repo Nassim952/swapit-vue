@@ -29,7 +29,7 @@ class UserAdmin extends Publisher {
       else {
         VueSimpleAlert.fire({
           title: 'Erreur',
-          text: 'Cet email n\'est pas enregistré sue ce site, nous vous invitons à créer un compte avec :)',
+          text: 'Cet email n\'est pas enregistré sur ce site, nous vous invitons à créer un compte avec :)',
           type: 'error',
         })
       }

@@ -17,12 +17,12 @@
           </div>
 
           <div>
-            <Field name="mot de passe" placeholder="Mot de passe" type="password"> </Field>
+            <Field name="password" placeholder="Mot de passe" type="password"> </Field>
             <Error v-if="errors.password" :value="errors.password" />
           </div>
 
           <div>
-            <Field name="confirmation de mot de passe" type="password"> </Field>
+            <Field name="password_confirm" placeholder="Confirmer mdp" type="password"> </Field>
             <Error v-if="errors.password_confirm" :value="errors.password_confirm" />
           </div>
           <Error v-if="errors.password_confirm" :value="errors.password_confirm" />
