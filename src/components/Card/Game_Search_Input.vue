@@ -67,12 +67,9 @@ export default {
           provider.getUser(response.id).then(response => { this.$data.aGamesTmp = response?.wishGames ?? [] })
           this.updateCurrentWishGames()
         }
-      }).then(() => {
-        this.$isLoading(false) 
-      })  
+      }) 
     },
     updateCurrentOwnGames() {
-      this.$isLoading(true)
       var provider = new User()
       var providerGame = new Igdb()
       provider.auth.me().then(response => {
@@ -81,6 +78,8 @@ export default {
             if (response) {
               this.$data.aGames = response
             }
+          }).then(() => {
+            this.$isLoading(false)
           })
         }
       })
@@ -94,6 +93,8 @@ export default {
             if (response) {
               this.$data.aGames = response
             }
+          }).then(() => {
+            this.$isLoading(false)
           })
         }
       })

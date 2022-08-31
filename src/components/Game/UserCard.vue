@@ -69,12 +69,8 @@ export default {
             userProvider.auth.me().then((user) => {
                 if(user){  
                     userProvider.getChannels(user.id).then((channels) => {
-                        console.log(this.$props.user.id)
                         var excistinChannel = this.findExistingChannel(channels)
-                        console.log(excistinChannel)
                         if (excistinChannel) {
-
-                            console.log(excistinChannel)
                             this.$router.push("/chat/" + excistinChannel.id);
                         } else {
                             provider.postChannel({
@@ -83,7 +79,6 @@ export default {
                                 ]
                             }).then((channel) => {
                                 if (channel) {
-                                    console.log("channel created")
                                     this.$router.push("/chat/" + channel.id);
                                 }
                             });

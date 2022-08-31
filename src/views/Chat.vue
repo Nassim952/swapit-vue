@@ -25,15 +25,10 @@ export default {
    this.provider.getChannel(this.$route.params.id).then((response) => {
       if (response) {
         this.channel = response;
-        console.log(this.channel);
         return response;
       }
-    }).catch(function(error) {
-      console.log(error);
-    });
-    // console.log(this.channel)
-  },
-    
+    })
+  }
   },
 };
 </script>

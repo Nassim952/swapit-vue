@@ -109,7 +109,6 @@ export default {
     async refreshChannels() {
       var provider = new User()
           provider.getChannels(this.currentUser.id).then((response) => {
-            console.table(response);
             this.rooms = response.map((channel) => {
               channel.pusher = this.pusher;
               channel.room = channel.pusher.subscribe('channel_' + channel.id);
@@ -117,14 +116,12 @@ export default {
                 channel.lastMessage = message;
                 if(this.currentChannel.id != channel.id) {
                   channel.hasNotification = true;
-                  console.log(channel.hasNotification);
                 }
                 else {
                   this.currentChannel.messages.push(message);
                   channel.hasNotification = false;
                 } 
               });
-              console.log(channel);
                 return channel;
             });              
       }).catch(function(error) {

@@ -89,8 +89,7 @@ export default {
             }
             else if(type == 'refused') {
                 provider.refuseExchanges(exchange_id)
-                    .then((response) => {
-                        console.log(response);
+                    .then(() => {
                         this.$fire({
                             title: 'Succès',
                             text: 'L\'échange a bien été refusé',

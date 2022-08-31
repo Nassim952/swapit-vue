@@ -157,7 +157,6 @@ export default {
                 delete this.$data.selectedFilters[categorie]
             }
             this.refreshRessource()
-            console.log(this.$data.selectedFilters)
         },
         checkEmptySelectedFilter(categorie = null) {
             if (categorie) {
@@ -182,8 +181,6 @@ export default {
                         }
                     })
                 }
-            }).catch(error => {
-                console.log(error)
             })
         },
         async deleteNotification(notification) {
@@ -193,9 +190,6 @@ export default {
                     console.log(response)
                     this.getNotifications()
                 }
-            })
-            .catch(error => {
-                console.log(error)
             })
         },
         ProfilePreUrl() {

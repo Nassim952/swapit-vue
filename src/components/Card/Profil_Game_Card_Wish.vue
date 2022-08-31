@@ -27,14 +27,14 @@
     </router-link>
     <div class="card-body text-center">
       <p class="m-0" style="font-size: 0.7rem;">{{ game.name }}</p>
-      <span v-for="(genre, key) in genres.slice(0, 1)" id="genres" :key="key" class="tag tag-teal" style="font-size: 0.6rem;">{{ genre.name }}</span>
+      <span v-for="(genre, key) in game.genres.slice(0, 1)" id="genres" :key="key" class="tag tag-teal" style="font-size: 0.6rem;">{{ genre.name }}</span>
     </div>
   </div>
 </transition>
 </template>
 
 <script>
-import { Igdb } from '../../lib/Services/Igdb'
+// import { Igdb } from '../../lib/Services/Igdb'
 
 export default {
   props: {
@@ -49,15 +49,14 @@ export default {
       platforms: [],
     }
   },
-  created() {
-    if (this.$props.game) {
-      var provider = new Igdb()
-      var genres = this.$props.game.genres.map(genre => genre.replace(/\/api\/genres\//g, '')) ?? null
-      var platforms = this.$props.game.platforms.map(platform => platform.replace(/\/api\/platforms\//g, '')) ?? null
-      provider.getGenres(genres).then(response => { this.$data.genres = response })
-      provider.getPlatforms(platforms).then(response => { this.$data.platforms = response })
-    }
-  },
+  // created() {
+  //   if (this.$props.game) {
+  //     var provider = new Igdb()
+  //     var platforms = this.$props.game.platforms.map(platform => platform.replace(/\/api\/platforms\//g, '')) ?? null
+  //     provider.getGenres(genres).then(response => { this.$data.genres = response })
+  //     provider.getPlatforms(platforms).then(response => { this.$data.platforms = response })
+  //   }
+  // },
   computed: {
     coverPreUrl: function () {
       return "//images.igdb.com/igdb/image/upload/t_1080p/" + this.game.cover + ".png";
