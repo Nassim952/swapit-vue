@@ -1,12 +1,14 @@
 <template>
   <div >
-  <div class="ownlist-list" v-if="myList">
-    <div v-for="(game,key) in myList" id="OwnList" class="own-element" :key="key">
-      <a @click="supp(game)" title="arrow icons" class="my-icon dlt-game">
-        <img class="icon" src="../../assets/images/bin.png" height="10" width="10" alt="supprimer ce jeu">
-      </a>
-      <GameCard :game="game" />
-    </div>
+  <div  v-if="myList">
+    <transition-group name="bounce" appear appear-class="bounce-enter" class="ownlist-list">
+      <div v-for="(game,key) in myList" id="OwnList" class="own-element" :key="key">
+        <a @click="supp(game)" title="arrow icons" class="my-icon dlt-game">
+          <img class="icon" src="../../assets/images/bin.png" height="10" width="10" alt="supprimer ce jeu">
+        </a>
+        <GameCard :game="game" />
+      </div>
+    </transition-group>
   </div>
   <div v-else>
     <p> Votre liste de Jeux est vide</p>
@@ -114,5 +116,23 @@ export default {
 .dlt-game:hover{
   background-color: rgb(185, 54, 54);
   color: white;
+}
+
+.bounce-enter-active {
+  animation: bounce-in .5s;
+}
+.bounce-leave-active {
+  animation: bounce-in .5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>

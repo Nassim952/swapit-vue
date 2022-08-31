@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     async refreshRessource() {
-      
+      this.$isLoading(true)
       const provider = new User()
       provider.auth.me().then(response => {
         if (this.$props.route == "own") {
@@ -67,8 +67,9 @@ export default {
           provider.getUser(response.id).then(response => { this.$data.aGamesTmp = response?.wishGames ?? [] })
           this.updateCurrentWishGames()
         }
-      })
-      
+      }).then(() => {
+        this.$isLoading(false) 
+      })  
     },
     updateCurrentOwnGames() {
       this.$isLoading(true)
@@ -79,16 +80,12 @@ export default {
           providerGame.getGames(response.ownGames).then(response => {
             if (response) {
               this.$data.aGames = response
-              this.$isLoading(false) 
             }
           })
-        }else{
-          this.$isLoading(false)
         }
       })
     },
     updateCurrentWishGames() {
-      this.$isLoading(true)
       var provider = new User()
       var providerGame = new Igdb()
       provider.auth.me().then(response => {
@@ -96,11 +93,8 @@ export default {
           providerGame.getGames(response.wishGames).then(response => {
             if (response) {
               this.$data.aGames = response
-              this.$isLoading(false) 
             }
           })
-        }else{
-          this.$isLoading(false)
         }
       })
     },
@@ -137,7 +131,13 @@ export default {
               text: "Votre jeu a bien été supprimé de votre liste de jeux possédés",
               type: "success",
             }).then(() => {
-              window.location.reload()
+              if (this.$props.route == "own") {
+                provider.getUser(response.id).then(response => { this.$data.aGamesTmp = response?.ownGames ?? [] })
+                this.updateCurrentOwnGames()
+              } else {
+                provider.getUser(response.id).then(response => { this.$data.aGamesTmp = response?.wishGames ?? [] })
+                this.updateCurrentWishGames()
+              }
             })
           } else {
             response.wishGames.splice(response.wishGames.indexOf(game.id), 1)
@@ -147,7 +147,13 @@ export default {
               text: "Votre jeu a bien été supprimé de votre liste de jeux souhaités",
               type: "success",
             }).then(() => {
-              window.location.reload()
+              if (this.$props.route == "own") {
+                provider.getUser(response.id).then(response => { this.$data.aGamesTmp = response?.ownGames ?? [] })
+                this.updateCurrentOwnGames()
+              } else {
+                provider.getUser(response.id).then(response => { this.$data.aGamesTmp = response?.wishGames ?? [] })
+                this.updateCurrentWishGames()
+              }
             })
           }
         }

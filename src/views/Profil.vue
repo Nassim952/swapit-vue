@@ -1,7 +1,7 @@
 <template>
     <div class="row m-auto">
         <transition name="modal">
-            <modal v-if="isOpenModal" :data="modalData"> 
+            <modal v-if="isOpenModal"> 
             </modal>
         </transition>
 
@@ -20,7 +20,7 @@
                         </div>
                         <div class="pt-3 w-100">
                             <b-icon icon="pencil" font-scale="1" style="margin-right: 5px;"></b-icon>
-                            <button @click="openModal(data)" class="link-nav" style="font-size: smaller; border: none; background: none;">Editer</button>
+                            <button @click="openModal()" class="link-nav" style="font-size: smaller; border: none; background: none;">Editer</button>
                         </div>
                     </div>
                 </div>
@@ -33,8 +33,8 @@
                     <div class="row mt-5 user-list-container">
                         <div class="p-3 user-ownlist">
                             <h5 class="m-auto" style="color: rgba(41, 100, 124);">Liste de jeux possédés : {{ownGames.length}}</h5>
-                            <div class="d-flex list-list">
-                                <ProfilGameCard v-for="(game, key) in ownGames" :key="game.id + key" :game="game" class="" />
+                            <div class="d-flex list-list" v-if="ownGames">
+                                <ProfilGameCardOwn v-for="(game, key) in ownGames" :key="game.id + key" :game="game" class="" />
                             </div>
                         </div>
                         <span v-if="!ownGames.length" class="no-game-list">Vous ne possédez actuellement aucun jeux</span>
@@ -42,9 +42,9 @@
                     <hr>
                     <div class="row mt-5 user-list-container">
                         <div class="p-3 user-wishlist" >
-                            <h5 class="m-auto" style="color: rgba(41, 100, 124);">Liste de jeux souhaités : {{wishGames.length}}</h5>
+                            <h5 class="m-auto" style="color: rgba(41, 100, 124);">Liste de jeux souhaités : {{wishGames.length}}</h5>   
                             <div class="d-flex list-list">
-                                <Profil_Game_Card_Wish v-for="(game, key) in wishGames" :key="game.id + key" :game="game" class="" />
+                                <ProfilGameCarWish v-for="(game, key) in wishGames" :key="game.id + key" :game="game" class="" />
                             </div>
                         </div>
                         <span v-if="!ownGames.length" class="no-game-list">Vous ne souhaitez actuellement aucun jeux</span>
@@ -55,18 +55,18 @@
 </template>
 
 <script>
-import ProfilGameCard from "../components/Card/Profil_Game_Card.vue";
+import ProfilGameCardOwn from "../components/Card/Profil_Game_Card.vue";
 import { Igdb } from '../lib/Services/Igdb';
 import { User } from '../lib/Services/User';
 import ExchangeForm from '../components/Exchange/exchangeForm.vue';
-import Profil_Game_Card_Wish from "../components/Card/Profil_Game_Card_Wish.vue";
+import ProfilGameCarWish from "../components/Card/Profil_Game_Card_Wish.vue";
 import Modal from '../components/Modals/Modal.vue';
 
 export default {
     components: {
-        ProfilGameCard,
+        ProfilGameCardOwn,
         ExchangeForm,
-        Profil_Game_Card_Wish,
+        ProfilGameCarWish,
         Modal
     },
     data() {
@@ -75,7 +75,7 @@ export default {
             wishGames: [],
             user: {},
             isOpenModal: false,
-            modalData: {},
+            // modalData: {},
         }
     },
     created() {
@@ -139,7 +139,7 @@ export default {
                             text: "Votre jeu a bien été supprimé de votre liste de jeux possédés",
                             type: "success",
                         }).then(() => {
-                            window.location.href = "/profile"
+                            this.getUserOwnGames()
                         })
                     } else {
                         response.wishGames.splice(response.wishGames.indexOf(game_id), 1)
@@ -149,7 +149,7 @@ export default {
                             text: "Votre jeu a bien été supprimé de votre liste de jeux souhaités",
                             type: "success",
                         }).then(() => {
-                            window.location.href = "/profile"
+                            this.getUserWishGames()
                         })
                     }
                 }
@@ -165,13 +165,13 @@ export default {
             })
         },
         capitalizeFirstLetter(string) {
-            if(string) {
+            if(string !== null && string !== undefined) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
             }
         },
-        openModal(data) {
+        openModal() {
             // this.modalData = user;
-            this.modalData={...data}
+            // this.modalData={...data}
             this.isOpenModal = true;
         },
         closeModal() {
@@ -378,5 +378,18 @@ hr{
   #bg {
     background: white;
   }
+}
+
+
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
 }
 </style>

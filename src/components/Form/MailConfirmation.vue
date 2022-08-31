@@ -17,7 +17,7 @@ export default {
             var id_user = atob(this.$route.params.id)
             provider.getUser(id_user).then(response => {
                 if (response.isMailConfirmed == false) {
-                    provider.setMailConfirmedToTrue(this.$route.params.id).then(response => {
+                    provider.setMailConfirmedToTrue(id_user).then(response => {
                         if (response) {
                             this.$fire({
                                 title: "Mail confirmé",

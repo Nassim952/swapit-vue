@@ -60,12 +60,6 @@ export default {
     Field,
     Error,
   },
-  props: {
-    data: {
-      type: Object,
-      required: true,
-    },
-  },
   computed: {
     validator: () => validator,
   },

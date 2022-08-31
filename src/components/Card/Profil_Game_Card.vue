@@ -17,7 +17,7 @@
       </div>
     </div>
   </div> -->
-
+<transition name="bounce" appear appear-class="bounce-enter">
   <div class="game_card">
     <button @click="supGame(game.id, 'own')" class="btn-delete-exchange"><img src="../../assets/images/bin.png" height="10" width="10"></button>
     <router-link :to="'/showGame/' + game.id">
@@ -28,6 +28,7 @@
       <span v-for="(genre, key) in genres.slice(0, 1)" id="genres" :key="key" class="tag tag-teal" style="font-size: 0.6rem;">{{ genre.name }}</span>
     </div>
   </div>
+</transition>
 </template>
 
 <script>
@@ -178,6 +179,25 @@ export default {
     margin-top: 5px;
     margin-right: 5px;
     margin-left: 205px;
+  }
+}
+
+
+.bounce-enter-active {
+  animation: bounce-in .5s;
+}
+.bounce-leave-active {
+  animation: bounce-in .5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 </style>

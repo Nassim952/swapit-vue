@@ -5,9 +5,13 @@
                 <h5 class="title-block-profil-swap received">Demandes reçu</h5>
 
                 <ul v-if="receivedExchanges.length" class="list-group list-group-flush list-swap">
-                    <li class="" v-for="(exchange, key) in receivedExchanges" :key="key + exchange.id + 114">
-                        <ExchangeCardAccept v-if="exchange.confirmed == null" :exchange="exchange" />
-                    </li>
+                   
+                        <li class="" v-for="(exchange, key) in receivedExchanges" :key="key + exchange.id + 114">
+                             <transition name="slide-fade" appear appear-class="slide-fade-enter">
+                                <ExchangeCardAccept v-if="exchange.confirmed == null" :exchange="exchange" />  
+                            </transition>
+                        </li>
+                    
                 </ul>
                 
                 <ul v-else class="list-swap">
@@ -20,9 +24,12 @@
                 <h5 class="title-block-profil-swap send">Demandes envoyées</h5>
 
                 <ul v-if="sentExchanges.length" class="list-group list-group-flush list-swap">
-                    <li class="" v-for="(exchange, key) in sentExchanges" :key="key + exchange.id + 114">
-                        <ExchangeCard v-if="exchange.confirmed == null" :exchange="exchange" />
-                    </li>
+                    
+                        <li class="" v-for="(exchange, key) in sentExchanges" :key="key + exchange.id + 114">
+                            <transition name="slide-fade" appear appear-class="slide-fade-enter">
+                                <ExchangeCard v-if="exchange.confirmed == null && exchange" :exchange="exchange" />      
+                            </transition>
+                        </li>
                 </ul>
 
                 <ul v-else class="list-swap">
@@ -262,5 +269,17 @@ h4 {
 .list-swap{
     list-style: none;
     text-align: center;
+}
+
+.slide-fade-enter-active {
+  transition: all .5s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
 }
 </style>

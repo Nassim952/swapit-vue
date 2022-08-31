@@ -1,43 +1,45 @@
 <template>
-    <div class="container-card">
-        <div class="result-card">
-            <div class="info-user">
-                <div class="user-img">
-                    <img src="../../assets/images/user.svg" width="80" height="80">
+    <transition name="bounce" appear appear-class="bounce-enter">
+        <div class="container-card">
+            <div class="result-card">
+                <div class="info-user">
+                    <div class="user-img">
+                        <img src="../../assets/images/user.svg" width="80" height="80">
+                    </div>
+                    <div class="pseudo">{{ capitalizeFirstLetter(user.username) }}</div>
                 </div>
-                <div class="pseudo">{{ capitalizeFirstLetter(user.username) }}</div>
+                <div class="info-user">
+                    <div class="header-card">Echanges</div>
+                    <div class="nbr-card">{{ user.receivedExchanges.length + user.sendExchanges.length }}</div>
+                    <div><img src="../../assets/images/swap-arrow.svg" width="30" height="30"></div>
+                </div>
+                <div class="info-user">
+                    <div class="header-card">Jeux possédés</div>
+                    <div class="nbr-card border-side">{{ user.ownGames.length }}</div>
+                    <div><img src="../../assets/images/check.svg" width="30" height="30"></div>
+                </div>
+                <div class="info-user">
+                    <div class="header-card">Jeux souhaités</div>
+                    <div class="nbr-card">{{ user.wishGames.length }}</div>
+                    <div><img src="../../assets/images/heart.svg" width="30" height="30"></div>
+                </div>
             </div>
-            <div class="info-user">
-                <div class="header-card">Echanges</div>
-                <div class="nbr-card">{{ user.receivedExchanges.length + user.sendExchanges.length }}</div>
-                <div><img src="../../assets/images/swap-arrow.svg" width="30" height="30"></div>
+            <div class="btn-swap">
+                <span class="btn button_slide slide_left" @click="createChannel">Messages</span>
             </div>
-            <div class="info-user">
-                <div class="header-card">Jeux possédés</div>
-                <div class="nbr-card border-side">{{ user.ownGames.length }}</div>
-                <div><img src="../../assets/images/check.svg" width="30" height="30"></div>
-            </div>
-            <div class="info-user">
-                <div class="header-card">Jeux souhaités</div>
-                <div class="nbr-card">{{ user.wishGames.length }}</div>
-                <div><img src="../../assets/images/heart.svg" width="30" height="30"></div>
+            <div class="btn-swap">
+                <router-link v-bind:to="exchangeUrl">
+                    <span class="btn button_slide slide_left">Swaper</span>
+                </router-link>
             </div>
         </div>
-        <div class="btn-swap">
-            <span class="btn button_slide slide_left" @click="createChannel">Messages</span>
-        </div>
-        <div class="btn-swap">
-            <router-link v-bind:to="exchangeUrl">
-                <span class="btn button_slide slide_left">Swaper</span>
-            </router-link>
-        </div>
-    </div>
+    </transition>
 </template>
 
 <script>
 import { Channel } from "../../lib/Services/Channel";
 import { User } from "../../lib/Services/User";
-import { UserAdmin } from "../../lib/Services/UserAdmin";
+// import { UserAdmin } from "../../lib/Services/UserAdmin";
 export default {
     props: {
         user: {
@@ -60,35 +62,34 @@ export default {
                 return string.charAt(0).toUpperCase() + string.slice(1);
             }
         },
-        createChannel: async function () {
+        async createChannel() {
             var provider = new Channel()
-            var user = new User()
-            var userAdmin = new UserAdmin()
+            var userProvider = new User()
+            // var userAdmin = new UserAdmin()
+            userProvider.auth.me().then((user) => {
+                if(user){  
+                    userProvider.getChannels(user.id).then((channels) => {
+                        console.log(this.$props.user.id)
+                        var excistinChannel = this.findExistingChannel(channels)
+                        console.log(excistinChannel)
+                        if (excistinChannel) {
 
-            user.auth.me().then(user => {
-                userAdmin.getChannels(null, null, {
-                    'subscribers': [
-                        '/users/' + this.user.id,
-                        '/users/' + user.id
-                    ]
-                }).then((channel) => {
-                    if (channel) {
-                        console.log("channel exist")
-                        // this.$router.push("/chat/" + channel.id);
-                    } else {
-                        console.log("No channel found");
-                        provider.postChannel(null, null, {
-                            'subscribers': [
-                                '/users/' + this.user.id,
-                            ]
-                        }).then((channel) => {
-                            if (channel) {
-                                console.log("channel created")
-                                // this.$router.push("/chat/" + channel.id);
-                            }
-                        });
-                    }
-                })
+                            console.log(excistinChannel)
+                            this.$router.push("/chat/" + excistinChannel.id);
+                        } else {
+                            provider.postChannel({
+                                'subscribers': [
+                                    '/users/' + this.$props.user.id,
+                                ]
+                            }).then((channel) => {
+                                if (channel) {
+                                    console.log("channel created")
+                                    this.$router.push("/chat/" + channel.id);
+                                }
+                            });
+                        }
+                    }) 
+                }
             }).catch(() => {
                 this.$fire({
                     title: "Erreur",
@@ -96,6 +97,22 @@ export default {
                     type: "error",
                 })
             })
+        },
+         findExistingChannel(channels){
+            var excistinChannel = null
+            if(channels){
+            channels.forEach(channel => {
+                console.table(channel.subscribers)
+                    if (channel.subscribers.includes('/users/' + this.user.id)) {
+                        // console.log("No channel found");
+                        excistinChannel = channel 
+                    }
+                });
+                return excistinChannel
+            } else {
+                // console.log("channel found");
+                return excistinChannel
+            }
         }
     },
 }
@@ -161,4 +178,23 @@ export default {
     text-decoration: none;
     color: white;
 }
+
+.bounce-enter-active {
+  animation: bounce-in .5s;
+}
+.bounce-leave-active {
+  animation: bounce-in .5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 </style>

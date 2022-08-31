@@ -38,10 +38,14 @@
                                     </span>
                                 </template>
                                 <b-dropdown-item v-for="notification in notifications" :key="notification.id"  href="#">
-                                    <span v-if="notification.refTable == 'Exchange'">{{ notification.refTable }}</span>
+                                    <span v-if="notification.refTable == 'Exchange'">
+                                        <router-link :to="'/profile/' "  @click.native="deleteNotification(notification)">
+                                            {{notification.description}}  
+                                        </router-link>  
+                                    </span>
                                     <span v-if="notification.refTable == 'Message'">
                                         <router-link :to="'/chat/' + notification.idTable"  @click.native="deleteNotification(notification)">
-                                        {{notification.description}}  
+                                            {{notification.description}}  
                                         </router-link>
                                     </span>
                                 </b-dropdown-item>

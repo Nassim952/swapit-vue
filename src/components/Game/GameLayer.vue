@@ -1,4 +1,5 @@
 <template>
+<transition name="bounce" appear appear-class="bounce-enter">
   <div class="container">
     <div v-bind:style="backgroundCover" class="card cover-bg" :class="[{ full: full, small: !full }]">
       <div class="bg-opacity">
@@ -42,11 +43,10 @@
       </div>
     </div>
   </div>
+</transition>
 </template>
 
 <script>
-// import GameLayerDetails from './GameLayerDetails.vue';
-// import { Igdb } from "../../lib/Services/Igdb";
 import { User } from "../../lib/Services/User";
 
 export default {
@@ -528,6 +528,24 @@ button {
 @media screen and (max-width: 400px) {
   .container .card:hover .content {
     opacity: 0;
+  }
+}
+
+.bounce-enter-active {
+  animation: bounce-in .5s;
+}
+.bounce-leave-active {
+  animation: bounce-in .5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 </style>

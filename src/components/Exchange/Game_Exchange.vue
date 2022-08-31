@@ -176,10 +176,7 @@ export default {
             providerGame.getGames(unMatchingGames).then(response => {
               this.$data.unMatchingGames = response
             })
-          }
-
-          this.$data.matchingGames = matchingGames
-          this.$data.unMatchingGames = unMatchingGames
+          }       
         })
       })
     },
@@ -199,14 +196,22 @@ export default {
             proposer: "users/" + response.id,
             proposerGame: this.$data.gameToExchangeSelected.id,
             senderGame: this.$data.gameWishSelected.id
-          }).then(() => {
-            this.$fire({
-              title: "Swap envoyé !",
-              text: "Votre demande de swap a bien été envoyé à " + this.$data.user.username + " !",
-              type: "success"
-            }).then(() => {
-              this.$router.push("/profile");
-            });
+          }).then((response) => {
+            if (response) {
+              this.$fire({
+                title: "Succès",
+                text: "Votre demande d'échange a bien été envoyée !",
+                type: "success"
+              }).then(() => {
+               this.$router.push("/profile");
+              })
+            } else {
+              this.$fire({
+                title: "Erreur",
+                text: "Vous ne pouvez pas proposer votre propre échange ou un échange déjà proposé/reçu !",
+                type: "error"
+              })
+            }
           })
         }
       }).catch(() => {

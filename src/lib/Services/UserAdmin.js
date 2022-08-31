@@ -84,8 +84,8 @@ class UserAdmin extends Publisher {
   }
 
 
-  async getChannels(ids = null, properties = null) {
-    const response = await this.get(this.formatEndPoint('channels',ids, properties));
+  async getChannels(ids = null, properties = null, filters = null) {
+    const response = await this.get(this.formatEndPoint('channels',ids, properties, filters));
     return response;
   }
 }
