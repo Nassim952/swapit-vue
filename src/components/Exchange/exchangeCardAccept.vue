@@ -33,6 +33,7 @@
 <script>
 import { User } from '../../lib/Services/User';
 import { Igdb } from '../../lib/Services/Igdb';
+import { UserAdmin } from '../../lib/Services/UserAdmin';
 
 export default {
     name: 'ExchangeCard',
@@ -65,10 +66,10 @@ export default {
                 .catch(() => {
                     this.$fire({
                         title: 'Erreur',
-                        text: 'Une erreur est survenue',
+                        text: 'Une erreur est survenuen, veuillez réessayer',
                         type: 'error'
                     })
-                })
+                });
         },
         getSenderGames(game_id) {
             const provider = new Igdb();
@@ -81,10 +82,10 @@ export default {
                 .catch(() => {
                     this.$fire({
                         title: 'Erreur',
-                        text: 'Une erreur est survenue',
+                        text: 'Une erreur est survenuen, veuillez réessayer',
                         type: 'error'
                     })
-                })
+                });
         },
         getOwner(id) {
             const provider = new User();
@@ -98,13 +99,13 @@ export default {
                 .catch(() => {
                     this.$fire({
                         title: 'Erreur',
-                        text: 'Une erreur est survenue',
+                        text: 'Une erreur est survenuen, veuillez réessayer',
                         type: 'error'
                     })
-                })
+                });
         },
         getProposer(id) {
-            const provider = new User();
+            const provider = new UserAdmin();
 
             provider.getUser(id)
                 .then(response => {
@@ -115,10 +116,10 @@ export default {
                 .catch(() => {
                     this.$fire({
                         title: 'Erreur',
-                        text: 'Une erreur est survenue',
+                        text: 'Une erreur est survenuen, veuillez réessayer',
                         type: 'error'
                     })
-                })
+                });
         },
         init() {
             this.getProposerGame(this.exchange.proposerGame);

@@ -140,15 +140,15 @@ export default {
 			provider.patchUser(this.userData.id, data)
 				.then(() => {
 					this.$fire({
-						title: 'Succès',
-						text: 'L\'utilisateur a été modifié',
+						title: 'Utilisateur modifié',
+						message: 'L\'utilisateur a bien été modifié',
 						type: 'success'
 					})
 				})
 				.catch(() => {
 					this.$fire({
 						title: 'Erreur',
-						text: 'Une erreur est survenue',
+						text: 'Une erreur est survenue, veuillez réessayer plus tard',
 						type: 'error'
 					})
 				})

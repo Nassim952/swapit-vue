@@ -1,6 +1,7 @@
 <template>
   <div class="game_card_list">
-    <div  v-if="gameToExchange !== null" class="game_card">
+    <transition name="bounce" appear appear-class="bounce-enter">
+    <div v-if="gameToExchange !== null" class="game_card">
       <GameCard :game="gameToExchange" />
       <a @click="resetToExchangeSelected()" title="arrow icons" class="my-icon">
         <img class="icon"
@@ -8,6 +9,8 @@
         alt="Grapefruit slice atop a pile of other slices">
         </a>
     </div>
+    </transition>
+    <transition name="bounce" appear appear-class="bounce-enter">
     <div v-if="gameWish !== null" class="game_card">
       <GameCard  :game="gameWish" />
       <a  @click="resetWishSelected()" title="arrow icons" class="my-icon">
@@ -16,6 +19,7 @@
         alt="Grapefruit slice atop a pile of other slices">
         </a>
     </div>
+    </transition>
   </div>
 </template>
 
@@ -55,5 +59,23 @@ export default {
 .icon {
     width: 1rem;
     height: 1rem;
+}
+
+.bounce-enter-active {
+  animation: bounce-in .5s;
+}
+.bounce-leave-active {
+  animation: bounce-in .5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>

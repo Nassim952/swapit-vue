@@ -3,30 +3,46 @@
     <main>
       <Formik title="Inscription" :onSubmit="onSubmit" :validator="validator" v-slot="{ handleSubmit, errors }"
         :with_label="true" description="Créer votre compte Swapit">
-        <!-- <h1 class="h3 mb-3 fw-normal">Inscription</h1> -->
-
         <div>
-          <Field placeholder="Nom d'utilisateur" name="login" type="text"> </Field>
-          <Error v-if="errors.login" :value="errors.login" />
+          <div>
+            <Field placeholder="Nom d'utilisateur" name="login" type="text"> </Field>
+            <Error v-if="errors.login" :value="errors.login" />
 
-        </div>
+          </div>
 
-        <div>
-          <Field placeholder="name@example.com" name="email" type="email"> </Field>
-          <Error v-if="errors.email" :value="errors.email" />
+          <div>
+            <Field placeholder="name@example.com" name="email" type="email"> </Field>
+            <Error v-if="errors.email" :value="errors.email" />
 
-        </div>
+          </div>
 
-        <div>
-          <Field name="password" placeholder="Mot de passe" type="password"> </Field>
-          <Error v-if="errors.password" :value="errors.password" />
-        </div>
+          <div>
+            <Field name="password" placeholder="Mot de passe" type="password"> </Field>
+            <Error v-if="errors.password" :value="errors.password" />
+          </div>
 
-        <div>
-          <Field name="password_confirm" type="password"> </Field>
+          <div>
+            <Field name="password_confirm" placeholder="Confirmer mdp" type="password"> </Field>
+            <Error v-if="errors.password_confirm" :value="errors.password_confirm" />
+          </div>
           <Error v-if="errors.password_confirm" :value="errors.password_confirm" />
         </div>
-        <Button :onClick='handleSubmit' title="Inscription" type="submit">Inscription</Button>
+
+        <b-form-checkbox
+          id="checkbox-1"
+          v-model="status"
+          name="checkbox-1"
+          value="Accepté !"
+          unchecked-value="Non accepté !"
+          class="p-2"
+        >
+          <router-link to="/cgu" target='_blank' class="cgu" style="font-size: x-small;">CGU</router-link>
+        </b-form-checkbox>
+
+        <div style="font-size: xx-small; margin-bottom: 1.5rem;">Je les ai lu & les accepte : <strong>{{ status
+        }}</strong></div>
+
+        <Button id="inscription" :onClick='handleSubmit' title="Inscription" type="submit">Inscription</Button>
       </Formik>
     </main>
   </div>
@@ -48,11 +64,16 @@ export default {
     Button,
     Error
   },
+  data() {
+    return {
+      status: 'Non accepté !'
+    }
+  },
   computed: {
     validator: () => validator,
   },
   methods: {
-    onSubmit: (data) => {
+    async onSubmit(data) {
       const provider = new User()
       provider.postUser(
         {
@@ -60,7 +81,30 @@ export default {
           email: data.email,
           password: data.password
         }
-      )
+      ).then(response => {
+        if (response) {
+          this.$fire({
+            title: 'Utilisateur créé',
+            text: 'Veuillez vérifier votre boîte mail pour confirmer votre compte',
+            type: 'success',
+          }).then(() => {
+            this.$router.push('/signin')
+          })
+        }
+        else {
+          this.$fire({
+            title: 'Erreur lors de la création de l\'utilisateur',
+            text: 'Le mail est peut-être déjà utilisé',
+            type: 'error',
+          })
+        }
+      }).catch(() => {
+        this.$fire({
+          title: 'Erreur lors de la création de l\'utilisateur',
+          text: 'Une erreur est survenue, veuillez réessayer',
+          type: 'error',
+        })
+      })
     }
   },
   name: "Register",
@@ -68,4 +112,14 @@ export default {
 </script>
 
 <style scoped>
+.cgu{
+    vertical-align: text-bottom;
+    margin-left: 10px;
+    color: rgb(251, 93, 25);
+}
+@media screen and (max-width: 991px) {
+  #inscription {
+    margin-bottom: 2rem;
+  }
+}
 </style>

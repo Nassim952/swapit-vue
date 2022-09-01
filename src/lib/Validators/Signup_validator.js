@@ -2,12 +2,12 @@ import * as Yup from 'yup';
 
 export const SignupSchema = Yup.object().shape({
     login: Yup.string()
-      .min(2, 'Trop Court!')
-      .max(50, 'Trop Long!')
+      .min(2, 'Trop Court! Minimum 2 caractères')
+      .max(50, 'Trop Long! Maximum 50 caractères')
       .required('login requis'),
     lastName: Yup.string()
-      .min(2, 'Trop Court!')
-      .max(50, 'Trop Long!'), 
+      .min(2, 'Trop Court! Minimum 2 caractères')
+      .max(50, 'Trop Long! Maximum 50 caractères'), 
     email: Yup.string()
       .email('Email Invalide')
       .max(255)

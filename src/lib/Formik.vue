@@ -2,7 +2,7 @@
     <div @submit.prevent="handleSubmit" @keydown.enter.prevent="handleSubmit" class="form" @input="updateFieldValue">
       <div class="form_description">
         <h1 class="h3 mb-3 fw-normal"><span> {{title}}</span></h1>
-        <small> {{description}}</small>
+        <small style="font-size: smaller"> {{description}}</small>
       </div>
       
       <slot v-bind="{handleSubmit, errors, with_label, values}" :values="values" ></slot>
@@ -81,7 +81,7 @@ export default {
 
 <style scoped>
 .form_description{
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
   text-align: center;
 
 }
@@ -92,7 +92,6 @@ export default {
 .form {
   width: 50%;
   margin: auto auto;
-  margin-bottom: 2rem;
   display: flex;
   align-items: center;
   justify-content: space-around;

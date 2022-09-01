@@ -1,10 +1,10 @@
 <template>
   <div class="gameSearch-container">
     <div id="Game_Search" class="gameSearch">
-      <input class="search-input" v-model="searchQuery" @input="resultQuery">
+      <input class="search-input-list w-100" v-model="searchQuery" @input="resultQuery" placeholder="Rechercher un jeu à ajouter">
       <GameCardListAdd v-show="searchQuery" :games="resources" />
     </div>
-    <div class="game-list-added">
+    <div class="ownlist-container">
       <GameCardList v-show="aGames" :games="aGames" />
       <div class="button-container">
         <Button class="vider" title="Vider" :onClick="clearList" />
@@ -50,15 +50,15 @@ export default {
   }),
   created() {
     this.refreshRessource()
+    
   },
   computed: {
 
   },
   methods: {
     async refreshRessource() {
+      this.$isLoading(true)
       const provider = new User()
-
-
       provider.auth.me().then(response => {
         if (this.$props.route == "own") {
           provider.getUser(response.id).then(response => { this.$data.aGamesTmp = response?.ownGames ?? [] })
@@ -67,7 +67,7 @@ export default {
           provider.getUser(response.id).then(response => { this.$data.aGamesTmp = response?.wishGames ?? [] })
           this.updateCurrentWishGames()
         }
-      })
+      }) 
     },
     updateCurrentOwnGames() {
       var provider = new User()
@@ -78,6 +78,8 @@ export default {
             if (response) {
               this.$data.aGames = response
             }
+          }).then(() => {
+            this.$isLoading(false)
           })
         }
       })
@@ -91,11 +93,14 @@ export default {
             if (response) {
               this.$data.aGames = response
             }
+          }).then(() => {
+            this.$isLoading(false)
           })
         }
       })
     },
     add: function (game) {
+      console.log(game.id)
       if (!this.added(game)) {
         if (this.$data.aGamesTmp.includes(game.id)) {
           this.$fire({
@@ -127,7 +132,13 @@ export default {
               text: "Votre jeu a bien été supprimé de votre liste de jeux possédés",
               type: "success",
             }).then(() => {
-              window.location.reload()
+              if (this.$props.route == "own") {
+                provider.getUser(response.id).then(response => { this.$data.aGamesTmp = response?.ownGames ?? [] })
+                this.updateCurrentOwnGames()
+              } else {
+                provider.getUser(response.id).then(response => { this.$data.aGamesTmp = response?.wishGames ?? [] })
+                this.updateCurrentWishGames()
+              }
             })
           } else {
             response.wishGames.splice(response.wishGames.indexOf(game.id), 1)
@@ -137,7 +148,13 @@ export default {
               text: "Votre jeu a bien été supprimé de votre liste de jeux souhaités",
               type: "success",
             }).then(() => {
-              window.location.reload()
+              if (this.$props.route == "own") {
+                provider.getUser(response.id).then(response => { this.$data.aGamesTmp = response?.ownGames ?? [] })
+                this.updateCurrentOwnGames()
+              } else {
+                provider.getUser(response.id).then(response => { this.$data.aGamesTmp = response?.wishGames ?? [] })
+                this.updateCurrentWishGames()
+              }
             })
           }
         }
@@ -164,9 +181,23 @@ export default {
       provider.auth.me().then(response => {
         if (this.$props.route == "own") {
           provider.patchUser(response.id, { 'ownGames': [] }).then(() => {
+            this.$fire({
+              title: "Succès",
+              text: "Votre liste de jeux possédés a été vidée",
+              type: "success",
+            }).then(() => {
+              window.location.reload()
+            })
           })
         } else {
           provider.patchUser(response.id, { 'wishGames': [] }).then(() => {
+            this.$fire({
+              title: "Succès",
+              text: "Votre liste de jeux souhaités a été vidée",
+              type: "success",
+            }).then(() => {
+              window.location.reload()
+            })
           })
         }
       })
@@ -185,51 +216,23 @@ export default {
       const providerIgdb = new Igdb()
 
       provider.auth.me().then(response => {
-        var isExist = false;
         if (response) {
-          if (this.$data.aGamesTmp.length < 1) {
-            provider.patchUser(response.id, { 'ownGames': this.$data.aGamesTmp })
-              .then((response) => {
-                if (response?.ownGames !== []) {
-                  providerIgdb.getGames(response?.ownGames)
-                    .then(response => {
-                      this.$data.aGames = response ?? []
-                    });
-                }
-              })
-          }
-          else {
-            this.$data.aGamesTmp.forEach(element => {
-              if (response.ownGames == element) {
-                isExist = true;
+          provider.patchUser(response.id, { 'ownGames': this.$data.aGamesTmp })
+            .then(response => {
+              if (response?.ownGames) {
+                providerIgdb.getGames(response?.ownGames)
+                  .then(response => {
+                    this.$data.aGames = response ?? []
+                  });
               }
-            });
-            if (isExist == false) {
-              provider.patchUser(response.id, { 'ownGames': this.$data.aGamesTmp })
-                .then((response) => {
-                  if (response?.ownGames !== []) {
-                    providerIgdb.getGames(response?.ownGames)
-                      .then(response => {
-                        this.$data.aGames = response ?? []
-                      });
-                  }
-                })
-            }
-            else {
-              this.$fire({
-                title: "Vous possédez déjà ce jeu",
-                text: "Vous ne pouvez pas avoir deux fois le même jeu",
-                type: "info",
-              })
-            }
-          }
+            })
         }
       })
         .catch(() => {
           this.$fire({
-            title: "Erreur",
-            text: "Une erreur est survenue",
-            type: "error",
+            title: 'Erreur',
+            text: 'Une erreur est survenue',
+            type: 'error'
           })
         })
     },
@@ -261,8 +264,8 @@ export default {
     },
     resultQuery() {
       var provider = new Igdb()
-      var query = []
-      query['name'] = this.$data.searchQuery ?? null
+      var query = {}
+      this.$data.searchQuery ? query.slug = this.$data.searchQuery : null
       provider.getPopulars(null, null, query).then(response => { this.$data.resources = response })
     },
   },
@@ -284,9 +287,8 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 35%;
   height: 100%;
-  background-color: #fafafa;
   padding: 2rem;
 }
 
@@ -301,7 +303,7 @@ export default {
 .button-container {
   display: flex;
   justify-content: center;
-  width: 300px;
+  margin-top: 50px;
 }
 
 .valider {
@@ -326,8 +328,35 @@ export default {
   /* border-radius: 1rem; */
 }
 
-/* .vider:hover{
-  background-color: rgb(252, 101, 0);
-  transition: background-color 0.25s ease;
-} */
+.gameSearch-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ownlist-container{
+  width: 78%;
+  min-height: 800px;
+}
+.search-input-list {
+  border: none;
+  border-bottom: solid 2px #FB5D19;
+  outline: none;
+  padding: 10px 20px;
+}
+.search-input-list:focus {
+  border-radius: 10px;
+  border: solid 2px #FB5D19;
+  transition: border 0.15s ease-in;
+}
+@media screen and (max-width: 991px) {
+  .gameSearch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 120%;
+  height: 100%;
+  padding: 2rem;
+}
+}
 </style>

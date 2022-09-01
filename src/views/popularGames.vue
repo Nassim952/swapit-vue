@@ -1,7 +1,9 @@
 <template>
     <div v-if="home">
         <div v-if="resources">
-            <GameLayer v-for="(game, key) in resources" :key="game.id + key" :game="game" :inList="added(game)" />
+            <PuSkeleton height="250px" :count=20>
+                <GameLayer v-for="(game, key) in resources" :key="game.id + key" :game="game" :inWishList="addedWish(game)" :inOwnList="addedOwn(game)" />
+            </PuSkeleton>
         </div>
     </div>
 </template>
@@ -13,7 +15,7 @@ import { User } from "../lib/Services/User";
 
 export default {
     components: {
-        GameLayer
+        GameLayer,
     },
     props: {
         home: {
@@ -26,7 +28,8 @@ export default {
         resources: [],
         selectedFilters: {},
         actifSearch: false,
-        UserList: [],
+        UserWishList: [],
+        UserOwnList: [],
     }),
     created() {
         this.refreshRessource()
@@ -57,18 +60,30 @@ export default {
             this.$data.searchQuery = value
             this.refreshRessource()
         },
-        added(game) {
-            return this.$data.UserList.some(e => e === game.id)
+        addedWish(game) {
+            // this.$data.UserList = [];
+            // console.log(this.$data.UserList)
+            return this.$data.UserWishList.some(e => e === game.id)
+        },
+        addedOwn(game) {
+            // this.$data.UserList = [];
+            // console.log(this.$data.UserList)
+            return this.$data.UserOwnList.some(e => e === game.id)
         },
         async getUser() {
             const providerUser = new User();
 
             providerUser.auth.me().then(response => {
                 if (response) {
-                    response?.ownGames ?? [] + response?.wishGames ?? []
-                    var data = response?.ownGames ?? [] + response?.wishGames ?? []
-                    if (Array.isArray(data)) {
-                        this.$data.UserList = data
+                    response?.ownGames ?? []
+                    var dataOwnList = response?.ownGames ?? []
+                    if (Array.isArray(dataOwnList)) {
+                        this.$data.UserOwnList = dataOwnList
+                    }
+                    response?.wishGames ?? []
+                    var dataWishList = response?.wishGames ?? []
+                    if (Array.isArray(dataWishList)) {
+                        this.$data.UserWishList = dataWishList
                     }
                 }
             }).catch(() => {

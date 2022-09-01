@@ -1,11 +1,10 @@
 <template>
-  <div class="game_card">
-    <img v-bind:src="coverPreUrl" class="icon">
-    <div class="container">
-      <div>{{ game.name }}</div>
-      <p>{{ game.description }}</p>
+    <div class="game_card">
+      <img v-bind:src="coverPreUrl" class="icon">
+      <div class="card-body text-center">
+        <p>{{ game.name }}</p>
+      </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -33,13 +32,11 @@ export default {
 
 <style scoped>
 .game_card {
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  background-color: rgba(41, 100, 124, 0.2);
   width: 8rem;
-  height: 18rem;
+  height: 16rem;
+  border-radius: 1rem;
   overflow: hidden;
+  box-shadow: 0 0 20px lightgrey;
   border-radius: 1rem;
 }
 
@@ -50,5 +47,18 @@ export default {
 .icon {
   width: 100%;
   height: auto
+}
+
+.card-body {
+  padding: 5px;
+  font-size: 1rem;
+}
+
+.card-body p{
+  margin-block-start: 10px;
+  margin-block-end: 10px;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-size: 11px;
 }
 </style>

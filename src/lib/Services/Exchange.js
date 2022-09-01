@@ -42,6 +42,11 @@ class Exchange extends Publisher {
     const response = await this.patch(`${'exchanges'}/${id}/refuse`,{});
     return response;
   }
+
+  async cancelExchanges(id = null)  {
+    const response = await this.patch(`${'exchanges'}/${id}/cancel`,{});
+    return response;
+  }
 }
 
 export {Exchange};

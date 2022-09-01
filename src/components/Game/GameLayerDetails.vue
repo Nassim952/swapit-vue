@@ -1,42 +1,49 @@
 <template>
   <div class="container">
-    <div v-bind:style="backgroundCover" class="container-game-layer">
-        <div class="game-layer">
-            <div class="game-img">
-                    <img v-bind:src="coverPreUrl" width="80" height="80">
-            </div>
-            <div class="info-game">
-                <div class="title-game">{{game.name}}</div>
-                <div class="game-details">
-                    <div class="game-desc">{{game.summary}}</div>
-                    <div class="detail-plus">
-                      <div class="game-rating">{{Math.round(game.aggregatedRating)/10}}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+      <div v-bind:style="backgroundCover" class="container-game-layer">
+          <div class="game-layer">
+              <div class="game-img">
+                      <img v-bind:src="coverPreUrl" width="80" height="80">
+              </div>
+              <div class="info-game">
+                  <div class="title-game">{{game.name}}</div>
+                  <div class="game-details">
+                      <div class="game-desc">{{game.summary}}</div>
+                      <div class="detail-plus">
+                        <div class="game-rating">{{Math.round(game.aggregatedRating)/10}}</div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
     <div class="user-card-container">
       <UserCard v-for="(user, key) in users" :key="user.id + key" :user="user" :game="game" />
     </div>
+    <!-- <div v-else class="no-result">
+      <h3>Aucun utilisateur possède ce jeu...</h3>
+    </div> -->
   </div>
 </template>
 
 <script>
 import {Igdb} from "../../lib/Services/Igdb";
-// import {User} from "../../lib/Services/User";
+import {User} from "../../lib/Services/User";
 import UserCard from "./UserCard.vue";
 import { UserAdmin } from "../../lib/Services/UserAdmin";
+// import Button from '../Buttons/Button.vue';
+// import { Channel } from "../../lib/Services/Channel";
 
 export default {
   name: "GameLayerDetails",
   components: {
     UserCard,
+    // Button,
   },
   data: () => ({
     filters: {},
     game: {},
     users: [],
+    currentUser: {},
   }),
   computed: {
     coverPreUrl: function () {
@@ -55,14 +62,27 @@ export default {
     },
     getUsers: async function () {
       var provider = new UserAdmin()
-      provider.getUsers(null, null, { "ownedGames" : this.$route.params.id }).then(response => {
+      provider.getUsers(null, null, { "ownGames" : this.$route.params.id }).then(response => {
+        for(var i = 0; i < response.length; i++) {
+          if(response[i].id == this.$data.currentUser.id) {
+            response.splice(i, 1)
+          }
+        }
         this.$data.users = response
+      })
+    },
+    getCurrentUser: async function () {
+      var provider = new User()
+      provider.auth.me().then(response => {
+        this.$data.currentUser = response
+      }).then(() => {
+        this.getUsers()
       })
     },
   },
   created() {
     this.getGame();
-    this.getUsers();
+    this.getCurrentUser();
   },
 };
 </script>
@@ -84,6 +104,10 @@ export default {
     width: -webkit-fill-available;
     justify-content: space-evenly;
     align-items: center;
+}
+.no-result{
+  min-height: 800px;
+  padding: 100px;
 }
 .game-layer {
     display: flex;
@@ -151,5 +175,11 @@ export default {
   align-self: center;
   font-size: 36px;
   color: rgba(255, 93, 25, 1);
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

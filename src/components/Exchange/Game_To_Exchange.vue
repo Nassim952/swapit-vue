@@ -1,15 +1,18 @@
 <template>
+
   <div v-if="this.$props.games" class="game_card_list own_containers_game">
-    <div class="game_card_container" v-for="(game,key) in games" id="OwnList" :key="game.title+key">
-      <GameCard :game="game" />
-      <div v-if="!gameIsSelected(game)" class="add">
-      <a @click="setToExchangeSelected(game)" title="arrow icons" class="my-icon">
-        <img class="icon"
-        src="../../assets/icones/add.png"
-        alt="Grapefruit slice atop a pile of other slices">
-        </a>
+    <transition-group name="bounce" appear appear-class="bounce-enter" class="game_card_list own_containers_game">
+      <div class="game_card_container" v-for="(game,key) in games" id="OwnList" :key="game.name+key+'To_Exchange'">
+        <GameCard :game="game" />
+        <div v-if="!gameIsSelected(game)" class="add">
+        <a @click="setToExchangeSelected(game)" title="arrow icons" class="my-icon">
+          <img class="icon"
+          src="../../assets/icones/add.png"
+          alt="Grapefruit slice atop a pile of other slices">
+          </a>
+        </div>
       </div>
-    </div>
+    </transition-group>
   </div>
 </template>
 
@@ -64,6 +67,8 @@ export default {
 .game_card_container {
   display: flex;
   margin-bottom: 1rem;
+  background-color: aliceblue;
+  border-radius: 15px;
 }
 .add{
   height: 4rem;
@@ -72,5 +77,23 @@ export default {
   align-items: center;
   background-color: rgba(41, 100, 124);
   cursor: pointer;
+}
+
+.bounce-enter-active {
+  animation: bounce-in .5s;
+}
+.bounce-leave-active {
+  animation: bounce-in .5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>

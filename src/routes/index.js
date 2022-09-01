@@ -43,8 +43,8 @@ const routes = [
         meta: { requiresAuth: true }
     },
     {
-        path: "/channel",
-        component: () => import("../views/Exchange.vue"),
+        path: "/chat/:id?",
+        component: () => import("../views/Chat.vue"),
         meta: { requiresAuth: true }
     },
     {
@@ -80,7 +80,28 @@ const routes = [
         path: "/user-edit/:id",
         name: "user.edit",
         component: () => import("../components/Admin/UserForm/userForm.vue"),
-        meta: { requiresAdmin: true }
+        meta: { requiresAuth: true }
+    },
+    {
+        path: "/form-request-reset-password",
+        component: () => import("../components/Form/FormRequestPassword.vue"),
+    },
+    {
+        path: "/form-reset-password/:token",
+        component: () => import("../components/Form/FormResetPassword.vue"),
+    },
+    {
+        path: "/cgu",
+        component: () => import("../views/Reglement.vue")
+    },
+    {
+        path: "/mail-confirmation/:id",
+        component: () => import("../components/Form/MailConfirmation.vue"),
+    },
+    {
+        path: "/contact",
+        component: () => import("../components/Form/Contact.vue"),
+        meta: { requiresAuth: true }
     },
 ];
 

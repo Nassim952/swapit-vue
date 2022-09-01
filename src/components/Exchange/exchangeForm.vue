@@ -1,24 +1,41 @@
 <template>
-    <div class="list-exchange-container">
-        <h2 class="title-block">Listes d'échanges</h2>
-        <h4>Demandes d'échanges reçu :</h4>
-        <div v-if="receivedExchanges.length">
-            <div class="list-exchange" v-for="(exchange, key) in receivedExchanges" :key="key + exchange.id + 114">
-                <ExchangeCardAccept v-if="exchange.confirmed == null" :exchange="exchange" />
+    <div class="row mb-2">
+        <div class="exchange-el-card">
+            <div class="card-body text-align-center">
+                <h5 class="title-block-profil-swap received">Demandes reçu</h5>
+
+                <ul v-if="receivedExchanges.length" class="list-group list-group-flush list-swap">
+                   
+                        <li class="" v-for="(exchange, key) in receivedExchanges" :key="key + exchange.id + 114">
+                             <transition name="slide-fade" appear appear-class="slide-fade-enter">
+                                <ExchangeCardAccept v-if="exchange.confirmed == null" :exchange="exchange" />  
+                            </transition>
+                        </li>
+                    
+                </ul>
+                
+                <ul v-else class="list-swap">
+                    <li class="">Vous n'avez reçu aucune demande d'échange</li>
+                </ul>
             </div>
-        </div>
-        <div v-else>
-            <p>L'utilisateur n'a reçu aucune demande d'échange</p>
-        </div>
-        <br />
-        <h4>Demandes d'échanges envoyées :</h4>
-        <div v-if="sentExchanges.length">
-            <div class="list-exchange" v-for="(exchange, key) in sentExchanges" :key="key + exchange.id + 114">
-                <ExchangeCard v-if="exchange.confirmed == null" :exchange="exchange" />
+        </div>      
+        <div class="exchange-el-card">
+            <div class="card-body text-align-center">
+                <h5 class="title-block-profil-swap send">Demandes envoyées</h5>
+
+                <ul v-if="sentExchanges.length" class="list-group list-group-flush list-swap">
+                    
+                        <li class="" v-for="(exchange, key) in sentExchanges" :key="key + exchange.id + 114">
+                            <transition name="slide-fade" appear appear-class="slide-fade-enter">
+                                <ExchangeCard v-if="exchange.confirmed == null && exchange" :exchange="exchange" />      
+                            </transition>
+                        </li>
+                </ul>
+
+                <ul v-else class="list-swap">
+                    <li class="">Vous n'avez envoyé aucune demande d'échange</li>
+                </ul>
             </div>
-        </div>
-        <div v-else>
-            <p>L'utilisateur n'a envoyé aucune demande d'échange</p>
         </div>
     </div>
 </template>
@@ -53,61 +70,44 @@ export default {
     methods: {
         supExchange(exchange_id, type) {
             const provider = new Exchange();
-            provider.refuseExchanges(exchange_id)
-                .then((response) => {
-                    if (response) {
-                        if (type == 'cancel') {
-                            this.$fire({
-                                title: 'Succès',
-                                text: 'L\'échange a bien été annulé',
-                                type: 'success'
-                            }).then(() => {
-                                this.refreshExhanges();
-                            });
-                        } else {
-                            this.$fire({
-                                title: 'Succès',
-                                text: 'L\'échange a bien été refusé',
-                                type: 'success'
-                            }).then(() => {
-                                this.refreshExhanges();
-                            });
-                        }
-                    } else {
+            if (type == 'cancel') {
+                provider.cancelExchanges(exchange_id).then(() => {
+                    this.$fire({
+                        title: 'Succès',
+                        text: 'L\'échange a bien été annulé',
+                        type: 'success'
+                    }).then(() => {
+                        this.refreshExhanges();
+                    });
+                }).catch(() => {
+                    this.$fire({
+                        title: 'Erreur',
+                        text: 'Une erreur est survenue lors de l\'annulation de l\'échange',
+                        type: 'error'
+                    });
+                });
+            }
+            else if(type == 'refused') {
+                provider.refuseExchanges(exchange_id)
+                    .then(() => {
+                        this.$fire({
+                            title: 'Succès',
+                            text: 'L\'échange a bien été refusé',
+                            type: 'success'
+                        }).then(() => {
+                            this.refreshExhanges();
+                        });
+                    }).catch(() => {
                         this.$fire({
                             title: 'Erreur',
-                            text: 'Une erreur est survenue',
+                            text: 'Une erreur est survenue lors du refus de l\'échange',
                             type: 'error'
-                        })
-                    }
-                })
+                        });
+                    });
+            }
         },
         acceptExchange(exchange_id) {
             const provider = new Exchange();
-            // const providerUser = new User();
-
-            // provider.getExchange(exchange_id).then((response) => {
-            //     var ownerId = response.owner.slice(7)
-            //     var proposerId = response.proposer.slice(7)
-            //     var ownerGame = response.senderGame
-            //     var proposerGame = response.proposerGame
-
-            //     providerUser.getUser(ownerId).then((response) => {
-            //         const index = response.ownGames.indexOf(ownerGame)
-            //         if (index > -1) {
-            //             response.ownGames.splice(index, 1)
-            //             provider.patchUser(ownerId, { 'ownGames': response.ownGames })
-            //         }
-            //     })
-
-            //     providerUser.getUser(proposerId).then((response) => {
-            //         const index = response.wishGames.indexOf(proposerGame)
-            //         if (index > -1) {
-            //             response.ownGames.splice(index, 1)
-            //             provider.patchUser(proposerId, { 'wishGames': response.proposerGame })
-            //         }
-            //     })
-            // })
 
             provider.validExchanges(exchange_id)
                 .then((response) => {
@@ -145,10 +145,10 @@ export default {
                 .catch(() => {
                     this.$fire({
                         title: 'Erreur',
-                        text: 'Une erreur est survenue',
+                        text: 'Une erreur est survenue, veuillez réessayer',
                         type: 'error'
                     })
-                })
+                });
             provider.getSendExchanges(this.$data.user.id)
                 .then(response => {
                     if (response) {
@@ -158,11 +158,11 @@ export default {
                 .catch(() => {
                     this.$fire({
                         title: 'Erreur',
-                        text: 'Une erreur est survenue',
+                        text: 'Une erreur est survenue, veuillez réessayer',
                         type: 'error'
                     })
-                })
-            // provider.getPendingExchanges(this.$data.user.id)
+                });
+            // provider.getExchange(this.$data.user.id, {'confirmed': 'pending'})
             //     .then(response => {
             //         if (response) {
             //             this.pendingExchanges = response;
@@ -249,7 +249,36 @@ export default {
     margin-bottom: 10px;
 }
 
-.title-block {
-    margin-bottom: 30px;
+h4 {
+    color: rgba(41, 100, 124);
+}
+.exchange-el-card{
+    margin: 2rem 0;
+}
+.title-block-profil-swap{
+    text-align: center;
+    margin-bottom: 3rem;
+}
+.send{
+    color: rgba(41, 100, 124);
+}
+.received{
+    color: #FF5D19;
+}
+.list-swap{
+    list-style: none;
+    text-align: center;
+}
+
+.slide-fade-enter-active {
+  transition: all .5s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
 }
 </style>

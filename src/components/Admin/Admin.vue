@@ -3,7 +3,7 @@
     <div>
         <div class="text-center p-2" style="background-color: #f9d6c7; border-bottom: 3px solid #FB5D19;">
             <h4>Choisir une autre table :</h4>
-            <button v-if="choice !== 'users'" class="userChoice" @click="updateChoice">Utilisateurs</button>
+            <button v-if="choice !== 'Utilisateurs'" class="userChoice" @click="updateChoice">Utilisateurs</button>
             <button v-else class="swapChoice" @click="updateChoice">Echanges</button>
         </div>
 
@@ -37,7 +37,7 @@ export default {
     data() {
         return {
             datas: [],
-            choice: 'users',
+            choice: 'Utilisateurs',
             titles: [],
             enableEdit: false,
             dataEdit: {},
@@ -55,7 +55,7 @@ export default {
     },
     methods: {
         getDatas: function (filters = null) {
-            if (this.choice == 'users') {
+            if (this.choice == 'Utilisateurs') {
                 const provider = new User()
                 provider.getUsers(null, ['id', 'username', 'email', 'ownGames', 'wishGames'], filters)
                     .then(response => {
@@ -89,10 +89,10 @@ export default {
             }
         },
         updateChoice: function () {
-            if (this.$data.choice == 'users') {
-                this.$data.choice = 'exchanges'
+            if (this.$data.choice == 'Utilisateurs') {
+                this.$data.choice = 'Echanges'
             } else {
-                this.$data.choice = 'users'
+                this.$data.choice = 'Utilisateurs'
             }
             this.getDatas()
         },
@@ -112,11 +112,11 @@ export default {
                         this.$router.push('/admin/login')
                     })
                 }
-                else{
+                else {
                     this.getDatas()
                 }
             }
-            else{
+            else {
                 this.$fire({
                     title: "Accès refusé",
                     text: "Vous n'avez pas les droits pour accéder à cette page, veuillez vous connecter en tant qu'admin",
@@ -127,7 +127,6 @@ export default {
             }
         },
     },
-
 };
 </script>
 

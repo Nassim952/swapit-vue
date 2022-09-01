@@ -1,13 +1,17 @@
 <template>
-  <div class="game_card_list scrollbar" id="style-1" v-if="games">
-    <div class="game_card_container" v-for="(game,key) in games" id="OwnList" :key="key">
-      <GameCard :game="game" />
-      <a v-if="!added(game.id)" @click="add(game)" title="arrow icons" class="my-icon">
-        <img class="icon"
-        src="../../assets/icones/add.png"
-        alt="Grapefruit slice atop a pile of other slices">
-        </a>
-    </div>
+
+  <div class="game_card_list_result" v-if="games">
+    <div class=title-result>Résultats</div>
+    <transition-group name="bounce" appear appear-class="bounce-enter">
+      <div class="game_card_result_container" v-for="(game,key) in games" :key="key">
+        <GameCard :game="game" />
+        <a v-if="!added(game.id)" @click="add(game)" class="btn-add-list">
+          <img class="img-btn-add-list" style=""
+          src="../../assets/icones/add.png"
+          alt="Ajouter à ma liste">
+          </a>
+      </div>  
+    </transition-group>
   </div>
 </template>
 
@@ -38,64 +42,55 @@ export default {
 
 <style scoped>
 
-.game_card_list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: center;
-  margin: auto;
-  width: 55%;
+.game_card_list_result {
   height: 350px;
   box-shadow: lightgrey 0px 15px 10px 1px;
   border-radius: 2rem;
-  padding: 2rem;
+  padding: 1rem 3.5rem;
+  overflow-y: scroll;
 }
 
-.scrollbar
-{
-	background: #F5F5F5;
-	overflow-y: scroll;
-	margin-bottom: 25px;
-}
-
-#style-1::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	border-radius: 10px;
-	background-color: #F5F5F5;
-}
-
-#style-1::-webkit-scrollbar
-{
-	width: 12px;
-	background-color: #F5F5F5;
-}
-
-#style-1::-webkit-scrollbar-thumb
-{
-	border-radius: 10px;
-	-webkit-box-shadow: inset 0 0 6px rgba(255, 93, 25, 1);
-	background-color: rgba(255, 93, 25, 1);
-}
-
-.icon-wrapper {
-  margin: auto;
-  width: 100px; 
-  display:flex;
-}
-
-.icon-wrapper:hover {
-  background-color: aqua;
-}
-.icon {
-    width: 2rem;
-    height: 2rem;
-    margin: auto;
-}
-
-
-.game_card_container {
+.game_card_result_container {
   display: flex;
   margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: rgb(236, 236, 236) 2px solid;
+}
+.title-result{
+  font-weight: bold;
+  margin: 1rem 0rem;
+  color: lightgrey;
+}
+.img-btn-add-list{
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: auto;
+  cursor: pointer;
+}
+.btn-add-list{
+  align-self: center;
+  border-radius: 3px;
+}
+.btn-add-list:hover{
+  border: 2px solid black;
+  transition: all 0.1s ease
+}
+
+.bounce-enter-active {
+  animation: bounce-in .5s;
+}
+.bounce-leave-active {
+  animation: bounce-in .5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>

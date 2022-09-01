@@ -4,11 +4,29 @@
       <Sidebar />
     </div>
     <div class="col-3 input-effect input-styling">
-      <input class="effect-16" placeholder="Rechercher un jeu" v-model="searchQuery" @input="refreshRessource" />
+      <input class="effect-16" placeholder="Rechercher un jeu" v-model="searchQuery" />
+      <Button class="search" title="Rechercher" :onClick="refreshRessource" />
       <span class="focus-border"></span>
     </div>
+    <!-- <div class="loader" v-if="loading"></div> -->
     <div v-if="resources">
-      <Game v-for="(game, key) in resources" :key="game.id + key" :game="game" :inList="added(game)" />
+      <Game v-for="(game, key) in resources" :key="game.id + key" :game="game" :inWishList="addedWish(game)" :inOwnList="addedOwn(game)" />
+      <div class="pagination">
+        <div v-if="searchQuery == null">
+          <span v-for="index in resources.length" :key="index">
+            <button class="button-pagination" :class="{ 'active': index == page }" v-on:click="changePage(index)">{{
+                index
+            }}</button>
+          </span>
+        </div>
+        <div v-else>
+          <span v-for="index in 1" :key="index">
+            <button class="button-pagination" :class="{ 'active': index == page }" v-on:click="changePage(index)">{{
+                index
+            }}</button>
+          </span>
+        </div>
+      </div>
     </div>
   </b-container>
 </template>
@@ -18,11 +36,13 @@ import Game from "../components/Game/GameLayer.vue";
 import Sidebar from "../components/Filter/SideBar.vue";
 import { Igdb } from "../lib/Services/Igdb";
 import { User } from "../lib/Services/User";
+import Button from '../components/Buttons/Button.vue';
 
 export default {
   components: {
     Sidebar,
     Game,
+    Button,
   },
   props: {
     games: {
@@ -35,6 +55,11 @@ export default {
     selectedFilters: {},
     filter: false,
     UserList: [],
+    loading: false,
+    perPage: 10,
+    page: 1,
+    UserWishList: [],
+    UserOwnList: [],
   }),
   created() {
     if (this.$route.params.id) {
@@ -46,16 +71,46 @@ export default {
   },
   methods: {
     async refreshRessource() {
+      this.$isLoading(true)
       var provider = new Igdb()
       var filters = this.$data.selectedFilters
-      filters.page = "1"
+
       if (this.$data.searchQuery) {
-        filters.name = this.$data.searchQuery
-        provider.getPopulars(null, null, filters).then(response => { this.$data.resources = response })
+        filters.page = 1
+        filters.perPage = this.$data.perPage
+        filters.slug = this.$data.searchQuery
+        provider.getPopulars(null, null, filters).then(response => {
+          if (response.length > 0) {
+            this.$data.resources = response
+            this.$isLoading(false)
+          } else {
+            this.$isLoading(false)
+            this.$fire({
+              title: "Aucun résultat",
+              text: "Aucun résultat ne correspond à votre recherche",
+              type: "info",
+            })
+          }
+        })
       } else {
-        filters.name = ""
-        provider.getGames(null, null, filters).then(response => { this.$data.resources = response })
+        filters.page = this.$data.page
+        filters.slug = ""
+        filters.perPage = this.$data.perPage
+        provider.getGames(null, null, filters).then(response => {
+          this.$data.resources = response
+          this.$isLoading(false)
+        })
       }
+    },
+    addedWish(game) {
+      // this.$data.UserList = [];
+      // console.log(this.$data.UserList)
+      return this.$data.UserWishList.some(e => e === game.id)
+    },
+    addedOwn(game) {
+      // this.$data.UserList = [];
+      // console.log(this.$data.UserList)
+      return this.$data.UserOwnList.some(e => e === game.id)
     },
     updateFilters(filters, categorie) {
       this.$data.selectedFilters[categorie] = filters;
@@ -81,6 +136,11 @@ export default {
       // this.$data.UserList = [];
       return this.$data.UserList.some(e => e === game.id);
     },
+    changePage(page) {
+      this.$data.page = page;
+      window.scrollTo(0, 0);
+      this.refreshRessource();
+    },
     async getUser() {
       const providerUser = new User();
 
@@ -94,9 +154,9 @@ export default {
         }
       }).catch(() => {
         this.$fire({
-          title: 'Erreur',
-          text: 'Une erreur est survenue',
-          type: 'error'
+          title: "Erreur",
+          message: "Vous devez être connecté pour accéder à cette page",
+          type: "error",
         })
       })
     },
@@ -266,5 +326,49 @@ input[type="text"] {
   font-size: 12px;
   color: #FB5D19;
   transition: 0.3s;
+}
+
+.pagination-wrapper {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.loader {
+  /* Loader Div Class */
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: #eceaea;
+  background-image: url('../assets/gif/loader-color.gif');
+  background-size: 500px;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 10000000;
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.button-pagination {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: white;
+  border: 2px solid #FB5D19;
+  color: #FB5D19;
+}
+
+.active {
+  background-color: #FB5D19;
+  color: #fff;
+  border: none;
 }
 </style>

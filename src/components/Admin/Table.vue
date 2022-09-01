@@ -9,9 +9,7 @@
       <div>
         <div>
           <div class="p-4">
-            <p class="h3 m-0 text-center">UTILISATEURS 
-            </p>
-            <p class="m-0 text-center">{{datas.length}} {{choice}}</p>            
+            <p class="h3 m-0 text-center">{{datas.length}} {{choice}}</p>            
           </div>
 
           <table class="table table-striped table-hover m-0">
@@ -100,7 +98,7 @@
         this.isOpenModal = false;
       },
       deleteData: function(id) {
-      if (this.choice == 'users') {
+      if (this.choice == 'Utilisateurs') {
           const provider = new User()
           provider.delUser(id)
           .then(() => { this.retrieveList()})

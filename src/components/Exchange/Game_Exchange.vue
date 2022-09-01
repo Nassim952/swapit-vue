@@ -33,6 +33,7 @@ import GamesToExchange from './Game_To_Exchange.vue';
 import GameCardExchange from './Game_Card_Exchange.vue';
 import Button from '../Buttons/Button.vue';
 import { User } from '../../lib/Services/User';
+import {UserAdmin} from "../../lib/Services/UserAdmin";
 import { Igdb } from '../../lib/Services/Igdb';
 import { Exchange } from '../../lib/Services/Exchange';
 
@@ -66,7 +67,7 @@ export default {
   },
   methods: {
     getUser: async function () {
-      var provider = new User()
+      var provider = new UserAdmin()
       provider.getUser(this.$route.params.userid).then(response => {
         this.$data.user = response
       })
@@ -84,9 +85,9 @@ export default {
       this.$data.gameWishSelected = null
     },
     getGamesToExchange: async function () {
-      var providerUser = new User();
+      var provider = new UserAdmin();
       var providerGame = new Igdb();
-      providerUser.getUser(this.$route.params.userid).then((response) => {
+      provider.getUser(this.$route.params.userid).then((response) => {
         if (response?.ownGames !== []) {
           providerGame.getGames(response?.ownGames)
             .then(response => {
@@ -96,9 +97,9 @@ export default {
       });
     },
     getGamesWish: async function () {
-      var providerUser = new User();
+      var provider = new UserAdmin();
       var providerGame = new Igdb();
-      providerUser.getUser(this.$route.params.userid).then((response) => {
+      provider.getUser(this.$route.params.userid).then((response) => {
         if (response?.wishGames !== []) {
           providerGame.getGames(response?.wishGames)
             .then(response => {
@@ -146,12 +147,13 @@ export default {
       return (this.gameToExchangeSelected && this.gameToExchangeSelected.id == game.id) || (this.gameWishSelected && this.gameWishSelected.id == game.id)
     },
     getMatchingGames() {
-      var provider = new User()
+      var provider = new User();
+      var providerAdmin = new UserAdmin()
       var providerGame = new Igdb()
 
       provider.auth.me().then(response => {
         var currentUserOwnGames = response.ownGames
-        provider.getUser(this.$route.params.userid).then(response => {
+        providerAdmin.getUser(this.$route.params.userid).then(response => {
           var otherUserWishGames = response.wishGames
           var matchingGames = []
           var unMatchingGames = []
@@ -174,10 +176,7 @@ export default {
             providerGame.getGames(unMatchingGames).then(response => {
               this.$data.unMatchingGames = response
             })
-          }
-
-          this.$data.matchingGames = matchingGames
-          this.$data.unMatchingGames = unMatchingGames
+          }       
         })
       })
     },
@@ -197,14 +196,22 @@ export default {
             proposer: "users/" + response.id,
             proposerGame: this.$data.gameToExchangeSelected.id,
             senderGame: this.$data.gameWishSelected.id
-          }).then(() => {
-            this.$fire({
-              title: "Swap envoyé !",
-              text: "Votre demande de swap a bien été envoyé à " + this.$data.user.username + " !",
-              type: "success"
-            }).then(() => {
-              this.$router.push("/profile");
-            });
+          }).then((response) => {
+            if (response) {
+              this.$fire({
+                title: "Succès",
+                text: "Votre demande d'échange a bien été envoyée !",
+                type: "success"
+              }).then(() => {
+               this.$router.push("/profile");
+              })
+            } else {
+              this.$fire({
+                title: "Erreur",
+                text: "Vous ne pouvez pas proposer votre propre échange ou un échange déjà proposé/reçu !",
+                type: "error"
+              })
+            }
           })
         }
       }).catch(() => {

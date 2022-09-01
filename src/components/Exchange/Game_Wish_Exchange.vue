@@ -1,29 +1,34 @@
 <template>
-  <div>
+<transition name="bounce" appear appear-class="bounce-enter">
+   <div>
     <div v-if="this.$props.matchingGames" class="game_card_list">
-      <div class="game_card_container" v-for="(game, key)  in matchingGames" id="OwnList" :key="game.title + key">
+       <transition-group name="bounce" appear appear-class="bounce-enter" class="game_card_list">
+      <div class="game_card_container" v-for="(game, key)  in matchingGames" id="OwnList" :key="game.name + key + 'Wish_Exchange'">
         <GameCard :game="game" />
         <div v-if="!gameIsSelected(game)" class="add">
           <!-- <a v-if="gameOwn(game.id)" @click="setWishSelected(game)" title="arrow icons" class="my-icon">
             <img class="icon" src="../../assets/icones/add.png">
           </a> -->
-          <a @click="addOwn(game)" title="arrow icons" class="my-icon">
+          <a @click="addOwn(game)" title="Ajouter à l'échange" class="my-icon">
             <img class="icon" src="../../assets/icones/add.png">
           </a>
         </div>
       </div>
+       </transition-group>
     </div>
     <div v-if="this.$props.unMatchingGames" class="game_card_list">
-      <div class="game_card_container" v-for="(game, key)  in unMatchingGames" id="OwnList" :key="game.title + key">
+      <div class="game_card_container" v-for="(game, key)  in unMatchingGames" id="OwnList" :key="game.name + key+ 'Wish_Exchange'">
         <GameCard :game="game" />
         <div v-if="!gameIsSelected(game)" class="addOwn">
-          <a @click="addGameOwnList(game.id)" title="arrow icons" class="my-icon">
+          <a @click="addGameOwnList(game.id)" title="Ajouter ce jeu dans ma liste" class="my-icon">
             <img class="icon" src="../../assets/images/check.svg">
           </a>
         </div>
       </div>
     </div>
   </div>
+
+</transition>
 </template>
 
 <script>
@@ -80,6 +85,8 @@ export default {
 .game_card_container {
   display: flex;
   margin-bottom: 1rem;
+  background-color: aliceblue;
+  border-radius: 15px;
 }
 
 .add {
@@ -98,5 +105,23 @@ export default {
   align-items: center;
   background-color: #b9ffb3;
   cursor: pointer;
+}
+
+.bounce-enter-active {
+  animation: bounce-in .5s;
+}
+.bounce-leave-active {
+  animation: bounce-in .5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>

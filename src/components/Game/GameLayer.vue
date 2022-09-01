@@ -1,16 +1,17 @@
 <template>
+<transition name="bounce" appear appear-class="bounce-enter">
   <div class="container">
     <div v-bind:style="backgroundCover" class="card cover-bg" :class="[{ full: full, small: !full }]">
       <div class="bg-opacity">
         <div class="btn-list">
-          <button @click="addOwn(game)"><img v-bind:class="{ disable: inList }" class="picto-nav"
+          <button @click="addOwn(game)"><img v-bind:class="{ disableOwn: inOwnList }" class="picto-nav"
               src="../../assets/images/check.svg" width="45" height="40"></button>
-          <button @click="addWish(game)"><img v-bind:class="{ disable: inList }" class="picto-nav"
+          <button @click="addWish(game)"><img v-bind:class="{ disableWish: inWishList }" class="picto-nav"
               src="../../assets/images/heart.svg" width="45" height="40"></button>
         </div>
         <div class="content">
           <div class="card-img">
-            <img v-bind:src="coverPreUrl" width="80" height="80">
+            <img v-bind:src="coverPreUrl" width="80" height="80" loading="lazy">
           </div>
           <div class="card-title">
             <div class="card-title-text">
@@ -18,14 +19,14 @@
               <span class="rating">{{ Math.round(game.aggregated_rating) / 10 }}</span>
             </div>
             <div class="card-platforms-tags">
-              <span v-for="(platform, key) in platforms" id="platforms" :key="key">{{ platform.name }}</span>
+              <span v-for="(platform, key) in game.platforms" id="platforms" :key="key">{{ platform.name }}</span>
             </div>
           </div>
         </div>
         <div class="card-details">
           <div class="card-body">
             <div class="tags">
-              <router-link v-for="(genre, key) in genres" :key="key" :to="'/games/genre/' + genre.id">
+              <router-link v-for="(genre, key) in game.genres" :key="key" :to="'/games/genre/' + genre.id">
                 <span id="genres" class="tag tag-teal">{{ genre.name }}</span>
               </router-link>
             </div>
@@ -42,13 +43,11 @@
       </div>
     </div>
   </div>
+</transition>
 </template>
 
 <script>
-// import GameLayerDetails from './GameLayerDetails.vue';
-import { Igdb } from "../../lib/Services/Igdb";
 import { User } from "../../lib/Services/User";
-
 
 export default {
   name: "GameLayer",
@@ -57,8 +56,6 @@ export default {
   data: () => ({
     filters: {},
     showDetails: false,
-    genres: [],
-    platforms: [],
   }),
   props: {
     game: {
@@ -69,19 +66,14 @@ export default {
       type: Boolean,
       default: true,
     },
-    inList: {
+    inWishList: {
       type: Boolean,
       default: true,
     },
-  },
-  created() {
-    if (this.$props.game) {
-      var provider = new Igdb()
-      var genres = this.$props.game.genres.map(genre => genre.replace(/\/api\/genres\//g, '')) ?? null
-      var platforms = this.$props.game.platforms.map(platform => platform.replace(/\/api\/platforms\//g, '')) ?? null
-      provider.getGenres(genres).then(response => { this.$data.genres = response })
-      provider.getPlatforms(platforms).then(response => { this.$data.platforms = response })
-    }
+    inOwnList: {
+      type: Boolean,
+      default: true,
+    },
   },
   computed: {
     coverPreUrl: function () {
@@ -112,13 +104,13 @@ export default {
               })
             })
           }
-          else{
+          else {
             ownGames.forEach(element => {
-              if(element == game.id){
+              if (element == game.id) {
                 isExist = true
               }
             });
-            if(isExist == false){
+            if (isExist == false) {
               ownGames.push(game.id)
               provider.patchUser(response.id, { 'ownGames': ownGames }).then(() => {
                 this.$fire({
@@ -128,7 +120,7 @@ export default {
                 })
               })
             }
-            else{
+            else {
               this.$fire({
                 title: "Vous possédez déjà ce jeu",
                 text: "Vous avez déjà ajouté ce jeu à votre liste de jeu possédés",
@@ -161,13 +153,13 @@ export default {
               })
             })
           }
-          else{
+          else {
             wishGames.forEach(element => {
-              if(element == game.id){
+              if (element == game.id) {
                 isExist = true
               }
             });
-            if(isExist == false){
+            if (isExist == false) {
               wishGames.push(game.id)
               provider.patchUser(response.id, { 'wishGames': wishGames }).then(() => {
                 this.$fire({
@@ -177,7 +169,7 @@ export default {
                 })
               })
             }
-            else{
+            else {
               this.$fire({
                 title: "Vous souahitez déjà ce jeu",
                 text: "Vous avez déjà ajouté ce jeu à votre liste de jeu souhaités",
@@ -507,7 +499,12 @@ export default {
   border-radius: 15px;
 }
 
-.disable {
+.disableOwn {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+.disableWish {
   opacity: 0.2;
   cursor: not-allowed;
 }
@@ -531,6 +528,24 @@ button {
 @media screen and (max-width: 400px) {
   .container .card:hover .content {
     opacity: 0;
+  }
+}
+
+.bounce-enter-active {
+  animation: bounce-in .5s;
+}
+.bounce-leave-active {
+  animation: bounce-in .5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 </style>
