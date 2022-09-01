@@ -1,7 +1,7 @@
 import Publisher from '../Connexion/Publisher'
 class Notification extends Publisher {
   constructor() {
-    super('http://localhost:81/', {
+    super('https://swapit-api-core.herokuapp.com/', {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token') ?? 'null'
