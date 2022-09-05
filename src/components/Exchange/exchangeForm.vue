@@ -5,13 +5,11 @@
                 <h5 class="title-block-profil-swap received">Demandes reçu</h5>
 
                 <ul v-if="receivedExchanges.length" class="list-group list-group-flush list-swap">
-                   
-                        <li class="" v-for="(exchange, key) in receivedExchanges" :key="key + exchange.id + 114">
-                             <transition name="slide-fade" appear appear-class="slide-fade-enter">
+                    <transition-group name="slide-fade" appear appear-class="slide-fade-enter">
+                        <li class="" v-for="(exchange) in receivedExchanges" :key="exchange.id + '_received'">      
                                 <ExchangeCardAccept v-if="exchange.confirmed == null" :exchange="exchange" />  
-                            </transition>
                         </li>
-                    
+                    </transition-group>
                 </ul>
                 
                 <ul v-else class="list-swap">
@@ -24,12 +22,11 @@
                 <h5 class="title-block-profil-swap send">Demandes envoyées</h5>
 
                 <ul v-if="sentExchanges.length" class="list-group list-group-flush list-swap">
-                    
-                        <li class="" v-for="(exchange, key) in sentExchanges" :key="key + exchange.id + 114">
-                            <transition name="slide-fade" appear appear-class="slide-fade-enter">
+                     <transition-group name="slide-fade" appear appear-class="slide-fade-enter">
+                        <li class="" v-for="(exchange) in sentExchanges" :key="exchange.id + '_sent'">
                                 <ExchangeCard v-if="exchange.confirmed == null && exchange" :exchange="exchange" />      
-                            </transition>
                         </li>
+                    </transition-group>
                 </ul>
 
                 <ul v-else class="list-swap">

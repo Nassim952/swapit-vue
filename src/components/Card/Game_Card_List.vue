@@ -2,7 +2,7 @@
   <div >
   <div  v-if="myList">
     <transition-group name="bounce" appear appear-class="bounce-enter" class="ownlist-list">
-      <div v-for="(game,key) in myList" id="OwnList" class="own-element" :key="key">
+      <div v-for="(game) in myList" id="OwnList" class="own-element" :key="game.name+'ownlist-list'">
         <a @click="supp(game)" title="arrow icons" class="my-icon dlt-game">
           <img class="icon" src="../../assets/images/bin.png" height="10" width="10" alt="supprimer ce jeu">
         </a>
@@ -119,14 +119,14 @@ export default {
 }
 
 .bounce-enter-active {
-  animation: bounce-in .5s;
+  animation: bounce-in .2s;
 }
 .bounce-leave-active {
-  animation: bounce-in .5s reverse;
+  animation: bounce-in .7s reverse;
 }
 @keyframes bounce-in {
   0% {
-    transform: scale(0.9);
+    transform: scale(0.2);
   }
   50% {
     transform: scale(1.1);

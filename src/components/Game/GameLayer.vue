@@ -4,9 +4,9 @@
     <div v-bind:style="backgroundCover" class="card cover-bg" :class="[{ full: full, small: !full }]">
       <div class="bg-opacity">
         <div class="btn-list">
-          <button @click="addOwn(game)"><img v-bind:class="{ disableOwn: inOwnList }" class="picto-nav"
+          <button @click="addOwn(game)"><img v-bind:class="{ disableOwn: own }" class="picto-nav"
               src="../../assets/images/check.svg" width="45" height="40"></button>
-          <button @click="addWish(game)"><img v-bind:class="{ disableWish: inWishList }" class="picto-nav"
+          <button @click="addWish(game)"><img v-bind:class="{ disableWish: wished }" class="picto-nav"
               src="../../assets/images/heart.svg" width="45" height="40"></button>
         </div>
         <div class="content">
@@ -56,6 +56,8 @@ export default {
   data: () => ({
     filters: {},
     showDetails: false,
+    wished: false,
+    own: false,
   }),
   props: {
     game: {
@@ -75,6 +77,10 @@ export default {
       default: true,
     },
   },
+  created() {
+    this.wished = this.inWishList;
+    this.own = this.inOwnList;
+  },
   computed: {
     coverPreUrl: function () {
       return "//images.igdb.com/igdb/image/upload/t_1080p/" + this.game.cover + ".png";
@@ -87,7 +93,7 @@ export default {
     },
   },
   methods: {
-    addOwn: function (game) {
+    addOwn (game) {
       const provider = new User();
 
       provider.auth.me().then(response => {
@@ -102,6 +108,8 @@ export default {
                 text: "Jeu ajouté à votre liste de jeu possédés",
                 type: "success",
               })
+            }).then(() => {
+              this.$data.own = true
             })
           }
           else {
@@ -118,6 +126,8 @@ export default {
                   text: "Jeu ajouté à votre liste de jeu possédés",
                   type: "success",
                 })
+              }).then(() => {
+                this.$data.own = true
               })
             }
             else {
@@ -136,7 +146,7 @@ export default {
           });
         })
     },
-    addWish: function (game) {
+    addWish(game) {
       const provider = new User();
 
       provider.auth.me().then(response => {
@@ -151,6 +161,8 @@ export default {
                 text: "Jeu ajouté à votre liste de jeu souhaités",
                 type: "success",
               })
+            }).then(() => {
+              this.$data.wished = true
             })
           }
           else {
@@ -167,6 +179,8 @@ export default {
                   text: "Jeu ajouté à votre liste de jeu souhaités",
                   type: "success",
                 })
+              }).then(() => {
+                this.$data.wished = true
               })
             }
             else {

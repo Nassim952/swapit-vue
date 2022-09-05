@@ -69,9 +69,9 @@ class User extends Publisher {
   }
 
   async delNotification(id) {
-    // const response = await this.delete(this.formatEndPoint('notifications', id));
-    // return response;
-    return id;
+    const response = await this.delete(this.formatEndPoint('notifications', id));
+    return response;
+    // return id;
   }
 }
 

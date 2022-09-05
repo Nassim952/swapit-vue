@@ -65,7 +65,6 @@ export default {
         async createChannel() {
             var provider = new Channel()
             var userProvider = new User()
-            // var userAdmin = new UserAdmin()
             userProvider.auth.me().then((user) => {
                 if(user){  
                     userProvider.getChannels(user.id).then((channels) => {

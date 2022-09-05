@@ -1,24 +1,5 @@
 <template>
-  <!-- <div class="profil-game-card-container">
-    <div class="cover-game-card">
-      <router-link :to="'/showGame/' + game.id">
-        <div class="cover-wrap">
-          <img style="width: 100px; border-radius: 10px;" v-bind:src="coverPreUrl" alt="cover" loading="lazy">
-        </div>
-      </router-link>
-      <div class="game-card-info-wrapper">
-        <div class="game-container">
-          <div class="game-name">{{ game.name }}</div>
-        </div>
-        <span v-for="(genre, key) in genres.slice(0, 1)" id="genres" :key="key" class="tag tag-teal">{{ genre.name }}</span>
-      </div>
-      <div class="btn-supp-wrapper">
-        <button @click="supGame(game.id, 'own')" class="btn-delete-exchange"><img src="../../assets/images/bin.png" height="10" width="10"></button>
-      </div>
-    </div>
-  </div> -->
   <div class="game_card">
-    <button @click="supGame(game.id, 'own')" class="btn-delete-exchange"><img src="../../assets/images/bin.png" height="10" width="10"></button>
     <router-link :to="'/showGame/' + game.id">
       <img v-bind:src="coverPreUrl" class="icon">
     </router-link>
@@ -38,6 +19,10 @@ export default {
       type: Object,
       required: true
     },
+    edit: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -45,15 +30,6 @@ export default {
       platforms: [],
     }
   },
-  // created() {
-  //   if (this.$props.game) {
-  //     var provider = new Igdb()
-  //     var genres = this.$props.game.genres.map(genre => genre.replace(/\/api\/genres\//g, '')) ?? null
-  //     var platforms = this.$props.game.platforms.map(platform => platform.replace(/\/api\/platforms\//g, '')) ?? null
-  //     provider.getGenres(genres).then(response => { this.$data.genres = response })
-  //     provider.getPlatforms(platforms).then(response => { this.$data.platforms = response })
-  //   }
-  // },
   computed: {
     coverPreUrl: function () {
       return "//images.igdb.com/igdb/image/upload/t_1080p/" + this.game.cover + ".png";
@@ -65,7 +41,6 @@ export default {
       return "/game/" + this.game.id;
     }
   },
-  inject: ['supGame'],
 };
 </script>
 
@@ -179,7 +154,6 @@ export default {
     margin-left: 205px;
   }
 }
-
 
 .bounce-enter-active {
   animation: bounce-in .5s;

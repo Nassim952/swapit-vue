@@ -19,7 +19,6 @@
       </div>
     </div>
   </div> -->
-<transition name="bounce" appear appear-class="bounce-enter">
   <div class="game_card">
     <button @click="supGame(game.id, 'wish')" class="btn-delete-exchange"><img src="../../assets/images/bin.png" height="10" width="10"></button>
     <router-link :to="'/showGame/' + game.id">
@@ -30,7 +29,6 @@
       <span v-for="(genre, key) in game.genres.slice(0, 1)" id="genres" :key="key" class="tag tag-teal" style="font-size: 0.6rem;">{{ genre.name }}</span>
     </div>
   </div>
-</transition>
 </template>
 
 <script>
@@ -42,6 +40,10 @@ export default {
       type: Object,
       required: true
     },
+    edit: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
