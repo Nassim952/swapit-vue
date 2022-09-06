@@ -96,7 +96,6 @@ export default {
             var excistinChannel = null
             if(channels){
             channels.forEach(channel => {
-                console.table(channel.subscribers)
                     if (channel.subscribers.includes('/users/' + this.user.id)) {
                         excistinChannel = channel 
                     }
