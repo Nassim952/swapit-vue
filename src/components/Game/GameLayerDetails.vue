@@ -1,33 +1,33 @@
 <template>
   <div class="container">
-      <div v-bind:style="backgroundCover" class="container-game-layer" v-if="Object.keys(game).length > 0">
-          <div class="game-layer">
-              <div class="game-img">
-                      <img v-bind:src="coverPreUrl" width="80" height="80">
-              </div>
-              <div class="info-game">
-                  <div class="title-game">{{game.name}}</div>
-                  <div class="game-details">
-                      <div class="game-desc">{{game.summary}}</div>
-                      <div class="detail-plus">
-                        <div class="game-rating">{{Math.round(game.aggregatedRating)/10}}</div>
-                      </div>
-                  </div>
-              </div>
+    <div v-bind:style="backgroundCover" class="container-game-layer" v-if="Object.keys(game).length > 0">
+      <div class="game-layer">
+        <div class="game-img">
+          <img v-bind:src="coverPreUrl" width="80" height="80">
+        </div>
+        <div class="info-game">
+          <div class="title-game">{{ game.name }}</div>
+          <div class="game-details">
+            <div class="game-desc">{{ game.summary }}</div>
+            <div class="detail-plus">
+              <div class="game-rating">{{ Math.round(game.aggregatedRating) / 10 }}</div>
+            </div>
           </div>
+        </div>
       </div>
+    </div>
     <div class="user-card-container" v-if="users.length > 0">
       <UserCard v-for="(user, key) in users" :key="user.id + key" :user="user" :game="game" />
     </div>
-    <!-- <div v-else class="no-result">
+    <div v-else class="no-result">
       <h3>Aucun utilisateur possède ce jeu...</h3>
-    </div> -->
+    </div>
   </div>
 </template>
 
 <script>
-import {Igdb} from "../../lib/Services/Igdb";
-import {User} from "../../lib/Services/User";
+import { Igdb } from "../../lib/Services/Igdb";
+import { User } from "../../lib/Services/User";
 import UserCard from "./UserCard.vue";
 import { UserAdmin } from "../../lib/Services/UserAdmin";
 // import Button from '../Buttons/Button.vue';
@@ -62,9 +62,9 @@ export default {
     },
     getUsers: async function () {
       var provider = new UserAdmin()
-      provider.getUsers(null, null, { "ownGames" : this.$route.params.id }).then(response => {
-        for(var i = 0; i < response.length; i++) {
-          if(response[i].id == this.$data.currentUser.id) {
+      provider.getUsers(null, null, { "ownGames": this.$route.params.id }).then(response => {
+        for (var i = 0; i < response.length; i++) {
+          if (response[i].id == this.$data.currentUser.id) {
             response.splice(i, 1)
           }
         }
@@ -89,97 +89,119 @@ export default {
 
 <style scoped>
 .container-game-layer {
-    min-width: 1000px;
-    height: 200px;
-    border-radius: 20px;
-    margin: 10px 20px;
-    display: flex;
-    background-repeat: no-repeat!important;
-    background-size: cover!important;
-    background-position: 50% 50%!important;
+  min-width: 1000px;
+  height: 200px;
+  border-radius: 20px;
+  margin: 10px 20px;
+  display: flex;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: 50% 50% !important;
 }
+
 .user-card-container {
-    display: flex;
-    flex-wrap: wrap;
-    width: -webkit-fill-available;
-    justify-content: space-evenly;
-    align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  width: -webkit-fill-available;
+  justify-content: space-evenly;
+  align-items: center;
 }
-.no-result{
+
+.no-result {
   min-height: 800px;
+  display: flex;
   padding: 100px;
+  justify-content: center;
 }
+
 .game-layer {
-    display: flex;
-    align-items: center;
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 20px;
-    padding: 20px;
-    width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  padding: 20px;
+  width: 100%;
 }
-.game-img{
-    width: auto;
-    height: 100%;
-    border-radius: 20px;
-    margin-right: 40px;
+
+.game-img {
+  width: auto;
+  height: 100%;
+  border-radius: 20px;
+  margin-right: 40px;
 }
-.game-img img{
-    width: auto;
-    height: 100%;
-    border-radius: 20px;
+
+.game-img img {
+  width: auto;
+  height: 100%;
+  border-radius: 20px;
 }
-.info-game{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 80%;
-    font-weight: bold;
+
+.info-game {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 80%;
+  font-weight: bold;
 }
-.title-game{
-    font-size: 27px;
-    color: rgba(255, 93, 25, 1);
-    margin-bottom: 10px;
+
+.title-game {
+  font-size: 27px;
+  color: rgba(255, 93, 25, 1);
+  margin-bottom: 10px;
 }
-.game-desc{
-    width: 50%;
-    font-size: 12px;
-    color: rgba(41, 100, 124);
-    height: 90px;
-    overflow: hidden;
+
+.game-desc {
+  width: 50%;
+  font-size: 12px;
+  color: rgba(41, 100, 124);
+  height: 90px;
+  overflow: hidden;
 }
-.game-details{
-    display: flex;
-    justify-content: space-between;
+
+.game-details {
+  display: flex;
+  justify-content: space-between;
 }
-.detail-plus{
+
+.detail-plus {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
-.game-platforms{
-    font-size: 10px;
-    color: white;
-    background-color: rgba(255,93,25,1);
-    border-radius: 5px;
-    padding: 2px;
-    margin-bottom: 5px;
-}
-.game-modes{
+
+.game-platforms {
   font-size: 10px;
-    color: white;
-    background-color: rgba(41, 100, 124, 1);
-    border-radius: 5px;
-    padding: 2px;
+  color: white;
+  background-color: rgba(255, 93, 25, 1);
+  border-radius: 5px;
+  padding: 2px;
+  margin-bottom: 5px;
 }
-.game-rating{
+
+.game-modes {
+  font-size: 10px;
+  color: white;
+  background-color: rgba(41, 100, 124, 1);
+  border-radius: 5px;
+  padding: 2px;
+}
+
+.game-rating {
   align-self: center;
   font-size: 36px;
   color: rgba(255, 93, 25, 1);
 }
-.fade-enter-active, .fade-leave-active {
+
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity .5s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+
+.fade-enter,
+.fade-leave-to
+
+/* .fade-leave-active below version 2.1.8 */
+  {
   opacity: 0;
 }
 </style>
