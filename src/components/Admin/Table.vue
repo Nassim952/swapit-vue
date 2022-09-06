@@ -1,43 +1,50 @@
 <template>
-  <div>
-    <transition name="modal">
-        <modal v-if="isOpenModal" :data="modalData"> 
-        </modal>
-    </transition>
+  <div class="container">
+    <div class="row">
+        <!-- <transition name="slide-fade">
+          <modal v-if="isOpenModal" :data="modalData" :choice="choice"> 
+          </modal>
+        </transition> -->
+        <p class="h3 m-0 text-center">{{datas.length}} {{choice}}</p> 
+          <div class="col-lg-12">
+            <div class="main-box clearfix">
+              <div class="table-responsive">
+                <table class="table user-list">
 
-    <div>
-      <div>
-        <div>
-          <div class="p-4">
-            <p class="h3 m-0 text-center">{{datas.length}} {{choice}}</p>            
-          </div>
 
-          <table class="table table-striped table-hover m-0">
-            <thead>
-              <tr>
-                <slot></slot>
-              </tr>
-            </thead>
-
-            <tbody>
-              <Card v-for="(value,key) in datas" :key="value.id+key" :data='value' @click="openModal(user)" />
-            </tbody>
-          </table>
-        
-
-          <div class="p-5 bg-white flex flex-col xs:flex-row items-center xs:justify-between">
-            <div class="d-flex justify-content-between">
-              <a v-if="page > 0" @click="retrieveList(page-1)" class="btn btn-outline-dark" role="button">
-                <span class="transition duration-200 ease-in-out material-icons text-base">
-                  précédent
-                </span>
-              </a>
+              <thead>
+               
+                  <slot></slot>
+                
+              </thead>
+                <transition v-if="choice == 'Utilisateurs'" name="slide-fade" appear appear-class="slide-fade-enter" >
+                  <tbody v-if="datas">
+                      <UserCard v-for="(value,key) in datas" :key="value.id+key" :data='value' @click="openModal(value)" />
+                  </tbody>
+                  </transition>
+                  <transition v-else name="slide-fade" appear appear-class="slide-fade-enter" >
+                  <tbody v-if="datas" >
+                      <ExchangeCard v-for="(value,key) in datas" :key="value.id+key" :data='value' @click="openModal(value)" />
+                  </tbody>
+                </transition>
               
-              <a @click="retrieveList(page+1)" class="btn btn-outline-dark" role="button">
-                  <span :class="{'disabled':entries < 10}" class="transition duration-200 ease-in-out material-icons text-base font-bold">
-                    suivant
+            </table>
+          
+
+            <div class="p-5 bg-white flex flex-col xs:flex-row items-center xs:justify-between">
+              <div class="d-flex justify-content-between">
+                <a @click="retrieveList(page-1)" class="btn btn-outline-dark prev" role="button">
+                  <span :class="{'disabled':page ==1}" class="transition duration-200 ease-in-out material-icons text-base">
+                    précédent
                   </span>
-              </a>
+                </a>
+                
+                <a @click="retrieveList(page+1)" class="btn btn-outline-dark next" role="button">
+                    <span :class="{'disabled':entries < 10}" class="transition duration-200 ease-in-out material-icons text-base font-bold">
+                      suivant
+                    </span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -46,17 +53,19 @@
   </div>
 </template>
 
-<script>
-  import { User } from '../../lib/Services/User';
-  import { Exchange } from '../../lib/Services/Exchange';
-  import Card from "./Card.vue";
-  import Modal from './functionalities/Modal.vue'
+// <script>
+//   import { User } from '../../lib/Services/User';
+//   import { Exchange } from '../../lib/Services/Exchange';
+  import UserCard from "./UserCard.vue";
+   import ExchangeCard from "./ExchangeCard.vue";
+  // import Modal from './functionalities/Modal.vue'
 
   export default {
     name: "TableHead",
     components: {
-      Card,
-      Modal,
+      UserCard,
+      ExchangeCard,
+      // Modal
     },
     props: {
       datas: {
@@ -68,6 +77,7 @@
       page: {
         type: Number,
       },
+      close
     },
     data() {
       return {
@@ -86,40 +96,9 @@
       };
     },
     methods: {
-      openModal(data) {
-        // this.modalData = user;
-        this.modalData={...data}
-        this.isOpenModal = true;
-      },
       retrieveList(page) {
         this.$emit("retrieveList", page);
-      },
-      closeModal() {
-        this.isOpenModal = false;
-      },
-      deleteData: function(id) {
-      if (this.choice == 'Utilisateurs') {
-          const provider = new User()
-          provider.delUser(id)
-          .then(() => { this.retrieveList()})
-          .catch(err => {
-              this.$data.datas = null;
-              console.error(err)
-          })
-      } else {
-          const provider = new Exchange()
-      
-          provider.delExchange(id)
-          .then(() => { this.retrieveList()})
-          .catch(err => {
-              this.$data.datas = null;
-              console.error(err)
-          })
-      }
-    },
-    closeEdit: function() {
-        this.$data.showEdit = false
-    },
+      },  
     },
     computed: {
       titles: function () {
@@ -135,11 +114,12 @@
     },
     provide() {
       return {
-        openModal: this.openModal,
-        closeModal: this.closeModal,
+        // openModal: this.openModal,
+        // closeModal: this.closeModal,
         deleteData: this.deleteData,
       };
     },
+    inject: ["openModal", "closeModal"],
   };
 </script>
 <style scoped>
@@ -147,5 +127,28 @@
     pointer-events: none;
     cursor: default;
   }
+
+/* TABLES */
+.table {
+    border-collapse: separate;
+}
+
+  .slide-fade-enter-active {
+  transition: all .6s ease;
+}
+.slide-fade-leave-active {
+  transition: all .6s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
+}
+.prev{
+  left: 0;
+}
+.next{
+  right: 0;
+}
 
 </style>

@@ -81,6 +81,8 @@ export default {
           }).then(() => {
             this.$isLoading(false)
           })
+        } else {
+          this.$isLoading(false)
         }
       })
     },
@@ -96,11 +98,12 @@ export default {
           }).then(() => {
             this.$isLoading(false)
           })
+        } else {
+          this.$isLoading(false)
         }
       })
     },
     add: function (game) {
-      console.log(game.id)
       if (!this.added(game)) {
         if (this.$data.aGamesTmp.includes(game.id)) {
           this.$fire({

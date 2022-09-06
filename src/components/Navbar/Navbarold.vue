@@ -32,23 +32,27 @@
                                 <template #button-content>
                                     <span class="link-nav p-3 position-relative">
                                         <b-icon-bell-fill></b-icon-bell-fill>
-                                        <span class="position-absolute translate-middle badge rounded-pill bg-danger">
-                                            {{notifications.length}}
-                                        </span>
+                                        <transition name="fade">
+                                            <span v-if="notifications.length" class="position-absolute translate-middle badge rounded-pill bg-danger">
+                                                {{notifications.length}}
+                                            </span>
+                                        </transition>
                                     </span>
                                 </template>
-                                <b-dropdown-item v-for="notification in notifications" :key="notification.id"  href="#">
-                                    <span v-if="notification.refTable == 'Exchange'">
-                                        <router-link :to="'/profile/' "  @click.native="deleteNotification(notification)">
-                                            {{notification.description}}  
-                                        </router-link>  
-                                    </span>
-                                    <span v-if="notification.refTable == 'Message'">
-                                        <router-link :to="'/chat/' + notification.idTable"  @click.native="deleteNotification(notification)">
-                                            {{notification.description}}  
-                                        </router-link>
-                                    </span>
-                                </b-dropdown-item>
+                                <transition-group appear appear-class="fade-enter" name="fade"> 
+                                    <b-dropdown-item v-for="notification in notifications" :key="notification.id"  href="#">
+                                        <span v-if="notification.refTable == 'Exchange'">
+                                            <router-link :to="'/profile/' "  @click.native="deleteNotification(notification)">
+                                                {{notification.description}}  
+                                            </router-link>  
+                                        </span>
+                                        <span v-if="notification.refTable == 'Message'">
+                                            <router-link :to="'/chat/' + notification.idTable">
+                                                {{notification.description}}  
+                                            </router-link>
+                                        </span>
+                                    </b-dropdown-item>
+                                </transition-group>
                             </b-nav-item-dropdown>
                             <div v-else >
                                 <template >
@@ -187,32 +191,10 @@ export default {
             var provider = new User()
             provider.delNotification(notification.id).then(response => {
                 if(response){
-                    console.log(response)
                     this.getNotifications()
                 }
             })
         },
-        ProfilePreUrl() {
-            // var provider = new User()
-
-            // if (localStorage.getItem("token")) {
-            //     var decoded = jwt_decode(localStorage.getItem("token"))
-            //     provider.getUsers(null, null, { 'email': decoded.email }).then(response => {
-            //         response = response.shift()
-            //         provider.getReceivedExchanges(response.id).then(response => {
-            //             if (response) {
-            //                 return "../../assets/images/notification.png"
-            //             }
-            //             else {
-            //                 return "../../assets/images/user.svg"
-            //             }
-            //         })
-            //     })
-            // }
-            // else{
-            //     return "../../assets/images/user.svg"
-            // }
-        }
     },
     provide() {
         return {
@@ -308,5 +290,12 @@ export default {
     .nav-item-mobile {
         display: none;
     }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

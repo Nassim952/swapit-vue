@@ -5,13 +5,13 @@
         <div style="margin-bottom: 20px;">
           <h5>Jeux Possedés de {{ capitalizeFirstLetter(user.username) }}</h5>
         </div>
-        <GamesToExchange :games="gamesToExchange" />
+        <GamesToExchange :games="gamesToExchange" v-if="gamesToExchange.length > 0"/>
       </div>
       <div class="wish_exchange user_game_container">
         <div style="margin-bottom: 20px;">
           <h5>Jeux Souhaitées de {{ capitalizeFirstLetter(user.username) }}</h5>
         </div>
-        <GamesWishExchange :matchingGames="matchingGames" :unMatchingGames="unMatchingGames" />
+        <GamesWishExchange :matchingGames="matchingGames" :unMatchingGames="unMatchingGames"/>
       </div>
     </div>
     <div class="recap_exchange">
@@ -59,10 +59,13 @@ export default {
 
   },
   created() {
+    var providerGame = new Igdb();
+    providerGame.getGame(this.$route.params.gameid).then((game) => {
+      this.gameToExchangeSelected = game;
+    });
     this.getGamesToExchange();
     this.getGamesWish();
     this.getMatchingGames();
-    // this.getGameWishSelected();
     this.getUser();
   },
   methods: {
@@ -126,14 +129,22 @@ export default {
       var provider = new User();
       provider.auth.me().then(response => {
         response.ownGames.push(idGame);
-        provider.patchUser(response.id, { 'ownGames': response.ownGames }).then(() => {
-          this.$fire({
-            title: "Succès",
-            text: "Le jeu a été ajouté à vos jeux possédés !",
-            type: "success"
-          }).then(() => {
-            window.location.reload();
-          })
+        provider.patchUser(response.id, { 'ownGames': response.ownGames }).then((response) => {
+          if(response){
+            this.$fire({
+              title: "Succès",
+              text: "Le jeu a été ajouté à vos jeux possédés !",
+              type: "success"
+            }).then(() => {
+              var game = this.unMatchingGames.find(game => game.id == idGame);
+              this.matchingGames.push(game);
+              this.unMatchingGames = this.unMatchingGames.filter(game => game.id !== idGame) ?? [];
+              return game
+            
+            }).then((game) => {
+                this.gameWishSelected = game
+            })
+          }
         }).catch(() => {
           this.$fire({
             title: "Erreur",

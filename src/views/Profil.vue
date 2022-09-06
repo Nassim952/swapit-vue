@@ -1,10 +1,9 @@
 <template>
     <div class="row m-auto">
-        <transition name="modal">
+        <transition name="fade" appear appear-class="fade-enter">
             <modal v-if="isOpenModal"> 
             </modal>
         </transition>
-
         <div class="col">
             <div class="row justify-content-between">
                 <div class="col-xl-4  m-lg-5">
@@ -34,7 +33,9 @@
                         <div class="p-3 user-ownlist">
                             <h5 class="m-auto" style="color: rgba(41, 100, 124);">Liste de jeux possédés : {{ownGames.length}}</h5>
                             <div class="d-flex list-list" v-if="ownGames">
-                                <ProfilGameCardOwn v-for="(game, key) in ownGames" :key="game.id + key" :game="game" class="" />
+                                 <transition-group name="bounce" appear appear-class="bounce-enter" class="d-flex list-list">
+                                    <ProfilGameCardOwn v-for="(game) in ownGames" :key="game.name + 'own'" :game="game" class="" />
+                                </transition-group>
                             </div>
                         </div>
                         <span v-if="!ownGames.length" class="no-game-list">Vous ne possédez actuellement aucun jeux</span>
@@ -43,8 +44,10 @@
                     <div class="row mt-5 user-list-container">
                         <div class="p-3 user-wishlist" >
                             <h5 class="m-auto" style="color: rgba(41, 100, 124);">Liste de jeux souhaités : {{wishGames.length}}</h5>   
-                            <div class="d-flex list-list">
-                                <ProfilGameCarWish v-for="(game, key) in wishGames" :key="game.id + key" :game="game" class="" />
+                            <div>
+                                <transition-group name="bounce" appear appear-class="bounce-enter" class="d-flex list-list">
+                                    <ProfilGameCarWish v-for="(game) in wishGames" :key="game.name + 'wish'" :game="game" class="" />
+                                </transition-group>
                             </div>
                         </div>
                         <span v-if="!ownGames.length" class="no-game-list">Vous ne souhaitez actuellement aucun jeux</span>
@@ -75,7 +78,6 @@ export default {
             wishGames: [],
             user: {},
             isOpenModal: false,
-            // modalData: {},
         }
     },
     created() {
@@ -139,7 +141,11 @@ export default {
                             text: "Votre jeu a bien été supprimé de votre liste de jeux possédés",
                             type: "success",
                         }).then(() => {
-                            this.getUserOwnGames()
+                           this.$data.ownGames.map(game => {
+                                if (game.id == game_id) {
+                                    this.$data.ownGames.splice(this.$data.ownGames.indexOf(game), 1)
+                                }
+                            })
                         })
                     } else {
                         response.wishGames.splice(response.wishGames.indexOf(game_id), 1)
@@ -149,7 +155,11 @@ export default {
                             text: "Votre jeu a bien été supprimé de votre liste de jeux souhaités",
                             type: "success",
                         }).then(() => {
-                            this.getUserWishGames()
+                             this.$data.wishGames.map(game => {
+                                if (game.id == game_id) {
+                                    this.$data.wishGames.splice(this.$data.wishGames.indexOf(game), 1)
+                                }
+                            })
                         })
                     }
                 }
@@ -170,8 +180,6 @@ export default {
             }
         },
         openModal() {
-            // this.modalData = user;
-            // this.modalData={...data}
             this.isOpenModal = true;
         },
         closeModal() {
@@ -390,6 +398,13 @@ hr{
 .slide-fade-enter, .slide-fade-leave-to
 /* .slide-fade-leave-active below version 2.1.8 */ {
   transform: translateX(10px);
+  opacity: 0;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .10s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
 </style>

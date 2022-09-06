@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-      <div v-bind:style="backgroundCover" class="container-game-layer">
+      <div v-bind:style="backgroundCover" class="container-game-layer" v-if="Object.keys(game).length > 0">
           <div class="game-layer">
               <div class="game-img">
                       <img v-bind:src="coverPreUrl" width="80" height="80">
@@ -16,7 +16,7 @@
               </div>
           </div>
       </div>
-    <div class="user-card-container">
+    <div class="user-card-container" v-if="users.length > 0">
       <UserCard v-for="(user, key) in users" :key="user.id + key" :user="user" :game="game" />
     </div>
     <!-- <div v-else class="no-result">

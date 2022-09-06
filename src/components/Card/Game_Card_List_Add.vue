@@ -2,8 +2,8 @@
 
   <div class="game_card_list_result" v-if="games">
     <div class=title-result>Résultats</div>
-    <transition-group name="bounce" appear appear-class="bounce-enter">
-      <div class="game_card_result_container" v-for="(game,key) in games" :key="key">
+    <transition-group name="fade" appear appear-class="fade-enter">
+      <div class="game_card_result_container" v-for="(game) in games" :key="game.name+'_search'">
         <GameCard :game="game" />
         <a v-if="!added(game.id)" @click="add(game)" class="btn-add-list">
           <img class="img-btn-add-list" style=""
@@ -76,21 +76,10 @@ export default {
   transition: all 0.1s ease
 }
 
-.bounce-enter-active {
-  animation: bounce-in .5s;
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
 }
-.bounce-leave-active {
-  animation: bounce-in .5s reverse;
-}
-@keyframes bounce-in {
-  0% {
-    transform: scale(0.9);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
