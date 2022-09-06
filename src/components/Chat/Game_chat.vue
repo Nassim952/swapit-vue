@@ -10,20 +10,20 @@
           <div class="col-md-4 border-right list-panel">
             <div class="search-box">
                 <div class="input-wrapper">
-                  <input placeholder="Search here" type="text" v-model="search">
+                  <input placeholder="Rechercher" type="text" v-model="search">
                 </div>
             </div>
             <div class="friend-drawer friend-drawer--onhover" v-for="channel in filtredRooms" :key="'channel_'+ channel.id" @click="updateChannel(channel)">
                 <div class="text">
                   <h6><a>{{getChannelName(channel)}}</a></h6>
-                  <span class="text-muted" v-if="channel.lastMessage !=[]">{{channel.lastMessage.author.username + ': ' + channel.lastMessage.content}}</span>
+                  <span class="text-muted" v-if="channel.lastMessage !== undefined && Object.keys(channel.lastMessage).length > 0">{{channel.lastMessage.author.username + ': ' + channel.lastMessage.content}}</span>
                 </div>
-                <span class="time text-muted small" v-if="channel.lastMessage">{{timeConverter(channel.lastMessage.createdDate)}}</span>
+                <span class="time text-muted small" v-if="channel.lastMessage !== undefined && Object.keys(channel.lastMessage).length > 0">{{timeConverter(channel.lastMessage.createdDate)}}</span>
                 <span class="time text-muted small" v-if="channel.hasNotification">noti</span>
             </div>
             <hr>
           </div>
-          <div class="col-md-8">
+          <div class="col-md-8" v-if="Object.keys(currentChannel).length > 0">
             <div class="settings-tray">
                 <div class="">
                   <div class="text" v-if="Object.keys(currentChannel).length == 0">
