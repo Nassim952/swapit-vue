@@ -144,7 +144,7 @@ export default {
 
     initPusher() {
       if(this.pusher == null) {
-          this.pusher = new Pusher(process.env.VUE_APP_PUSHER_KEY, {
+          this.pusher = new Pusher('015c956cb3ea9794cfcf', {
             cluster: 'eu',
             forceTLS: true
           });
