@@ -84,6 +84,11 @@
                             </router-link>
                         </b-nav-item>
                         <b-nav-item>
+                            <router-link v-if="logged" to="/chat" style="font-size: smaller" class="link-nav p-3">
+                                <img src="../../assets/icones/discuter.png" width="25" height="25"> <span class="nav-item-mobile">Chat</span>
+                            </router-link>
+                        </b-nav-item>
+                        <b-nav-item>
                             <router-link v-if="logged" to="/profile" style="font-size: smaller" class="link-nav p-3">
                                 <img src="../../assets/images/user.svg" width="25" height="25"> <span class="nav-item-mobile">Profil</span>
                             </router-link>
