@@ -28,14 +28,8 @@
           <Error v-if="errors.password_confirm" :value="errors.password_confirm" />
         </div>
 
-        <b-form-checkbox
-          id="checkbox-1"
-          v-model="status"
-          name="checkbox-1"
-          value="Accepté !"
-          unchecked-value="Non accepté !"
-          class="p-2"
-        >
+        <b-form-checkbox id="checkbox-1" v-model="status" name="checkbox-1" value="Accepté !"
+          unchecked-value="Non accepté !" class="p-2">
           <router-link to="/cgu" target='_blank' class="cgu" style="font-size: x-small;">CGU</router-link>
         </b-form-checkbox>
 
@@ -74,37 +68,45 @@ export default {
   },
   methods: {
     async onSubmit(data) {
-      const provider = new User()
-      provider.postUser(
-        {
-          username: data.login,
-          email: data.email,
-          password: data.password
-        }
-      ).then(response => {
-        if (response) {
-          this.$fire({
-            title: 'Utilisateur créé',
-            text: 'Veuillez vérifier votre boîte mail pour confirmer votre compte',
-            type: 'success',
-          }).then(() => {
-            this.$router.push('/signin')
-          })
-        }
-        else {
+      if (this.$data.status == 'Non accepté !') {
+        this.$fire({
+          title: "Erreur",
+          text: "Vous devez accepter les CGU pour vous inscrire !",
+          type: "error",
+        });
+      } else {
+        const provider = new User()
+        provider.postUser(
+          {
+            username: data.login,
+            email: data.email,
+            password: data.password
+          }
+        ).then(response => {
+          if (response) {
+            this.$fire({
+              title: 'Utilisateur créé',
+              text: 'Veuillez vérifier votre boîte mail pour confirmer votre compte',
+              type: 'success',
+            }).then(() => {
+              this.$router.push('/signin')
+            })
+          }
+          else {
+            this.$fire({
+              title: 'Erreur lors de la création de l\'utilisateur',
+              text: 'Le mail est peut-être déjà utilisé',
+              type: 'error',
+            })
+          }
+        }).catch(() => {
           this.$fire({
             title: 'Erreur lors de la création de l\'utilisateur',
-            text: 'Le mail est peut-être déjà utilisé',
+            text: 'Une erreur est survenue, veuillez réessayer',
             type: 'error',
           })
-        }
-      }).catch(() => {
-        this.$fire({
-          title: 'Erreur lors de la création de l\'utilisateur',
-          text: 'Une erreur est survenue, veuillez réessayer',
-          type: 'error',
         })
-      })
+      }
     }
   },
   name: "Register",
@@ -112,11 +114,12 @@ export default {
 </script>
 
 <style scoped>
-.cgu{
-    vertical-align: text-bottom;
-    margin-left: 10px;
-    color: rgb(251, 93, 25);
+.cgu {
+  vertical-align: text-bottom;
+  margin-left: 10px;
+  color: rgb(251, 93, 25);
 }
+
 @media screen and (max-width: 991px) {
   #inscription {
     margin-bottom: 2rem;
