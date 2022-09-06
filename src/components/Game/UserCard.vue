@@ -98,13 +98,11 @@ export default {
             channels.forEach(channel => {
                 console.table(channel.subscribers)
                     if (channel.subscribers.includes('/users/' + this.user.id)) {
-                        // console.log("No channel found");
                         excistinChannel = channel 
                     }
                 });
                 return excistinChannel
             } else {
-                // console.log("channel found");
                 return excistinChannel
             }
         }

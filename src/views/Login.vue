@@ -45,11 +45,9 @@ export default {
     UpdateForm: function () {
         if (this.$data.composantOngletActuel=="Register") {
             this.$data.composantOngletActuel="Login"
-                        console.log(this.$data.composantOngletActuel)
 
         } else {
             this.$data.composantOngletActuel = "Register"
-            console.log(this.$data.composantOngletActuel)
 
         }
     },
@@ -62,7 +60,6 @@ export default {
         } else {
              this.$data.otherForm = "Connexion"
         }
-        // console.log("composantOngletActuel: ")
     }
   },
 };

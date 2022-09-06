@@ -48,7 +48,6 @@ export default {
                 delete this.$data.selectedFilters[categorie]
             }
             this.refreshRessource()
-            console.log(this.$data.selectedFilters)
         },
         checkEmptySelectedFilter(categorie = null) {
 
@@ -62,13 +61,9 @@ export default {
             this.refreshRessource()
         },
         addedWish(game) {
-            // this.$data.UserList = [];
-            // console.log(this.$data.UserList)
             return this.$data.UserWishList.some(e => e === game.id)
         },
         addedOwn(game) {
-            // this.$data.UserList = [];
-            // console.log(this.$data.UserList)
             return this.$data.UserOwnList.some(e => e === game.id)
         },
         async getUser() {

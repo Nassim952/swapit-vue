@@ -171,7 +171,6 @@ export default {
       });
     },
     getChannelName(channel) {
-      // console.log(this.currentUser)
       return channel.name.replace(this.currentUser.username,'');
     },
     canSendMessage() {

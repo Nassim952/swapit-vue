@@ -69,6 +69,14 @@ export default {
     this.refreshRessource()
     this.getUser();
   },
+  watch: {
+    $route(to) {
+      if (to.params.id) {
+        this.selectedFilters.genres = [to.params.id]
+      }
+      this.refreshRessource()
+    },
+  },
   methods: {
     async refreshRessource() {
       this.$isLoading(true)
@@ -103,13 +111,9 @@ export default {
       }
     },
     addedWish(game) {
-      // this.$data.UserList = [];
-      // console.log(this.$data.UserList)
       return this.$data.UserWishList.some(e => e === game.id)
     },
     addedOwn(game) {
-      // this.$data.UserList = [];
-      // console.log(this.$data.UserList)
       return this.$data.UserOwnList.some(e => e === game.id)
     },
     updateFilters(filters, categorie) {

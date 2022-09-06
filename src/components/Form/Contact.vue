@@ -46,8 +46,7 @@ export default {
     validator: () => validator,
   },
   methods: {
-    async onSubmit(data) {
-      console.log(data);
+    async onSubmit() {
       const provider = new User()
       provider.sendMailContact(this.$data.user.id).then(() => {
         this.$fire({

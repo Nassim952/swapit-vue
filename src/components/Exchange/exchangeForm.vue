@@ -159,15 +159,6 @@ export default {
                         type: 'error'
                     })
                 });
-            // provider.getExchange(this.$data.user.id, {'confirmed': 'pending'})
-            //     .then(response => {
-            //         if (response) {
-            //             this.pendingExchanges = response;
-            //         }
-            //     })
-            //     .catch(err => {
-            //         console.log(err)
-            //     })
         },
         async getCurrentUser() {
             var provider = new User()

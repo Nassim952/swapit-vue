@@ -188,36 +188,13 @@ export default {
             })
         },
         async deleteNotification(notification) {
-            console.log(notification)
             var provider = new User()
             provider.delNotification(notification.id).then(response => {
                 if(response){
-                    console.log(response)
                     this.getNotifications()
                 }
             })
         },
-        ProfilePreUrl() {
-            // var provider = new User()
-
-            // if (localStorage.getItem("token")) {
-            //     var decoded = jwt_decode(localStorage.getItem("token"))
-            //     provider.getUsers(null, null, { 'email': decoded.email }).then(response => {
-            //         response = response.shift()
-            //         provider.getReceivedExchanges(response.id).then(response => {
-            //             if (response) {
-            //                 return "../../assets/images/notification.png"
-            //             }
-            //             else {
-            //                 return "../../assets/images/user.svg"
-            //             }
-            //         })
-            //     })
-            // }
-            // else{
-            //     return "../../assets/images/user.svg"
-            // }
-        }
     },
     provide() {
         return {

@@ -122,7 +122,6 @@ export default {
                                     exchange.proposerGame = {};
                                     IgdbService.getGame(proposerGame, ['id','name'])
                                         .then((response) => {
-                                            // console.log(this.datas);
                                             this.datas[index].proposerGame = response;
                                     })
                                 }

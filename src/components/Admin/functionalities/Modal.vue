@@ -148,7 +148,6 @@ export default {
     },
     computed: {
         modaldata() {
-            console.log(this.data)
             return this.$props.data
         },
     },
