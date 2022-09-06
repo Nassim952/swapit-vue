@@ -81,6 +81,8 @@ export default {
           }).then(() => {
             this.$isLoading(false)
           })
+        } else {
+          this.$isLoading(false)
         }
       })
     },
@@ -96,6 +98,8 @@ export default {
           }).then(() => {
             this.$isLoading(false)
           })
+        } else {
+          this.$isLoading(false)
         }
       })
     },
