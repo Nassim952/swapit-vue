@@ -68,7 +68,7 @@ export default {
 
     .tag {
         background: #cccccc;
-        border-radius: 50px;
+        border-radius: 10px;
         font-size: 8px;
         margin: 0;
         color: #fff;
