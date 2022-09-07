@@ -28,13 +28,13 @@
               <div v-else-if="key == 'confirmed'" class="m-0">
                  <span class="label label-default" >
                     <a v-if="value == true" class="chip primary">
-                        confirmer
+                        confirmé
                     </a>
                     <a v-else-if="value == false" class="chip warning">
-                        refuser
+                        refusé
                     </a>
                     <a v-else class="chip info">
-                        en attente
+                        à confirmer
                     </a>
                  </span>
              </div>

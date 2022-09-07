@@ -32,7 +32,7 @@
              <div v-else-if="key == 'isMailConfirmed'">
                  <span >
                     <a v-if="value" class="chip primary">
-                        confirmer
+                        confirmé
                     </a>
                     <a v-else class="chip info">
                         attente

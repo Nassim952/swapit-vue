@@ -1,10 +1,12 @@
 <template>
-    <div class="game_card">
+  <div class="game_card">
+    <router-link :to="'/showGame/' + game.id">
       <img v-bind:src="coverPreUrl" class="icon">
-      <div class="card-body text-center">
-        <p>{{ game.name }}</p>
-      </div>
+    </router-link>
+    <div class="card-body text-center">
+      <p>{{ game.name }}</p>
     </div>
+  </div>
 </template>
 
 <script>
@@ -54,7 +56,7 @@ export default {
   font-size: 1rem;
 }
 
-.card-body p{
+.card-body p {
   margin-block-start: 10px;
   margin-block-end: 10px;
   margin-inline-start: 0px;

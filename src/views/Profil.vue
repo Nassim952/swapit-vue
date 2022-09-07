@@ -38,7 +38,7 @@
                                 </transition-group>
                             </div>
                         </div>
-                        <span v-if="!ownGames.length" class="no-game-list">Vous ne possédez actuellement aucun jeux</span>
+                        <span v-if="!ownGames.length" class="no-game-list"><router-link class="link-gameslist" to="/owngameslist">Cliquez ici pour ajouter des jeux !</router-link></span>
                     </div>
                     <hr>
                     <div class="row mt-5 user-list-container">
@@ -50,7 +50,7 @@
                                 </transition-group>
                             </div>
                         </div>
-                        <span v-if="!ownGames.length" class="no-game-list">Vous ne souhaitez actuellement aucun jeux</span>
+                        <span v-if="!ownGames.length" class="no-game-list"><router-link class="link-gameslist" to="/wishgameslist">Cliquez ici pour ajouter des jeux !</router-link></span>
                     </div>
                 </div>
         </div>
@@ -217,6 +217,12 @@ export default {
     background-color: #fafafa;
     justify-content: space-between;
     height: 800px;
+}
+
+.link-gameslist{
+    text-decoration: none;
+    color: #FB5D19;
+    font-size: 18px;
 }
 
 .user-info {
