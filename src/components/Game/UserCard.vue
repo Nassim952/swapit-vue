@@ -26,7 +26,7 @@
             </div>
             <div class="btn-swap-ctn">
                 <div class="btn-swap">
-                    <span class="button_slide slide_left" @click="createChannel">Messages</span>
+                    <button class="button_slide slide_left no-decoration-btn" @click="createChannel">Messages</button>
                 </div>
                 <div class="btn-swap">
                     <router-link v-bind:to="exchangeUrl">
@@ -116,13 +116,20 @@ export default {
     margin-top: 50px;
 }
 
+.no-decoration-btn{
+    padding: 0;
+    border: none;
+    background: none;
+    color: white;
+}
+
 .result-card {
     color: rgba(41, 100, 124);
     display: flex;
     width: 450px;
     height: 170px;
     background-color: white;
-    border-radius: 10px 10px 10px 0;
+    border-radius: 10px 10px 10px 10px;
     box-shadow: grey 0px 0px 10px;
     justify-content: space-between;
     padding: 20px;
@@ -175,6 +182,7 @@ export default {
 
 .btn-swap-ctn{
     display: flex;
+    justify-content: space-evenly;
 }
 
 .bounce-enter-active {

@@ -7,68 +7,80 @@
   <div class="container-chat">
     <div class="container-chat-box">
       <div class="row no-gutters">
-          <div class="col-md-4 border-right list-panel">
-            <div class="search-box">
-                <div class="input-wrapper">
-                  <input placeholder="Rechercher" type="text" v-model="search">
-                </div>
-            </div>
-            <div class="friend-drawer friend-drawer--onhover" v-for="channel in filtredRooms" :key="'channel_'+ channel.id" @click="updateChannel(channel)">
-                <div class="text">
-                  <h6><a>{{getChannelName(channel)}}</a></h6>
-                  <span class="text-muted" v-if="channel.lastMessage !== undefined && Object.keys(channel.lastMessage).length > 0">{{channel.lastMessage.author.username + ': ' + channel.lastMessage.content}}</span>
-                </div>
-                <span class="time text-muted small" v-if="channel.lastMessage !== undefined && Object.keys(channel.lastMessage).length > 0">{{timeConverter(channel.lastMessage.createdDate)}}</span>
-                <span class="time text-muted small" v-if="channel.hasNotification">noti</span>
-            </div>
-            <hr>
-          </div>
-          <div class="col-md-8" v-if="Object.keys(currentChannel).length > 0">
-            <div class="settings-tray">
-                <div class="">
-                  <div class="text" v-if="Object.keys(currentChannel).length == 0">
-                       <span>Chat</span>
-                  </div>
-                  <div v-else>
-                      <span>{{getChannelName(currentChannel)}}</span>
-                  </div>
-                </div>
-            </div>
-            <div class="chat-panel" >
-                <div class="row no-gutters" v-for="(message,key) in currentChannel.messages" :key="currentChannel.id + message.id+message.createdDate+key">
-                  <div class="col-md-3" :class="{ 'offset-md-9': message.author.id == currentUser.id}">
-                      <div :class="{ 'chat-bubble--left': message.author.id != currentUser.id, 'chat-bubble--right' : message.author.id == currentUser.id}" class="chat-bubble">
-                        {{message.content}}
-                        <small class="text-muted">
-                          {{message.author.content}}
-                        </small>
-                        <small class="text-muted">
-                           {{timeConverter(message.createdDate)}}
-                        </small>
-                      </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                      <div class="chat-box-tray">
-                        <input type="text" placeholder="Message" v-model="message.content" v-on:keyup.enter="submit()">
-                        <button class="btn-send"><img src="../../assets/icones/envoyer.png" height="33" width="33" @click="submit()" /></button>
-                      </div>
-                  </div>
-                </div>
+        <div class="col-md-4 border-right list-panel">
+          <div class="search-box">
+            <div class="input-wrapper">
+              <input placeholder="Rechercher" type="text" v-model="search">
             </div>
           </div>
+          <div v-if="filtredRooms.length < 1">
+            <div class="no-rooms-text">Procédez à un échange pour chatter avec un utilisateur !</div>
+          </div>
+          <div v-else class="friend-drawer friend-drawer--onhover" v-for="channel in filtredRooms"
+            :key="'channel_'+ channel.id" @click="updateChannel(channel)">
+            <div class="text">
+              <h6><a>{{getChannelName(channel)}}</a></h6>
+              <span class="text-muted"
+                v-if="channel.lastMessage !== undefined && Object.keys(channel.lastMessage).length > 0">{{channel.lastMessage.author.username
+                + ': ' + channel.lastMessage.content}}</span>
+            </div>
+            <span class="time text-muted small"
+              v-if="channel.lastMessage !== undefined && Object.keys(channel.lastMessage).length > 0">{{timeConverter(channel.lastMessage.createdDate)}}</span>
+            <span class="time text-muted small" v-if="channel.hasNotification">New</span>
+          </div>
+          <hr>
+        </div>
+        <div class="col-md-8" v-if="Object.keys(currentChannel).length > 0">
+          <div class="settings-tray">
+            <div class="">
+              <div class="text" v-if="Object.keys(currentChannel).length == 0">
+                <span>Chat</span>
+              </div>
+              <div v-else>
+                <span>{{getChannelName(currentChannel)}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="chat-panel scrollbar" id="style-1">
+            <div class="row no-gutters" v-for="(message,key) in currentChannel.messages"
+              :key="currentChannel.id + message.id+message.createdDate+key">
+              <div class="col-md-3" :class="{ 'offset-md-8': message.author.id == currentUser.id}">
+                <div
+                  :class="{ 'chat-bubble--left': message.author.id != currentUser.id, 'chat-bubble--right' : message.author.id == currentUser.id}"
+                  class="chat-bubble">
+                  {{message.content}}
+                  <small class="text-muted">
+                    {{message.author.content}}
+                  </small>
+                  <small class="text-muted">
+                    {{timeConverter(message.createdDate)}}
+                  </small>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="chat-box-tray">
+                <input type="text" placeholder="Message" v-model="message.content" v-on:keyup.enter="submit()">
+                <button class="btn-send"><img src="../../assets/icones/envoyer.png" height="33" width="33"
+                    @click="submit()" /></button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-    // import SideBar from "../Filter/SideBar.vue";
-    import {User} from "../../lib/Services/User";
-    import {Channel} from "../../lib/Services/Channel";
-    import Pusher from 'pusher-js';
-    //  import formatDateMixin from '../mixins/formatDateMixin.js';
+// import SideBar from "../Filter/SideBar.vue";
+import { User } from "../../lib/Services/User";
+import { Channel } from "../../lib/Services/Channel";
+import Pusher from 'pusher-js';
+//  import formatDateMixin from '../mixins/formatDateMixin.js';
 
 export default {
   components: {
@@ -81,74 +93,74 @@ export default {
     },
   },
   data: () => ({
-      provider: new Channel(),
-      pusher: null,
-      search: '',
-      rooms: [],
-      messages: [],
-      message: {
-        content: "",
-        channel: "",
-        author: "",
-      },
-      lastMessage: null,
-      currentChannel: {},
-      currentUser: null
-    }),
+    provider: new Channel(),
+    pusher: null,
+    search: '',
+    rooms: [],
+    messages: [],
+    message: {
+      content: "",
+      channel: "",
+      author: "",
+    },
+    lastMessage: null,
+    currentChannel: {},
+    currentUser: null
+  }),
   created() {
-   
-    if(this.$props.channelId) {
+
+    if (this.$props.channelId) {
       this.getChannel(this.$props.channelId);
     }
     this.init();
-     if(this.$props.channel?.id) {
+    if (this.$props.channel?.id) {
       this.updateChannel(this.$props.channel);
     }
   },
   methods: {
     async refreshChannels() {
       var provider = new User()
-          provider.getChannels(this.currentUser.id).then((response) => {
-            this.rooms = response.map((channel) => {
-              channel.pusher = this.pusher;
-              channel.room = channel.pusher.subscribe('channel_' + channel.id);
-              channel.room.bind('message', (message) => {
-                channel.lastMessage = message;
-                if(this.currentChannel.id != channel.id) {
-                  channel.hasNotification = true;
-                }
-                else {
-                  this.currentChannel.messages.push(message);
-                  channel.hasNotification = false;
-                } 
-              });
-                return channel;
-            });              
-      }).catch(function(error) {
+      provider.getChannels(this.currentUser.id).then((response) => {
+        this.rooms = response.map((channel) => {
+          channel.pusher = this.pusher;
+          channel.room = channel.pusher.subscribe('channel_' + channel.id);
+          channel.room.bind('message', (message) => {
+            channel.lastMessage = message;
+            if (this.currentChannel.id != channel.id) {
+              channel.hasNotification = true;
+            }
+            else {
+              this.currentChannel.messages.push(message);
+              channel.hasNotification = false;
+            }
+          });
+          return channel;
+        });
+      }).catch(function (error) {
         console.log(error);
       });
     },
 
     async submit() {
-      if(this.currentChannel?.id && this.message.content && this.canSendMessage() ) {
+      if (this.currentChannel?.id && this.message.content && this.canSendMessage()) {
         this.provider.postMessage(this.message).then((response) => {
           if (response) {
             this.lastMessage = response;
             this.message.content = "";
           }
-        }).catch(function(error) {
+        }).catch(function (error) {
           console.log(error);
         });
       }
     },
 
     initPusher() {
-      if(this.pusher == null) {
-          this.pusher = new Pusher('498f9f1d1a87ee7c6ee2', {
-            cluster: 'eu',
-            forceTLS: true
-          });
-        }
+      if (this.pusher == null) {
+        this.pusher = new Pusher('498f9f1d1a87ee7c6ee2', {
+          cluster: 'eu',
+          forceTLS: true
+        });
+      }
     },
     refreshMessages() {
       this.initPusher();
@@ -162,39 +174,38 @@ export default {
     updateChannel(channel) {
       this.provider.getChannel(channel.id).then((response) => {
         this.currentChannel = response;
-        this.message.channel = '/channels/'+channel.id;
+        this.message.channel = '/channels/' + channel.id;
         this.refreshMessages();
       }).then(() => {
-       channel.hasNotification = false;
-      }).catch(function(error) {
+        channel.hasNotification = false;
+      }).catch(function (error) {
         console.log(error);
       });
     },
     getChannelName(channel) {
-      return channel.name.replace(this.currentUser.username,'');
+      return channel.name.replace(this.currentUser.username, '');
     },
     canSendMessage() {
-      if(this.message.content) {
-          if(!this.lastMessage) {
-            return true;
-          }
-          else if(new Date (this.lastMessage.createdDate) < new Date().getTime() - 8000 || this.lastMessage?.content != this.message.content) {
-            return true;
-          }
-       }
+      if (this.message.content) {
+        if (!this.lastMessage) {
+          return true;
+        }
+        else if (new Date(this.lastMessage.createdDate) < new Date().getTime() - 8000 || this.lastMessage?.content != this.message.content) {
+          return true;
+        }
+      }
       return false;
     },
-    async init(){
-            var provider = new User()
-       provider.auth.me().then((user) => {
-        if(user) 
-        {
+    async init() {
+      var provider = new User()
+      provider.auth.me().then((user) => {
+        if (user) {
           this.currentUser = user;
-          this.message.author='/users/'+user.id;
+          this.message.author = '/users/' + user.id;
           this.refreshChannels();
           this.refreshMessages();
-        }  
-      }).catch(function(error) {
+        }
+      }).catch(function (error) {
         console.log(error);
       });
     },
@@ -204,28 +215,28 @@ export default {
           this.channel = response;
           this.updateChannel(this.channel);
         }
-      }).catch(function(error) {
+      }).catch(function (error) {
         console.log(error);
       });
     },
-    timeConverter(UNIX_timestamp){
+    timeConverter(UNIX_timestamp) {
       UNIX_timestamp = Date.parse(UNIX_timestamp);
       var a = new Date(UNIX_timestamp);
-      var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       var month = months[a.getMonth()];
       var date = a.getDate();
       var hour = a.getHours();
       var min = a.getMinutes();
       var today = new Date();
-      var time = new Date(date) < new Date(today.getDate()) ? date + ' ' + month + ' ' + hour + ':' + min : hour + ':' + min  ;
+      var time = new Date(date) < new Date(today.getDate()) ? date + ' ' + month + ' ' + hour + ':' + min : hour + ':' + min;
       return time;
     },
   },
   computed: {
     filtredRooms() {
-      if(this.search) {
+      if (this.search) {
         return this.rooms.filter((room) => {
-          return  this.getChannelName(room).toLowerCase().includes(this.search.toLowerCase());
+          return this.getChannelName(room).toLowerCase().includes(this.search.toLowerCase());
         });
       }
       return this.rooms;
@@ -236,186 +247,264 @@ export default {
 
 
 <style scoped>
-
 body {
-	 background-color: #3498db;
-	 -webkit-font-smoothing: antialiased;
-	 -moz-osx-font-smoothing: grayscale;
-	 text-rendering: optimizeLegibility;
+  background-color: #3498db;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
-.container-chat{
+
+.container-chat {
   padding: 60px;
   background-color: #f0f0f0;
   margin: 0;
 }
- .container-chat-box {
-	 margin: 60px auto;
-	 padding: 0;
-	 border-radius: 7px;
+
+.container-chat-box {
+  margin: 60px auto;
+  padding: 0;
+  border-radius: 7px;
 }
- .profile-image {
-	 width: 50px;
-	 height: 50px;
-	 border-radius: 40px;
+
+.profile-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 40px;
 }
- .settings-tray {
-	 background: #FF5D19;
-	 padding: 10px 15px;
-	 border-radius: 20px;
-   color: #fff;
+
+.no-rooms-text{
+  text-align: center;
+  font-size: 18px;
+  color: #ff7300;
 }
- .settings-tray .no-gutters {
-	 padding: 0;
+
+.settings-tray {
+  background: #FF5D19;
+  padding: 10px 15px;
+  border-radius: 10px 10px 0 0;
+  color: #fff;
 }
- .settings-tray--right {
-	 float: right;
+
+.settings-tray .no-gutters {
+  padding: 0;
 }
- .settings-tray--right i {
-	 margin-top: 10px;
-	 font-size: 25px;
-	 color: grey;
-	 margin-left: 14px;
-	 transition: 0.3s;
+
+.settings-tray--right {
+  float: right;
 }
- .settings-tray--right i:hover {
-	 color: #29657C;
-	 cursor: pointer;
+
+.settings-tray--right i {
+  margin-top: 10px;
+  font-size: 25px;
+  color: grey;
+  margin-left: 14px;
+  transition: 0.3s;
 }
- .search-box {
-	 padding: 10px 13px;
+
+.settings-tray--right i:hover {
+  color: #29657C;
+  cursor: pointer;
 }
- .search-box .input-wrapper {
-	 background: #fff;
-	 border-radius: 40px;
+
+.search-box {
+  padding: 10px 13px;
 }
- .search-box .input-wrapper i {
-	 color: grey;
-	 margin-left: 7px;
-	 vertical-align: middle;
+
+.search-box .input-wrapper {
+  background: #fff;
+  border-radius: 40px;
 }
- input {
-	 border: none;
-	 border-radius: 30px;
-	 width: 80%;
+
+.search-box .input-wrapper i {
+  color: grey;
+  margin-left: 7px;
+  vertical-align: middle;
 }
- input::placeholder {
-	 color: #e3e3e3;
-	 font-weight: 300;
-	 margin-left: 20px;
+
+input {
+  border: none;
+  border-radius: 30px;
+  width: 80%;
 }
- input:focus {
-	 outline: none;
+
+input::placeholder {
+  color: #e3e3e3;
+  font-weight: 300;
+  margin-left: 20px;
 }
- .friend-drawer {
-	 padding: 10px 15px;
-	 display: flex;
-	 vertical-align: baseline;
-	 background: #fff;
-	 transition: 0.3s ease;
+
+input:focus {
+  outline: none;
 }
- .friend-drawer--grey {
-	 background: #eee;
+
+.friend-drawer {
+  padding: 10px 15px;
+  display: flex;
+  vertical-align: baseline;
+  background: #fff;
+  transition: 0.3s ease;
 }
- .friend-drawer .text {
-	 margin-left: 12px;
-	 width: 70%;
+
+.friend-drawer--grey {
+  background: #eee;
 }
- .friend-drawer .text h6 {
-	 margin-top: 6px;
-	 margin-bottom: 0;
+
+.friend-drawer .text {
+  margin-left: 12px;
+  width: 70%;
 }
- .friend-drawer .text p {
-	 margin: 0;
+
+.friend-drawer .text h6 {
+  margin-top: 6px;
+  margin-bottom: 0;
 }
- .friend-drawer .time {
-	 color: grey;
+
+.friend-drawer .text p {
+  margin: 0;
 }
- .friend-drawer--onhover:hover {
-	 background: #29657C;
-	 cursor: pointer;
-   border-radius: 20px;
+
+.friend-drawer .time {
+  color: grey;
 }
- .friend-drawer--onhover:hover p, .friend-drawer--onhover:hover h6, .friend-drawer--onhover:hover .time {
-	  color: #fff !important;
+
+.friend-drawer--onhover:hover {
+  background: #29657C;
+  cursor: pointer;
+  border-radius: 20px;
 }
- hr {
-	 margin: 5px auto;
-	 width: 60%;
+
+.friend-drawer--onhover:hover p,
+.friend-drawer--onhover:hover h6,
+.friend-drawer--onhover:hover .time {
+  color: #fff !important;
 }
- .chat-bubble {
-	 padding: 10px 14px;
-	 background: #eee;
-	 margin: 10px 30px;
-	 border-radius: 9px;
-	 position: relative;
-	 animation: fadeIn 1s ease-in;
+
+hr {
+  margin: 5px auto;
+  width: 60%;
 }
- .chat-bubble:after {
-	 content: " ";
-	 position: absolute;
-	 top: 50%;
-	 width: 0;
-	 height: 0;
-	 border: 20px solid transparent;
-	 border-bottom: 0;
-	 margin-top: -10px;
+
+.chat-bubble {
+  padding: 10px 14px;
+  background: #eee;
+  margin: 10px 30px;
+  border-radius: 9px;
+  position: relative;
+  animation: fadeIn 1s ease-in;
 }
- .chat-bubble--left:after {
-	 left: 0;
-	 border-right-color: #eee;
-	 border-left: 0;
-	 margin-left: -20px;
+
+.chat-bubble:after {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 20px solid transparent;
+  border-bottom: 0;
+  margin-top: -10px;
 }
- .chat-bubble--right:after {
-	 right: 0;
-	 border-left-color: #29657C;
-	 border-right: 0;
-	 margin-right: -20px;
+
+.chat-bubble--left {
+  display: flex;
+  justify-content: space-between;
+  width: 310px;
 }
- @keyframes fadeIn {
-	 0% {
-		 opacity: 0;
-	}
-	 100% {
-		 opacity: 1;
-	}
+
+.chat-bubble--left:after {
+  left: 0;
+  border-right-color: #eee;
+  border-left: 0;
+  margin-left: -20px;
 }
- .offset-md-9 .chat-bubble {
-	 background: #29657C;
-	 color: #fff;
+
+.chat-bubble--right:after {
+  right: 0;
+  border-left-color: #29657C;
+  border-right: 0;
+  margin-right: -20px;
 }
- .chat-box-tray {
-	 display: flex;
-	 align-items: baseline;
-	 padding: 10px 15px;
-	 align-items: center;
-	 margin-top: 19px;
-	 bottom: 0;
-   border-radius: 0 0 20px 20px;
-   background-color: #FF5D19;
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
- .chat-box-tray input {
-	 margin: 0 10px;
-	 padding: 6px 10px;
+
+.scrollbar {
+    background: #F5F5F5;
+    overflow-x: auto;
 }
- .chat-box-tray i {
-	 color: grey;
-	 font-size: 30px;
-	 vertical-align: middle;
+
+#style-1::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
 }
- .chat-box-tray i:last-of-type {
-	 margin-left: 25px;
+
+#style-1::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
 }
-.list-panel{
+
+#style-1::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(255, 93, 25, 1);
+    background-color: rgba(255, 93, 25, 1);
+}
+
+.offset-md-8 .chat-bubble {
+  background: #29657C;
+  color: #fff;
+  width: 275px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.chat-box-tray {
+  display: flex;
+  align-items: baseline;
+  padding: 10px 15px;
+  align-items: center;
+  margin-top: 19px;
+  bottom: 0;
+  border-radius: 0 0 20px 20px;
+  background-color: #FF5D19;
+}
+
+.chat-box-tray input {
+  margin: 0 10px;
+  padding: 6px 10px;
+}
+
+.chat-box-tray i {
+  color: grey;
+  font-size: 30px;
+  vertical-align: middle;
+}
+
+.chat-box-tray i:last-of-type {
+  margin-left: 25px;
+}
+
+.list-panel {
   background-color: white;
   border-radius: 20px;
 }
-.chat-panel{
+
+.chat-panel {
   background-color: white;
   border-radius: 20px;
   margin-top: 10px;
+  height: 500px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
-.btn-send{
+
+.btn-send {
   background: none;
   border: none;
 }

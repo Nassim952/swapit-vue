@@ -224,7 +224,7 @@ export default {
     border-radius: 0px 20px 0px 10px;
     color: white;
     transition: all 0.3s ease;
-    right: 20px;
+    right: 75px;
     margin-top: -155px;
     padding: 3px 10px;
 }

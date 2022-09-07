@@ -1,5 +1,5 @@
 <template>
-    <div class="p-5 d-flex align-items-center justify-content-center flex-wrap">
+    <div style="height: 735px;" class="p-5 d-flex align-items-center justify-content-center flex-wrap">
         <img style="width: 28rem" src="../assets/images/swapit-landing.svg" />
         <img style="width: 28rem" src="../assets/images/illustration-Manette.png" />
     </div>

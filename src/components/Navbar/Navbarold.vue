@@ -47,7 +47,7 @@
                                             </router-link>  
                                         </span>
                                         <span v-if="notification.refTable == 'Message'">
-                                            <router-link :to="'/chat/' + notification.idTable">
+                                            <router-link :to="'/chat/' + notification.idTable" class="notif">
                                                 {{notification.description}}  
                                             </router-link>
                                         </span>
