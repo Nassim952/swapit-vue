@@ -24,13 +24,15 @@
                     <div><img src="../../assets/images/heart.svg" width="30" height="30"></div>
                 </div>
             </div>
-            <div class="btn-swap">
-                <span class="btn button_slide slide_left" @click="createChannel">Messages</span>
-            </div>
-            <div class="btn-swap">
-                <router-link v-bind:to="exchangeUrl">
-                    <span class="btn button_slide slide_left">Swaper</span>
-                </router-link>
+            <div class="btn-swap-ctn">
+                <div class="btn-swap">
+                    <span class="button_slide slide_left" @click="createChannel">Messages</span>
+                </div>
+                <div class="btn-swap">
+                    <router-link v-bind:to="exchangeUrl">
+                        <span class="button_slide slide_left">Swaper</span>
+                    </router-link>
+                </div>
             </div>
         </div>
     </transition>
@@ -153,21 +155,26 @@ export default {
 }
 
 .btn-swap {
-    background-color: rgba(255, 93, 25, 0.8);
+    background-color: rgb(255, 94, 25);
     width: fit-content;
     height: auto;
     padding: 10px;
     border-radius: 0 0 10px 10px;
+    color: white;
 }
 
 .btn-swap:hover {
-    background-color: rgba(255, 93, 25, 1);
+    background-color: rgb(216, 80, 22);
     transition: background-color 0.1s ease-in;
 }
 
 .btn-swap a {
     text-decoration: none;
     color: white;
+}
+
+.btn-swap-ctn{
+    display: flex;
 }
 
 .bounce-enter-active {

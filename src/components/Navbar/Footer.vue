@@ -1,5 +1,5 @@
 <template>
-    <footer class="footer mt-auto bg-light p-1">
+    <footer class="footer-page bg-light p-1">
         <div class="container d-flex justify-content-between">
             <span class="text-muted">© Swapit 2022</span>
             <div>
@@ -25,5 +25,12 @@
     .link-nav:hover {
         color: #FB5D19;
         transition: color 0.2s;
+    }
+
+    .footer-page {
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 300;
     }
 </style>

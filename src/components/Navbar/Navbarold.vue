@@ -42,7 +42,7 @@
                                 <transition-group appear appear-class="fade-enter" name="fade"> 
                                     <b-dropdown-item v-for="notification in notifications" :key="notification.id"  href="#">
                                         <span v-if="notification.refTable == 'Exchange'">
-                                            <router-link :to="'/profile/' "  @click.native="deleteNotification(notification)">
+                                            <router-link :to="'/profile/' "  @click.native="deleteNotification(notification)" class="notif">
                                                 {{notification.description}}  
                                             </router-link>  
                                         </span>
@@ -302,5 +302,9 @@ export default {
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+}
+.notif{
+    text-decoration: none;
+    color: #FB5D19;
 }
 </style>
