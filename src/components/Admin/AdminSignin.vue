@@ -18,11 +18,6 @@
             <!-- <small v-if="errors.password"> {{errors.password}} </small> -->
           </div>
         </div>
-        <div class="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="remember-me"> Se souvenir de moi
-          </label>
-        </div>
         <Button :onClick='handleSubmit' title="Connexion" type="submit">Connexion</Button>
       </Formik>
     </main>

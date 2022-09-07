@@ -1,8 +1,7 @@
 <template>
     <div @submit.prevent="handleSubmit" @keydown.enter.prevent="handleSubmit" class="form" @input="updateFieldValue">
       <div class="form_description">
-        <h1 class="h3 mb-3 fw-normal"><span> {{title}}</span></h1>
-        <small style="font-size: smaller"> {{description}}</small>
+        <div class="mb-3 fw-normal"><span>{{title}}</span></div>
       </div>
       
       <slot v-bind="{handleSubmit, errors, with_label, values}" :values="values" ></slot>
