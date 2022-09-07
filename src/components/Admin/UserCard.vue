@@ -6,12 +6,12 @@
                     <a href="#" class="user-link">{{value}}</a>
                 </td>
             </div>
-            <div v-else-if="key == 'ownGames' || key == 'wishGames' && value" class="m-0">
+            <div v-else-if="key == 'ownGames' || key == 'wishGames' && value" class="m-0" style="max-height: 80px; overflow-y: auto">
                 <div class="tags">  
-                    <transition-group name="slide-fade" appear appear-class="slide-fade-enter"  v-if="value.length > 2">    
+                    <transition-group name="slide-fade" appear appear-class="slide-fade-enter"  v-if="value.length > 2" style="display: grid">
                         <span   v-for="(game) in value.slice(0,2)" :key="game.name + 'wish'"  id="genres" class="tag tag-teal">{{ game.name }}</span>
                     </transition-group>
-                    <transition-group name="slide-fade" appear appear-class="slide-fade-enter"  v-else>    
+                    <transition-group name="slide-fade" appear appear-class="slide-fade-enter" style="display: grid"  v-else>
                         <span   v-for="(game) in value" :key="game.name + 'wish'"  id="genres" class="tag tag-teal">{{ game.name }}</span>
                     </transition-group>
                 </div>
@@ -32,7 +32,7 @@
              <div v-else-if="key == 'isMailConfirmed'">
                  <span >
                     <a v-if="value" class="chip primary">
-                        confirmer
+                        confirmé
                     </a>
                     <a v-else class="chip info">
                         attente
@@ -40,7 +40,7 @@
                  </span>
              </div>
             <div v-else>
-                <span>{{ value }}</span>
+                <span style="font-size: 1.50em; color: #FF5D19;">{{ value }}</span>
             </div>
         </td> 
         <td style="width: 20%;">
@@ -104,7 +104,6 @@ export default {
 	display: block;
 	font-size: 1.25em;
 	padding-top: 3px;
-	margin-left: 60px;
     text-decoration: none;
 }
 .user-subhead {
@@ -118,7 +117,7 @@ export default {
 
     .tag {
         background: #cccccc;
-        border-radius: 50px;
+        border-radius: 10px;
         font-size: 8px;
         margin: 0;
         color: #fff;

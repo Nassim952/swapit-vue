@@ -1,5 +1,9 @@
 <template>
     <div>
+        <div class="btn-dlt-ctn">
+            <button @click="supExchange(exchange.id, 'cancel')" class="btn-delete-exchange"><img src="../../assets/images/bin.png"
+                    height="10" width="10"></button>
+        </div>
         <div class="exchange-el">
             <div class="game-info">
                 <div class="user-pseudo">Jeu de {{ owner.username }}</div>
@@ -10,7 +14,7 @@
                     </div>
                 </div>
             </div>
-            <img class="swap-img" src="../../assets/images/swap.png" width="60" height="60" />
+            <img class="swap-img" src="../../assets/images/swap.png" width="40" height="40" />
             <div class="game-info">
                 <div class="user-pseudo">Jeu de {{ proposer.username }}</div>
                 <div class="game_card">
@@ -20,10 +24,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div>
-            <button @click="supExchange(exchange.id, 'cancel')" class="btn-delete-exchange"><img
-                    src="../../assets/images/bin.png" height="10" width="10"></button>
         </div>
     </div>
 </template>
@@ -189,6 +189,7 @@ export default {
 
 .swap-img {
     align-self: center;
+    margin: 20px;
 }
 
 .game-info {
@@ -200,19 +201,20 @@ export default {
 }
 
 .btn-delete-exchange {
-    position: absolute;
     background-color: rgb(252, 87, 87);
     border: none;
-    border-radius: 0px 10px 0px 10px;
+    border-radius: 15px 0px 10px 0px;
     color: white;
     transition: all 0.3s ease;
-    right: 20px;
-    margin-top: -155px;
     padding: 3px 10px;
 }
 
 .btn-delete-exchange:hover {
     background-color: rgb(173, 0, 0);
+}
+
+.btn-dlt-ctn{
+    position: absolute;
 }
 
 .btn-accept-exchange {
@@ -222,7 +224,7 @@ export default {
     border-radius: 0px 20px 0px 10px;
     color: white;
     transition: all 0.3s ease;
-    right: 20px;
+    right: 75px;
     margin-top: -155px;
     padding: 3px 10px;
 }

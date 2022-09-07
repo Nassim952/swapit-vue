@@ -24,13 +24,15 @@
                     <div><img src="../../assets/images/heart.svg" width="30" height="30"></div>
                 </div>
             </div>
-            <div class="btn-swap">
-                <span class="btn button_slide slide_left" @click="createChannel">Messages</span>
-            </div>
-            <div class="btn-swap">
-                <router-link v-bind:to="exchangeUrl">
-                    <span class="btn button_slide slide_left">Swaper</span>
-                </router-link>
+            <div class="btn-swap-ctn">
+                <div class="btn-swap">
+                    <button class="button_slide slide_left no-decoration-btn" @click="createChannel">Messages</button>
+                </div>
+                <div class="btn-swap">
+                    <router-link v-bind:to="exchangeUrl">
+                        <span class="button_slide slide_left">Swaper</span>
+                    </router-link>
+                </div>
             </div>
         </div>
     </transition>
@@ -114,13 +116,20 @@ export default {
     margin-top: 50px;
 }
 
+.no-decoration-btn{
+    padding: 0;
+    border: none;
+    background: none;
+    color: white;
+}
+
 .result-card {
     color: rgba(41, 100, 124);
     display: flex;
     width: 450px;
     height: 170px;
     background-color: white;
-    border-radius: 10px 10px 10px 0;
+    border-radius: 10px 10px 10px 10px;
     box-shadow: grey 0px 0px 10px;
     justify-content: space-between;
     padding: 20px;
@@ -153,21 +162,27 @@ export default {
 }
 
 .btn-swap {
-    background-color: rgba(255, 93, 25, 0.8);
+    background-color: rgb(255, 94, 25);
     width: fit-content;
     height: auto;
     padding: 10px;
     border-radius: 0 0 10px 10px;
+    color: white;
 }
 
 .btn-swap:hover {
-    background-color: rgba(255, 93, 25, 1);
+    background-color: rgb(216, 80, 22);
     transition: background-color 0.1s ease-in;
 }
 
 .btn-swap a {
     text-decoration: none;
     color: white;
+}
+
+.btn-swap-ctn{
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .bounce-enter-active {

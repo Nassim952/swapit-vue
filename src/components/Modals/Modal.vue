@@ -16,12 +16,12 @@
 
         <div class="modal-body">
           <Formik
-            title="Entrez votre nouveau username"
+            title="Entrez votre nouveau nom d'utilisateur"
             :onSubmit="onSubmit"
             :validator="validator"
             v-slot="{ handleSubmit, errors }"
             :with_label="true"
-            description="Editer profile"
+            description="Edit"
           >
             <div>
               <div>

@@ -42,12 +42,12 @@
                                 <transition-group appear appear-class="fade-enter" name="fade"> 
                                     <b-dropdown-item v-for="notification in notifications" :key="notification.id"  href="#">
                                         <span v-if="notification.refTable == 'Exchange'">
-                                            <router-link :to="'/profile/' "  @click.native="deleteNotification(notification)">
+                                            <router-link :to="'/profile/' "  @click.native="deleteNotification(notification)" class="notif">
                                                 {{notification.description}}  
                                             </router-link>  
                                         </span>
                                         <span v-if="notification.refTable == 'Message'">
-                                            <router-link :to="'/chat/' + notification.idTable">
+                                            <router-link :to="'/chat/' + notification.idTable" class="notif">
                                                 {{notification.description}}  
                                             </router-link>
                                         </span>
@@ -70,32 +70,32 @@
                     <b-navbar-nav>
                         <b-nav-item>
                             <router-link v-if="logged" to="/popularGames" style="font-size: smaller" class="link-nav p-3">
-                                <img src="../../assets/images/popularity.png" width="25" height="25"> <span class="nav-item-mobile">Populaires</span>
+                                <img src="../../assets/images/popularity.png" width="25" height="25" class="picto-nav-effect"> <span class="nav-item-mobile" >Populaires</span>
                             </router-link>
                         </b-nav-item>
                         <b-nav-item>
                             <router-link v-if="logged" to="/owngameslist" style="font-size: smaller" class="link-nav p-3">
-                                <img src="../../assets/images/check.svg" width="25" height="25"> <span class="nav-item-mobile">Ownlist</span>
+                                <img src="../../assets/images/check.svg" width="25" height="25" class="picto-nav-effect"> <span class="nav-item-mobile" >Ownlist</span>
                             </router-link>
                         </b-nav-item>
                         <b-nav-item>
                             <router-link v-if="logged" to="/wishgameslist" style="font-size: smaller" class="link-nav p-3">
-                                <img src="../../assets/images/heart.svg" width="25" height="25"> <span class="nav-item-mobile">Wishlist</span>
+                                <img src="../../assets/images/heart.svg" width="25" height="25" class="picto-nav-effect"> <span class="nav-item-mobile" >Wishlist</span>
                             </router-link>
                         </b-nav-item>
                         <b-nav-item>
                             <router-link v-if="logged" to="/chat" style="font-size: smaller" class="link-nav p-3">
-                                <img src="../../assets/icones/discuter.png" width="25" height="25"> <span class="nav-item-mobile">Chat</span>
+                                <img src="../../assets/icones/discuter.png" width="25" height="25" class="picto-nav-effect"> <span class="nav-item-mobile" >Chat</span>
                             </router-link>
                         </b-nav-item>
                         <b-nav-item>
                             <router-link v-if="logged" to="/profile" style="font-size: smaller" class="link-nav p-3">
-                                <img src="../../assets/images/user.svg" width="25" height="25"> <span class="nav-item-mobile">Profil</span>
+                                <img src="../../assets/images/user.svg" width="25" height="25" class="picto-nav-effect"> <span class="nav-item-mobile" >Profil</span>
                             </router-link>
                         </b-nav-item>
                         <b-nav-item>
                             <button v-if="logged" id="logout-btn" style="font-size: smaller" class="logout-btn link-nav px-3" @click="logout">
-                                <img src="../../assets/images/logout.svg" width="25" height="25"> <span class="nav-item-mobile">Déconnexion</span>
+                                <img src="../../assets/images/logout.svg" width="25" height="25" class="picto-nav-effect"> <span class="nav-item-mobile" >Déconnexion</span>
                             </button>
                         </b-nav-item>
                     </b-navbar-nav>
@@ -152,7 +152,7 @@ export default {
     methods: {
         logout() {
             localStorage.clear();
-            this.$router.push("/");
+            window.location.reload();
         },
         async refreshRessource() {
             var provider = new Igdb()
@@ -281,10 +281,13 @@ export default {
     transition: ease-out 0.7s;
 }
 .picto-search:hover {
-    background-color: #fb5d197d;
-    box-shadow: inset 0 0 0 40px #FB5D19;
-    color: white;
-    border-radius: 7px;
+    transform: scale(1.3);
+    transition: all 0.2s linear;
+}
+
+.picto-nav-effect:hover {
+    transform: scale(1.3);
+    transition: all 0.2s linear;
 }
 
 .nav-item-mobile {
@@ -302,5 +305,9 @@ export default {
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+}
+.notif{
+    text-decoration: none;
+    color: #FB5D19;
 }
 </style>
