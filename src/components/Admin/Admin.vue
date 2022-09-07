@@ -174,7 +174,7 @@ export default {
                         text: "Vous n'avez pas les droits pour accéder à cette page, veuillez vous connecter en tant qu'admin",
                         type: "error",
                     }).then(() => {
-                        this.$router.push('/admin/login')
+                        this.$router.push('/signin')
                     })
                 }
                 else {
@@ -187,7 +187,7 @@ export default {
                     text: "Vous n'avez pas les droits pour accéder à cette page, veuillez vous connecter en tant qu'admin",
                     type: "error",
                 }).then(() => {
-                    this.$router.push('/admin/login')
+                    this.$router.push('/signin')
                 })
             }
         },
