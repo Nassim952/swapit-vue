@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { User } from '../../lib/Services/User';
+// import { User } from '../../lib/Services/User';
 import { UserAdmin } from '../../lib/Services/UserAdmin';
 import { Igdb } from '../../lib/Services/Igdb';
 
@@ -88,7 +88,7 @@ export default {
         getOwner(id) {
             const provider = new UserAdmin();
 
-            provider.getUser(id)
+            provider.getUser(id, ['username'])
                 .then(response => {
                     if (response) {
                         this.owner = response;
@@ -103,8 +103,8 @@ export default {
                 });
         },
         getProposer(id) {
-            const provider = new User();
-            provider.getUser(id)
+            const provider = new UserAdmin();
+            provider.getUser(id, ['username'])
                 .then(response => {
                     if (response) {
                         this.proposer = response;
