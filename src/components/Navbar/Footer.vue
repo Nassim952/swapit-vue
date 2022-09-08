@@ -36,7 +36,7 @@ export default {
     left: 0;
     width: 100%;
     z-index: 300;
-    position: fixed;
     bottom: 0;
+    margin-top: 30px;
 }
 </style>
