@@ -4,7 +4,7 @@
             <div class="card-body text-align-center">
                 <h5 class="title-block-profil-swap received">Demandes reçu</h5>
 
-                <ul v-if="receivedExchanges.length" class="list-group list-group-flush list-swap">
+                <ul v-if="receivedExchanges.length > 0" class="list-group list-group-flush list-swap">
                     <transition-group name="slide-fade" appear appear-class="slide-fade-enter">
                         <li class="" v-for="(exchange) in receivedExchanges" :key="exchange.id + '_received'">      
                                 <ExchangeCardAccept v-if="exchange.confirmed == null" :exchange="exchange" />  
@@ -21,7 +21,7 @@
             <div class="card-body text-align-center">
                 <h5 class="title-block-profil-swap send">Demandes envoyées</h5>
 
-                <ul v-if="sentExchanges.length" class="list-group list-group-flush list-swap">
+                <ul v-if="sentExchanges.length > 0" class="list-group list-group-flush list-swap">
                      <transition-group name="slide-fade" appear appear-class="slide-fade-enter">
                         <li class="" v-for="(exchange) in sentExchanges" :key="exchange.id + '_sent'">
                                 <ExchangeCard v-if="exchange.confirmed == null && exchange" :exchange="exchange" />      
@@ -34,6 +34,26 @@
                 </ul>
             </div>
         </div>
+        <div class="d-flex justify-content-center">
+            <button v-if="!showHistorique" class="btn btn-historique" @click="showHistorique = true">Historique des demandes d'échanges</button>
+            <button v-else class="btn btn-historique" @click="showHistorique = false">Fermer</button>
+        </div>
+        <div class="exchange-el-card historique-game-wrapper scrollbar" id="style-1" v-if="pendingExchanges.length">
+            <div class="card-body text-align-center">
+                <h5 class="title-block-profil-swap send">Historique des échanges</h5>
+
+                <div v-if="pendingExchanges.length" class="list-group list-group-flush list-swap">
+                    <transition-group name="slide-fade" appear appear-class="slide-fade-enter">
+                        <li class="" v-for="(exchange) in pendingExchanges" :key="exchange.id + '_sent'">
+                                <ExchangeCardHistorique v-if="exchange.confirmed !== null && exchange" :exchange="exchange" />      
+                        </li>
+                    </transition-group>
+                </div>
+                <div v-else class="list-swap">
+                    <span>Vous n'avez aucun historique d'échange</span>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -42,12 +62,14 @@ import { Exchange } from '../../lib/Services/Exchange.js';
 import { User } from '../../lib/Services/User';
 import ExchangeCard from './exchangeCard.vue';
 import ExchangeCardAccept from './exchangeCardAccept.vue';
+import ExchangeCardHistorique from './exchangeCardHistorique.vue';
 
 export default {
     name: 'ExchangeForm',
     components: {
         ExchangeCard,
-        ExchangeCardAccept
+        ExchangeCardAccept,
+        ExchangeCardHistorique
     },
     data: function () {
         return {
@@ -59,6 +81,7 @@ export default {
             sentExchangesTmp: [],
             receivingExchange: false,
             sendingExchange: false,
+            showHistorique: false,
         }
     },
     created() {
@@ -175,12 +198,56 @@ export default {
             supExchange: this.supExchange,
             acceptExchange: this.acceptExchange,
         }
+    },
+    watch: {
+        showHistorique: function (val) {
+            if (val) {
+                var pendingExchanges = this.receivedExchanges.concat(this.sentExchanges);
+                    pendingExchanges = pendingExchanges.filter(exchange => exchange.confirmed !== null);
+                    this.pendingExchanges = pendingExchanges;
+                    console.log(this.pendingExchanges);
+            } else {
+                this.pendingExchanges = [];
+            }
+        }
     }
 };
 
 </script>
 
 <style scoped>
+
+.btn-historique{
+    background-color: #29657C;
+    color: white;
+}
+
+.scrollbar {
+    background: #F5F5F5;
+    overflow-x: auto;
+    border-radius: 10px;
+}
+
+#style-1::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+#style-1::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+#style-1::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(255, 93, 25, 1);
+    background-color: rgba(255, 93, 25, 1);
+}
+
+.historique-game-wrapper{
+    height: 420px;
+}
 .list-exchange-container {
     padding: 20px;
     margin-left: 20px;
@@ -217,8 +284,7 @@ export default {
 }
 
 .text-game span {
-    color: rgb(0, 0, 0);
-    padding: 10px;
+    font-size: 15px;
 }
 
 .text-game {
@@ -235,6 +301,7 @@ export default {
 
 .user-pseudo {
     margin-bottom: 10px;
+    color: #29657C;
 }
 
 h4 {

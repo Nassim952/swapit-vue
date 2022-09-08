@@ -1,9 +1,5 @@
 <template>
     <div>
-        <div class="btn-dlt-ctn">
-            <button @click="supExchange(exchange.id, 'cancel')" class="btn-delete-exchange"><img src="../../assets/images/bin.png"
-                    height="10" width="10"></button>
-        </div>
         <div class="exchange-el">
             <div class="game-info">
                 <div class="user-pseudo">Jeu de {{ owner.username }}</div>
@@ -16,7 +12,7 @@
             </div>
             <img class="swap-img" src="../../assets/images/swap.png" width="40" height="40" />
             <div class="game-info">
-                <div class="user-pseudo">Jeu de {{ proposer.username }}</div>
+                <div class="user-pseudo">Jeu de {{proposer.username}}</div>
                 <div class="game_card">
                     <img :src="coverPreUrl(senderGame)" width="80" height="80">
                     <div class="text-game">
@@ -34,7 +30,7 @@ import { UserAdmin } from '../../lib/Services/UserAdmin';
 import { Igdb } from '../../lib/Services/Igdb';
 
 export default {
-    name: 'ExchangeCard',
+    name: 'exchangeCardHistorique',
     props: {
         exchange: {
             required: true,

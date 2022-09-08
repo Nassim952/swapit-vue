@@ -164,7 +164,8 @@ export default {
 }
 
 .card-body {
-  padding: 5px
+  padding: 5px;
+  color: #29657C
 }
 
 .card-footer {
