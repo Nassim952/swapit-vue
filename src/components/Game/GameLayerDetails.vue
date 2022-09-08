@@ -56,13 +56,15 @@ export default {
   methods: {
     getGame: async function () {
       var provider = new Igdb()
-      provider.getGame(this.$route.params.id).then(response => {
+      var gameid = atob(this.$route.params.id)
+      provider.getGame(gameid).then(response => {
         this.$data.game = response
       })
     },
     getUsers: async function () {
       var provider = new UserAdmin()
-      provider.getUsers(null, null, { "ownGames" : this.$route.params.id }).then(response => {
+       var gameid = atob(this.$route.params.id)
+      provider.getUsers(null, null, { "ownGames" : gameid }).then(response => {
         for(var i = 0; i < response.length; i++) {
           if(response[i].id == this.$data.currentUser.id) {
             response.splice(i, 1)

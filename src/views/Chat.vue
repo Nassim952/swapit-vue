@@ -17,7 +17,7 @@ export default {
     }),
     created() {
     if (this.$route.params?.id){
-        this.channelId = this.$route.params.id;
+        this.channelId = atob(this.$route.params.id);
     }
   },
   methods: {

@@ -63,7 +63,7 @@ export default {
   }),
   created() {
     if (this.$route.params.id) {
-      this.selectedFilters.genres = [this.$route.params.id]
+      this.selectedFilters.genres = [atob(this.$route.params.id)];
     }
 
     this.refreshRessource()

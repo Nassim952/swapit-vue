@@ -53,7 +53,7 @@ export default {
     },
     computed: {
         exchangeUrl() {
-            return "/exchange/" + this.user.id + "/" + this.game.id;
+            return "/exchange/" +  this.encode(this.user.id) + "/" + this.encode(this.game.id);
         }
     },
     methods: {
@@ -70,7 +70,7 @@ export default {
                     userProvider.getChannels(user.id).then((channels) => {
                         var excistinChannel = this.findExistingChannel(channels)
                         if (excistinChannel) {
-                            this.$router.push("/chat/" + excistinChannel.id);
+                            this.$router.push("/chat/" + this.encode(excistinChannel.id));
                         } else {
                             provider.postChannel({
                                 'subscribers': [
@@ -78,7 +78,7 @@ export default {
                                 ]
                             }).then((channel) => {
                                 if (channel) {
-                                    this.$router.push("/chat/" + channel.id);
+                                    this.$router.push("/chat/" + this.encode(channel.id));
                                 }
                             });
                         }
@@ -96,17 +96,17 @@ export default {
             var excistinChannel = null
             if(channels){
             channels.forEach(channel => {
-                console.table(channel.subscribers)
                     if (channel.subscribers.includes('/users/' + this.user.id)) {
-                        // console.log("No channel found");
                         excistinChannel = channel 
                     }
                 });
                 return excistinChannel
             } else {
-                // console.log("channel found");
                 return excistinChannel
             }
+        },
+        encode(str) {
+            return btoa(str);
         }
     },
 }
