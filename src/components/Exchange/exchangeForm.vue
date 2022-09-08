@@ -4,7 +4,7 @@
             <div class="card-body text-align-center">
                 <h5 class="title-block-profil-swap received">Demandes reçu</h5>
 
-                <ul v-if="receivedExchanges.length" class="list-group list-group-flush list-swap">
+                <ul v-if="receivedExchanges.length > 0" class="list-group list-group-flush list-swap">
                     <transition-group name="slide-fade" appear appear-class="slide-fade-enter">
                         <li class="" v-for="(exchange) in receivedExchanges" :key="exchange.id + '_received'">      
                                 <ExchangeCardAccept v-if="exchange.confirmed == null" :exchange="exchange" />  
@@ -21,7 +21,7 @@
             <div class="card-body text-align-center">
                 <h5 class="title-block-profil-swap send">Demandes envoyées</h5>
 
-                <ul v-if="sentExchanges.length" class="list-group list-group-flush list-swap">
+                <ul v-if="sentExchanges.length > 0" class="list-group list-group-flush list-swap">
                      <transition-group name="slide-fade" appear appear-class="slide-fade-enter">
                         <li class="" v-for="(exchange) in sentExchanges" :key="exchange.id + '_sent'">
                                 <ExchangeCard v-if="exchange.confirmed == null && exchange" :exchange="exchange" />      
@@ -34,6 +34,27 @@
                 </ul>
             </div>
         </div>
+        <div>
+            <button v-if="!showHistorique" class="btn btn-primary" @click="showHistorique = true">Historique des demandes</button>
+            <button v-else class="btn btn-primary" @click="showHistorique = false">fermer</button>
+        </div>
+        <div class="exchange-el-card" v-if="pendingExchanges.length">
+            <div class="card-body text-align-center">
+                <h5 class="title-block-profil-swap send">Historique</h5>
+
+                <ul v-if="pendingExchanges.length" class="list-group list-group-flush list-swap">
+                     <transition-group name="slide-fade" appear appear-class="slide-fade-enter">
+                        <li class="" v-for="(exchange) in pendingExchanges" :key="exchange.id + '_sent'">
+                                <ExchangeCardHistorique v-if="exchange.confirmed !== null && exchange" :exchange="exchange" />      
+                        </li>
+                    </transition-group>
+                </ul>
+
+                <ul v-else class="list-swap">
+                    <li class="">Vous n'avez aucune demande</li>
+                </ul>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -42,12 +63,14 @@ import { Exchange } from '../../lib/Services/Exchange.js';
 import { User } from '../../lib/Services/User';
 import ExchangeCard from './exchangeCard.vue';
 import ExchangeCardAccept from './exchangeCardAccept.vue';
+import ExchangeCardHistorique from './exchangeCardHistorique.vue';
 
 export default {
     name: 'ExchangeForm',
     components: {
         ExchangeCard,
-        ExchangeCardAccept
+        ExchangeCardAccept,
+        ExchangeCardHistorique
     },
     data: function () {
         return {
@@ -59,6 +82,7 @@ export default {
             sentExchangesTmp: [],
             receivingExchange: false,
             sendingExchange: false,
+            showHistorique: false,
         }
     },
     created() {
@@ -174,6 +198,18 @@ export default {
         return {
             supExchange: this.supExchange,
             acceptExchange: this.acceptExchange,
+        }
+    },
+    watch: {
+        showHistorique: function (val) {
+            if (val) {
+                var pendingExchanges = this.receivedExchanges.concat(this.sentExchanges);
+                    pendingExchanges = pendingExchanges.filter(exchange => exchange.confirmed !== null);
+                    this.pendingExchanges = pendingExchanges;
+                    console.log(this.pendingExchanges);
+            } else {
+                this.pendingExchanges = [];
+            }
         }
     }
 };
