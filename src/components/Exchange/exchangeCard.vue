@@ -165,7 +165,7 @@ export default {
 
 .game_card {
     display: flex;
-    background-color: #e2e2e2;
+    background-color: lavender;
     height: 5rem;
     width: 20rem;
     overflow: hidden;
@@ -179,8 +179,7 @@ export default {
 }
 
 .text-game span {
-    color: rgb(0, 0, 0);
-    padding: 10px;
+    font-size: 15px;
 }
 
 .text-game {
@@ -198,6 +197,7 @@ export default {
 
 .user-pseudo {
     margin-bottom: 10px;
+    color: #29657C;
 }
 
 .btn-delete-exchange {

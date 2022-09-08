@@ -59,6 +59,7 @@ export default {
 .card-body {
   padding: 5px;
   font-size: 1rem;
+  color: #29657C
 }
 
 .card-body p {

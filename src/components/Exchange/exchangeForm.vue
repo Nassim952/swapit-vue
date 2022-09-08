@@ -34,25 +34,24 @@
                 </ul>
             </div>
         </div>
-        <div>
-            <button v-if="!showHistorique" class="btn btn-primary" @click="showHistorique = true">Historique des demandes</button>
-            <button v-else class="btn btn-primary" @click="showHistorique = false">fermer</button>
+        <div class="d-flex justify-content-center">
+            <button v-if="!showHistorique" class="btn btn-historique" @click="showHistorique = true">Historique des demandes d'échanges</button>
+            <button v-else class="btn btn-historique" @click="showHistorique = false">Fermer</button>
         </div>
-        <div class="exchange-el-card" v-if="pendingExchanges.length">
+        <div class="exchange-el-card historique-game-wrapper scrollbar" id="style-1" v-if="pendingExchanges.length">
             <div class="card-body text-align-center">
-                <h5 class="title-block-profil-swap send">Historique</h5>
+                <h5 class="title-block-profil-swap send">Historique des échanges</h5>
 
-                <ul v-if="pendingExchanges.length" class="list-group list-group-flush list-swap">
-                     <transition-group name="slide-fade" appear appear-class="slide-fade-enter">
+                <div v-if="pendingExchanges.length" class="list-group list-group-flush list-swap">
+                    <transition-group name="slide-fade" appear appear-class="slide-fade-enter">
                         <li class="" v-for="(exchange) in pendingExchanges" :key="exchange.id + '_sent'">
                                 <ExchangeCardHistorique v-if="exchange.confirmed !== null && exchange" :exchange="exchange" />      
                         </li>
                     </transition-group>
-                </ul>
-
-                <ul v-else class="list-swap">
-                    <li class="">Vous n'avez aucune demande</li>
-                </ul>
+                </div>
+                <div v-else class="list-swap">
+                    <span>Vous n'avez aucun historique d'échange</span>
+                </div>
             </div>
         </div>
     </div>
@@ -217,6 +216,38 @@ export default {
 </script>
 
 <style scoped>
+
+.btn-historique{
+    background-color: #29657C;
+    color: white;
+}
+
+.scrollbar {
+    background: #F5F5F5;
+    overflow-x: auto;
+    border-radius: 10px;
+}
+
+#style-1::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+#style-1::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+#style-1::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(255, 93, 25, 1);
+    background-color: rgba(255, 93, 25, 1);
+}
+
+.historique-game-wrapper{
+    height: 420px;
+}
 .list-exchange-container {
     padding: 20px;
     margin-left: 20px;
@@ -253,8 +284,7 @@ export default {
 }
 
 .text-game span {
-    color: rgb(0, 0, 0);
-    padding: 10px;
+    font-size: 15px;
 }
 
 .text-game {
@@ -271,6 +301,7 @@ export default {
 
 .user-pseudo {
     margin-bottom: 10px;
+    color: #29657C;
 }
 
 h4 {
