@@ -24,7 +24,7 @@
                 <ul v-if="sentExchanges.length > 0" class="list-group list-group-flush list-swap">
                      <transition-group name="slide-fade" appear appear-class="slide-fade-enter">
                         <li class="" v-for="(exchange) in sentExchanges" :key="exchange.id + '_sent'">
-                                <ExchangeCard v-if="exchange.confirmed == null && exchange" :exchange="exchange" />      
+                            <ExchangeCard v-if="exchange.confirmed == null && exchange" :exchange="exchange" />      
                         </li>
                     </transition-group>
                 </ul>
@@ -44,8 +44,8 @@
 
                 <div v-if="pendingExchanges.length" class="list-group list-group-flush list-swap">
                     <transition-group name="slide-fade" appear appear-class="slide-fade-enter">
-                        <li class="" v-for="(exchange) in pendingExchanges" :key="exchange.id + '_sent'">
-                                <ExchangeCardHistorique v-if="exchange.confirmed !== null && exchange" :exchange="exchange" />      
+                        <li class="" v-for="(exchange) in pendingExchanges" :key="exchange.id + '_historique'">
+                            <ExchangeCardHistorique v-if="exchange.confirmed !== null && exchange" :exchange="exchange" />      
                         </li>
                     </transition-group>
                 </div>
@@ -205,10 +205,10 @@ export default {
                 var pendingExchanges = this.receivedExchanges.concat(this.sentExchanges);
                     pendingExchanges = pendingExchanges.filter(exchange => exchange.confirmed !== null);
                     this.pendingExchanges = pendingExchanges;
-                    console.log(this.pendingExchanges);
             } else {
                 this.pendingExchanges = [];
             }
+            console.log(this.pendingExchanges)
         }
     }
 };
