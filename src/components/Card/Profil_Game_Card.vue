@@ -19,7 +19,7 @@
   </div> -->
   <div class="game_card">
     <button @click="supGame(game.id, 'own')" class="btn-delete-exchange"><img src="../../assets/images/bin.png" height="10" width="10"></button>
-    <router-link :to="'/showGame/' + game.id">
+    <router-link :to="'/showGame/' + encode(game.id)">
       <img v-bind:src="coverPreUrl" class="icon">
     </router-link>
     <div class="card-body text-center">
@@ -63,7 +63,12 @@ export default {
     },
     showGameUrl() {
       return "/game/" + this.game.id;
-    }
+    },
+  },
+  methods: {
+    encode(str) {
+            return btoa(str);
+        }
   },
   inject: ['supGame'],
 };

@@ -3,7 +3,7 @@
    <div>
     <div v-if="this.$props.matchingGames" class="game_card_list">
        <transition-group name="bounce" appear appear-class="bounce-enter" class="game_card_list" >
-      <div class="game_card_container" v-for="(game, key)  in matchingGames" id="OwnList" :key="game.name + key + 'Wish_Exchange'">
+      <div class="game_card_container" v-for="(game)  in matchingGames" id="OwnList" :key="game.name + 'Wish_Exchange_match'">
         <GameCard :game="game" />
         <div v-if="!gameIsSelected(game)" class="add">
           <!-- <a v-if="gameOwn(game.id)" @click="setWishSelected(game)" title="arrow icons" class="my-icon">
@@ -19,7 +19,7 @@
     <div v-if="this.$props.unMatchingGames.length>0" class="game_card_list">
              <transition-group name="bounce" appear appear-class="bounce-enter" class="game_card_list" >
 
-      <div class="game_card_container" v-for="(game, key)  in unMatchingGames" id="OwnList" :key="game.name + key+ 'Wish_Exchange'">
+      <div class="game_card_container" v-for="(game)  in unMatchingGames" id="OwnList" :key="game.name + 'Wish_Exchange_unmatch'">
         <GameCard :game="game" />
         <div v-if="!gameIsSelected(game)" class="addOwn">
           <a @click="addGameOwnList(game.id)" title="Ajouter ce jeu dans ma liste" class="my-icon">

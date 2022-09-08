@@ -10,7 +10,9 @@
                     </div>
                 </div>
             </div>
-            <img class="swap-img" src="../../assets/images/swap.png" width="60" height="60" />
+            <div class="d-flex justify-content-between align-items-center p-4">
+                <img class="swap-img" src="../../assets/images/swap.png" width="60" height="60" />
+            </div>
             <div class="game-info">
                 <div class="user-pseudo">Jeu de {{ proposer.username }}</div>
                 <div class="game_card">
@@ -20,13 +22,16 @@
                     </div>
                 </div>
             </div>
+            <div>
+                <button @click="supExchange(exchange.id, 'refused')" class="btn-delete-exchange"><img
+                        src="../../assets/images/bin.png" height="10" width="10"></button>
+            </div>
+            <div>
+                <button @click="acceptExchange(exchange.id)" class="btn-accept-exchange"><img
+                        src="../../assets/images/check.svg" height="10" width="10"></button>
+            </div>
         </div>
-        <div>
-            <button @click="supExchange(exchange.id, 'refused')" class="btn-delete-exchange"><img
-                    src="../../assets/images/bin.png" height="10" width="10"></button>
-            <button @click="acceptExchange(exchange.id)" class="btn-accept-exchange"><img
-                    src="../../assets/images/check.svg" height="10" width="10"></button>
-        </div>
+
     </div>
 </template>
 
@@ -203,14 +208,14 @@ export default {
 }
 
 .btn-delete-exchange {
-    position: absolute;
+    /* position: absolute; */
     background-color: rgb(252, 87, 87);
     border: none;
-    border-radius: 0px 0px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
     color: white;
     transition: all 0.3s ease;
-    right: 120px;
-    margin-top: -155px;
+    /* right: 120px; */
+    /* margin-top: -155px; */
     padding: 3px 10px;
 }
 
@@ -219,15 +224,16 @@ export default {
 }
 
 .btn-accept-exchange {
-    position: absolute;
+    /* position: absolute; */
     background-color: rgba(96, 223, 71, 0.575);
     border: none;
-    border-radius: 0px 20px 0px 10px;
+    border-radius: 10px 10px 10px 10px;
     color: white;
     transition: all 0.3s ease;
-    right: 20px;
-    margin-top: -155px;
+    /* right: 20px; */
+    /* margin-top: -155px; */
     padding: 3px 10px;
+    margin-left: 10px;
 }
 
 .btn-accept-exchange:hover {
