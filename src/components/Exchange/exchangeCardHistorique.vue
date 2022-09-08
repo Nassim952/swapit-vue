@@ -20,6 +20,10 @@
                     </div>
                 </div>
             </div>
+            <div class="text-exchange-status">
+                <p v-if="exchange.confirmed == true"> accepté</p>
+                <p v-else> refusé</p>
+            </div>
         </div>
     </div>
 </template>
@@ -139,6 +143,10 @@ export default {
 </script>
 
 <style scoped>
+
+.text-exchange-status{
+    color: rgb(255, 94, 0);
+}
 .list-exchange-container {
     padding: 20px;
     margin-left: 20px;
