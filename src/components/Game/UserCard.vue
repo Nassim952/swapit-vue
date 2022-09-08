@@ -4,7 +4,7 @@
             <div class="result-card">
                 <div class="info-user">
                     <div class="user-img">
-                        <img src="../../assets/images/user.svg" width="80" height="80">
+                        <img src="../../assets/images/Sly.png" width="80" height="80">
                     </div>
                     <div class="pseudo">{{ capitalizeFirstLetter(user.username) }}</div>
                 </div>
