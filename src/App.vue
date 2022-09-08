@@ -5,8 +5,11 @@
       <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500&display=swap" rel="stylesheet">
       <Navbar/>
       <router-view />
-      <Foot/>
+      <div>
+        <Foot/>
+      </div>
     </div> 
+    
 </template>
 
 
@@ -32,6 +35,7 @@ export default {
 <style>
 #app{
   background: white;
+
 }
 a{
   text-decoration: none;

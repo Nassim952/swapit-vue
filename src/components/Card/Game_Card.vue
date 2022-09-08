@@ -1,6 +1,6 @@
 <template>
   <div class="game_card">
-    <router-link :to="'/showGame/' + game.id">
+    <router-link :to="'/showGame/' + encode(game.id)">
       <img v-bind:src="coverPreUrl" class="icon">
     </router-link>
     <div class="card-body text-center">
@@ -29,6 +29,11 @@ export default {
       return "//images.igdb.com/igdb/image/upload/t_1080p/" + this.game.cover + ".png";
     },
   },
+  methods: {
+    encode(str) {
+      return btoa(str);
+    }
+  }
 };
 </script>
 

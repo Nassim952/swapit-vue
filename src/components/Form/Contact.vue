@@ -1,6 +1,6 @@
 <template>
   <div>
-    <main class="form-contact">
+    <main class="form-contact p-5">
       <Formik title="Un problème ? Contacte nous !" :onSubmit="onSubmit" :validator="validator"
         v-slot="{ handleSubmit, errors }" :with_label="true" description="Renseignez ce formulaire de contact">
         <div>

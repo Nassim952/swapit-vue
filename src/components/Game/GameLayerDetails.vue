@@ -5,13 +5,26 @@
         <div class="game-img">
           <img v-bind:src="coverPreUrl" width="80" height="80">
         </div>
-        <div class="info-game">
-          <div class="title-game">{{ game.name }}</div>
-          <div class="game-details">
-            <div class="game-desc">{{ game.summary }}</div>
-            <div class="detail-plus">
-              <div class="game-rating">{{ Math.round(game.aggregatedRating) / 10 }}</div>
+        <div class="game-info-wrapper">
+          <div class="info-game">
+            <div class="title-game">{{ game.name }}</div>
+            <div class="game-details">
+              <div class="game-desc">{{ game.summary }}</div>
+
+              <div class="detail-plus">
+                <div v-if="game.aggregated_rating" class="game-rating">{{ Math.round(game.aggregated_rating) / 10 }} / 10
+                </div>
+              </div>
             </div>
+          </div>
+          <div class="tags d-flex">
+            <div v-for="platform in game.platforms" :key="platform.name" class="tag-platform tag-teal-platform">{{ platform.name }}</div>
+          </div>
+          <div class="tags d-flex">
+            <router-link v-for="(genre) in game.genres" :key="genre.name" :to="'/games/genre/' + encode(genre.id)">
+              <span id="genres" class="tag tag-teal">{{ genre.name }}</span>
+            </router-link>
+            <!-- <div v-for="genre in game.genres" :key="genre.name" class="tag tag-teal">{{ genre.name }}</div> -->
           </div>
         </div>
       </div>
@@ -56,13 +69,15 @@ export default {
   methods: {
     getGame: async function () {
       var provider = new Igdb()
-      provider.getGame(this.$route.params.id).then(response => {
+      var gameid = atob(this.$route.params.id)
+      provider.getGame(gameid).then(response => {
         this.$data.game = response
       })
     },
     getUsers: async function () {
       var provider = new UserAdmin()
-      provider.getUsers(null, null, { "ownGames": this.$route.params.id }).then(response => {
+      var gameid = atob(this.$route.params.id)
+      provider.getUsers(null, null, { "ownGames": gameid }).then(response => {
         for (var i = 0; i < response.length; i++) {
           if (response[i].id == this.$data.currentUser.id) {
             response.splice(i, 1)
@@ -79,6 +94,9 @@ export default {
         this.getUsers()
       })
     },
+    encode(str) {
+      return btoa(str);
+    }
   },
   created() {
     this.getGame();
@@ -88,9 +106,50 @@ export default {
 </script>
 
 <style scoped>
+.tags {
+  /* display: flex;
+  flex-wrap: wrap; */
+}
+
+.tag {
+  background: #cccccc;
+  border-radius: 10px;
+  font-size: 8px;
+  margin: 0;
+  color: #fff;
+  padding: 2px 10px;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin: 0.5rem;
+}
+
+.tag-platform {
+  background: #cccccc;
+  border-radius: 10px;
+  font-size: 8px;
+  margin: 0;
+  color: #fff;
+  padding: 2px 10px;
+  text-transform: uppercase;
+  margin: 0.5rem;
+}
+
+.tag:hover {
+  background: #fff;
+  color: #cccccc;
+}
+
+.tag-teal {
+  background-color: rgba(41, 100, 124);
+}
+
+.tag-teal-platform {
+  background-color: rgba(255, 93, 25, 1);
+}
+
 .container-game-layer {
   min-width: 1000px;
-  height: 200px;
+  height: 280px;
   border-radius: 20px;
   margin: 10px 20px;
   display: flex;
@@ -140,7 +199,6 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 80%;
   font-weight: bold;
 }
 

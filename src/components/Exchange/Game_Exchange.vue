@@ -60,7 +60,8 @@ export default {
   },
   created() {
     var providerGame = new Igdb();
-    providerGame.getGame(this.$route.params.gameid).then((game) => {
+    var gameid = atob(this.$route.params.gameid)
+    providerGame.getGame(gameid).then((game) => {
       this.gameToExchangeSelected = game;
     });
     this.getGamesToExchange();
@@ -71,7 +72,8 @@ export default {
   methods: {
     getUser: async function () {
       var provider = new UserAdmin()
-      provider.getUser(this.$route.params.userid).then(response => {
+      var id_user = atob(this.$route.params.userid)
+      provider.getUser(id_user).then(response => {
         this.$data.user = response
       })
     },
@@ -90,7 +92,8 @@ export default {
     getGamesToExchange: async function () {
       var provider = new UserAdmin();
       var providerGame = new Igdb();
-      provider.getUser(this.$route.params.userid).then((response) => {
+      var id_user = atob(this.$route.params.userid)
+      provider.getUser(id_user).then((response) => {
         if (response?.ownGames !== []) {
           providerGame.getGames(response?.ownGames)
             .then(response => {
@@ -102,7 +105,8 @@ export default {
     getGamesWish: async function () {
       var provider = new UserAdmin();
       var providerGame = new Igdb();
-      provider.getUser(this.$route.params.userid).then((response) => {
+      var id_user = atob(this.$route.params.userid)
+      provider.getUser(id_user).then((response) => {
         if (response?.wishGames !== []) {
           providerGame.getGames(response?.wishGames)
             .then(response => {
@@ -164,7 +168,8 @@ export default {
 
       provider.auth.me().then(response => {
         var currentUserOwnGames = response.ownGames
-        providerAdmin.getUser(this.$route.params.userid).then(response => {
+        var userid = atob(this.$route.params.userid)
+        providerAdmin.getUser(userid).then(response => {
           var otherUserWishGames = response.wishGames
           var matchingGames = []
           var unMatchingGames = []

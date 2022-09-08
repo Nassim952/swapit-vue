@@ -26,7 +26,7 @@
         <div class="card-details">
           <div class="card-body">
             <div class="tags">
-              <router-link v-for="(genre, key) in game.genres" :key="key" :to="'/games/genre/' + genre.id">
+              <router-link v-for="(genre, key) in game.genres" :key="key" :to="'/games/genre/' + encode(genre.id)">
                 <span id="genres" class="tag tag-teal">{{ genre.name }}</span>
               </router-link>
             </div>
@@ -86,7 +86,7 @@ export default {
       return "//images.igdb.com/igdb/image/upload/t_1080p/" + this.game.cover + ".png";
     },
     showGameUrl: function () {
-      return "/showGame/" + this.game.id;
+      return "/showGame/" + this.encode( this.game.id);
     },
     backgroundCover: function () {
       return "background: url(https://images.igdb.com/igdb/image/upload/t_1080p/" + this.game.cover + ".png);background-repeat: no-repeat;background-size: cover;background-position: 50% 50%;";
@@ -200,6 +200,9 @@ export default {
             type: "error",
           });
         })
+    },
+    encode(str) {
+      return btoa(str);
     },
 
   },
