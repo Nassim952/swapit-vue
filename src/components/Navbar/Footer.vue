@@ -6,10 +6,10 @@
                 <span>
                     <router-link to="/cgu" class="link-nav p-3" style="font-size: small;">CGU</router-link>
                 </span>
-                <span>
+                <!-- <span>
                     <router-link to="/contact" class="link-nav p-3" style="font-size: small;">Nous contacter
                     </router-link>
-                </span>
+                </span> -->
             </div>
         </div>
     </footer>
